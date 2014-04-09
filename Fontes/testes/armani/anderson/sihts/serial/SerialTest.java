@@ -15,7 +15,11 @@ public class SerialTest {
 	static String strSerialTest = null;
 	static LinkedList<String> lstSerialNames = null;
 	
-	
+	/**
+	 * <b>Set Up Before Class
+	 * <p>Este método inicia os testes pegando as variáveis específicas para cada sistema operacional
+	 * @throws Exception
+	 */
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		lstSerialNames = new LinkedList<String>();
@@ -39,12 +43,16 @@ public class SerialTest {
 		}
 	}
 	
+	/**
+	 * <b>Teste SerialOpen
+	 * <p>Este teste simula a abertura de uma porta serial para o sistema alvo.
+	 */
 	@Test
 	public void serialOpen() {
-		Serial ser = null;
+		SerialComm ser = null;
 		
 		try {
-			ser = new Serial();
+			ser = new SerialComm();
 			ser.open(strSerialTest);
 		} catch(Exception e) {
 			fail();
@@ -55,11 +63,15 @@ public class SerialTest {
 		assertTrue(true);
 	}
 	
+	/**
+	 * <b>Teste Serial dont Exists Open
+	 * <p>Este teste é responsável por testar a tentativa de abertura de uma porta não existente no sistema alvo.
+	 */
 	@Test
 	public void serialDontExistsOpen() {
-		Serial ser = null;
+		SerialComm ser = null;
 		try {
-			ser = new Serial();
+			ser = new SerialComm();
 			ser.open(SERIAL_DONT_EXISTS);
 			fail();
 		} catch (IllegalArgumentException e) {
@@ -72,34 +84,40 @@ public class SerialTest {
 		assertTrue(true);
 	}
 	
+	/**
+	 * <b>Teste Serial Opende Open
+	 * <p>Este teste simula a tentativa de abertura de uma porta serial já aberta
+	 */
 	@Test
 	public void serialOpenedOpen() {
-		Serial ser1 = null;
-		Serial ser2 = null;
+		SerialComm ser1 = null;
+		SerialComm ser2 = null;
+		boolean bolReturn = false;
 		try {
-			ser1 = new Serial();
-			ser2 = new Serial();
+			ser1 = new SerialComm();
+			ser2 = new SerialComm();
 
 			//abrir duas vezes para ocorrer o erro			
 			ser1.open(strSerialTest);
 			ser2.open(strSerialTest);
 
-			fail();
+			bolReturn = false;
 		} catch (PortInUseException e) {
+			bolReturn = true;
 		} catch (Exception e) {
-			fail();
+			bolReturn = false;
 		} finally {
 			ser1.close();
 			ser2.close();
 		}
-		assertTrue(true);
+		assertTrue(bolReturn);
 	}
 
 	@Test
 	public void serialClose() {
-		Serial ser = null;
+		SerialComm ser = null;
 		try {
-			ser = new Serial();
+			ser = new SerialComm();
 			ser.open(strSerialTest);
 			ser.close();
 		} catch(Exception e) {
@@ -112,8 +130,7 @@ public class SerialTest {
 	@Test
 	public void serialGetListSerial() {
 		try {
-			Serial ser = new Serial();
-			LinkedList<String> lstSer = ser.getListSerial();
+			LinkedList<String> lstSer = SerialComm.getListSerial();
 			
 			if (lstSer.size() >= 1)
 				assertTrue(true);
