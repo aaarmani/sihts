@@ -1,19 +1,27 @@
-import java.util.List;
+
+import javax.swing.JOptionPane;
 
 import armani.anderson.sihts.serial.Al5b;
 import armani.anderson.sihts.serial.RoboticArm;
-import armani.anderson.sihts.serial.SerialComm;
-
-
 
 public class Main {
 
 	public static void main(String[] args) {
 		try {
-			RoboticArm braco = new Al5b("/dev/tty.usbserial");
-			braco.sendPosition(Al5b.ARTC_COTOVELO, 45, 100);
+			Al5b braco = new Al5b("/dev/tty.usbserial");
+			braco.getVersion();
+			while(true) {
+				String posicao = JOptionPane.showInputDialog("Texto para enviar pela serial: ");
+				
+				braco.sendPosition(Al5b.ARTC_BASE, Integer.parseInt(posicao), 500);
+				braco.sendPosition(Al5b.ARTC_OMBRO, Integer.parseInt(posicao), 500);
+				/*braco.sendPosition(Al5b.ARTC_COTOVELO, 0, 0);
+				braco.sendPosition(Al5b.ARTC_PULSO, 0, 0);
+				braco.sendPosition(Al5b.ARTC_PINCA, 0, 0);*/
+			}
 		} catch (Exception e1) {
 			e1.printStackTrace();
+			System.out.println("ERRO ARMANI: "+ e1.getMessage());
 		}
 		
 		/*

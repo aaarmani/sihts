@@ -16,11 +16,12 @@ public interface RoboticArm {
 	
 	/**
 	 * <p>Envia ao braço robótico uma nova posição
-	 * @param btArticulation - articulação a ser alterada
-	 * @param intPosition - posição do braço em graus
+	 * @param intArticulation - articulação a ser alterada
+	 * @param intPosition - posição do braço
 	 * @param intTime - tempo para realizar o movimento
+	 * @throws IllegalArgumentException
 	 */
-	public void sendPosition(int intArticulation, int intPosition, int intTime);
+	public void sendPosition(int intArticulation, int intPosition, int intTime) throws IllegalArgumentException;
 	
 
 }

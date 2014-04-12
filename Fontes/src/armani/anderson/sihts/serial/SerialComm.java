@@ -83,7 +83,7 @@ public class SerialComm implements SerialPortEventListener{
 		CommPortIdentifier cpiPort = getPortIdentifier(portName);
 		
 		if(cpiPort == null) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Porta serial não encontrada.");
 		}
 			
 		serialPort = cpiPort.open(this.getClass().getName(), OPEN_TIMEOUT);
