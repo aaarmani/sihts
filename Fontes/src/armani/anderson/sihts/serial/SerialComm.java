@@ -218,6 +218,7 @@ public class SerialComm implements SerialPortEventListener{
 	 */
 	public static LinkedList<String> getListSerial() {
 		String strPortName = null;
+		String strPortNameSO = null;
 		LinkedList<String> lstPortNames = null;
 		LinkedList<String> lstPorts = new LinkedList<String>();
 		
@@ -232,9 +233,10 @@ public class SerialComm implements SerialPortEventListener{
             if (portId.getPortType() == CommPortIdentifier.PORT_SERIAL) {
             	
             	for(int i = 0; i < lstPortNames.size() ; i++) {
-            		strPortName = lstPortNames.get(i);	
+            		strPortNameSO = lstPortNames.get(i);
+            		strPortName = portId.getName();
             		
-            		if (portId.getName().startsWith(strPortName)) {
+            		if (strPortName.startsWith(strPortNameSO)) {
                         lstPorts.add(strPortName);
             		}
             	}

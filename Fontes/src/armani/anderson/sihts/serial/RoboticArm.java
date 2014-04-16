@@ -15,6 +15,12 @@ public interface RoboticArm {
 	public void initialize(String strPort) throws Exception;
 	
 	/**
+	 * <p>Método que recebe a versão do braço robótico
+	 * @return String com versão do equipamento
+	 */
+	public String getVersion();
+	
+	/**
 	 * <p>Envia ao braço robótico uma nova posição
 	 * @param intArticulation - articulação a ser alterada
 	 * @param intPosition - posição do braço
@@ -22,6 +28,11 @@ public interface RoboticArm {
 	 * @throws IllegalArgumentException
 	 */
 	public void sendPosition(int intArticulation, int intPosition, int intTime) throws IllegalArgumentException;
+	
+	/**
+	 * <p>Fecha a interface do braço robótico e sua interface serial
+	 */
+	public void close();
 	
 
 }

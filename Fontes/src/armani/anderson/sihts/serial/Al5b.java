@@ -156,11 +156,19 @@ public class Al5b implements RoboticArm {
 	}
 	
 	/**
+	 *<p> Fecha interface do braço e sua serial 
+	 */
+	@Override
+	public void close() {
+		scSerial.close();
+	}
+	
+	/**
 	 * <p>Retorna a posição da articulação especificada
 	 * @param btArticulation
 	 * @return
 	 */
-	private int getPisition(int intArticulation) {
+	private int getPosition(int intArticulation) {
 		int btReturn = 0;
 	
 		switch(intArticulation) {
