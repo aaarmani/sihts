@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.TooManyListenersException;
 
 /**
  * Serial é uma abstração de controle de porta serial
@@ -72,14 +73,17 @@ public class SerialComm implements SerialPortEventListener{
   	public static final int FLOWCONTROL_RTSCTS_OUT = 2;
   	public static final int FLOWCONTROL_XONXOFF_IN = 4;
   	public static final int FLOWCONTROL_XONXOFF_OUT = 8;
-  	private static final int MAX_FLOWCONTROL = 21; //LÓGICA OU DOS ANTERIORES
+  	//private static final int MAX_FLOWCONTROL = 21; //LÓGICA OU DOS ANTERIORES
 	
 	/**
 	 * <p>Método de abertura de porta serial. Trabalha com serial e USBSerial. 
 	 * @param portName - Nome da porta para o sistema operacional
+	 * @throws PortInUseException 
+	 * @throws IOException 
+	 * @throws TooManyListenersException 
 	 * @throws IllegalArgumentException, PortInUserException
 	 */
-	public void open(String portName) throws Exception {
+	public void open(String portName) throws PortInUseException, IOException, TooManyListenersException {
 		CommPortIdentifier cpiPort = getPortIdentifier(portName);
 		
 		if(cpiPort == null) {
@@ -115,22 +119,26 @@ public class SerialComm implements SerialPortEventListener{
 	 * @param dataBits
 	 * @param stopBits
 	 * @param parity
-	 * @throws UnsupportedCommOperationException
+	 * @throws IllegalArgumentException
 	 */
-	public void setParameters(int baudRate, int dataBits, int stopBits, int parity) throws UnsupportedCommOperationException {
+	public void setParameters(int baudRate, int dataBits, int stopBits, int parity) throws IllegalArgumentException{
 		//Verificação de entrada irregular
 		if (((baudRate < 0) || (baudRate > MAX_BAUD)) ||
 			((dataBits < 0) || (dataBits > MAX_DATABITS)) ||
 			((stopBits < 0) || (stopBits > MAX_STOPBITS)) ||
 			((parity < 0) || (parity > MAX_PARITY))){
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Parâmetros não suportados.");
 		}
 		
 		if(serialPort == null) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Necessário abrir a porta antes.");
 		}
 		
-		serialPort.setSerialPortParams(baudRate, dataBits, stopBits, parity);
+		try {
+			serialPort.setSerialPortParams(baudRate, dataBits, stopBits, parity);
+		} catch (UnsupportedCommOperationException e) {
+			throw new IllegalArgumentException("Parâmetros não suportados.");
+		}
 	}
 	
 	/**
@@ -160,14 +168,10 @@ public class SerialComm implements SerialPortEventListener{
 	/**
 	 * Método de envio de dados pela serial
 	 * @param btSend - byte[] Array de bytes a serem enviados
+	 * @throws IOException 
 	 */
-	public void write(byte[] btSend) {
-		try {
-			this.outputStream.write(btSend);
-		} catch (IOException e) {
-			e.printStackTrace();
-			System.out.println("WRITE EXCEPTIO");
-		} 
+	public void write(byte[] btSend) throws IOException {
+		this.outputStream.write(btSend);
 	}
 	
 	/**
@@ -177,13 +181,14 @@ public class SerialComm implements SerialPortEventListener{
 	 * @param recTimeout - Timeout em milesegundos para recepção da resposta
 	 * @param recLength - Tamanho em bytes da resposta esperada
 	 * @return - byte[] com dados da resposta
+	 * @throws IOException 
 	 */
-	public byte[] txRx(byte[] btSend, int recLength, int recTimeout) {
+	public byte[] txRx(byte[] btSend, int recLength, int recTimeout) throws IOException {
 		write(btSend);
 		
 		long endTime = System.currentTimeMillis() + recTimeout;
 		
-		while ((getReceivedLed() < recLength) && (endTime > System.currentTimeMillis())){
+		while ((getReceivedLen() < recLength) && (endTime > System.currentTimeMillis())){
 			try {
 				//Aguarda receber os dados
 				Thread.sleep(10);
@@ -201,7 +206,7 @@ public class SerialComm implements SerialPortEventListener{
 	 * Método privado que retorna o número de bytes lidos e guardados na lista
 	 * @return intBytes - número de bytes no buffer de recepção
 	 */
-	private int getReceivedLed() {
+	private int getReceivedLen() {
 		int intBytes = 0;
 		
 		for(int i = 0; i < lstReadBuffer.size(); i++) {

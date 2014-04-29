@@ -6,13 +6,13 @@ package armani.anderson.sihts.serial;
  *
  */
 public interface RoboticArm {
-	
+
 	/**
 	 * <p>Inicializa a braço robótico, sua posição e sua comunicação serial
 	 * @param strPort - Porta de comunicação
-	 * @throws Exception
+	 * @throws IllegalArgumentException
 	 */
-	public void initialize(String strPort) throws Exception;
+	public void initialize(String strPort) throws IllegalArgumentException;
 	
 	/**
 	 * <p>Método que recebe a versão do braço robótico

@@ -1,7 +1,11 @@
 package armani.anderson.sihts.serial;
-import java.util.List;
+import gnu.io.PortInUseException;
 
-import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
+import java.io.IOException;
+import java.util.List;
+import java.util.TooManyListenersException;
+
+import javax.swing.JOptionPane;
 
 import armani.anderson.sihts.serial.SerialComm;
 
@@ -24,8 +28,6 @@ public class Al5b implements RoboticArm {
 	
 	/*Tempo para envio e recepção de apenas uma posição*/
 	private static final int AL5B_SEND_POS_TIME = 10;
-	//private static final int AL5B_ONEPOS_TIME = 300;
-	
 	
 	private int intPositionBase;
 	private int intPositionOmbro;
@@ -80,17 +82,24 @@ public class Al5b implements RoboticArm {
 	 * <p>Método de inicialização do braço robótico
 	 */
 	@Override
-	public void initialize(String strPort) throws Exception {
+	public void initialize(String strPort) throws IllegalArgumentException {
 		scSerial = new SerialComm();
 		
 		List<String> lstSeriais = SerialComm.getListSerial();
 		
 		if( !lstSeriais.contains(strPort) ) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Serial não encontrada.");
 		}
 		
-		scSerial.open(strPort);
-		scSerial.setParameters(SerialComm.BAUD_115200, SerialComm.DATABITS_8, SerialComm.STOPBITS_1, SerialComm.PARITY_NONE);
+		try {
+			scSerial.open(strPort);			
+			scSerial.setParameters(SerialComm.BAUD_115200, SerialComm.DATABITS_8, SerialComm.STOPBITS_1, SerialComm.PARITY_NONE);
+		} catch (PortInUseException e) {
+			throw new IllegalArgumentException("Porta em uso.");
+			
+		} catch (IOException | TooManyListenersException e2) {
+			throw new IllegalArgumentException("Erro físico na serial ");
+		}
 	}
 
 	/**
@@ -124,7 +133,13 @@ public class Al5b implements RoboticArm {
 		//RETIRAR
 		System.out.println("SEND: " + strSend);
 		
-		byte[] bt = scSerial.txRx(strSend.getBytes(), strSend.length(), AL5B_SEND_POS_TIME);
+		byte[] bt = null;
+		try {
+			bt = scSerial.txRx(strSend.getBytes(), strSend.length(), AL5B_SEND_POS_TIME);
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println("ERRO IOException no TXRX");
+		}
 		
 		
 		//RETIRAR
@@ -142,15 +157,21 @@ public class Al5b implements RoboticArm {
 	 */
 	public String getVersion() {
 		String strSend;
-		String strReturn = null;
+		String strReturn = "";
 		
 		//comando para retornar versão da placa de controle do kit
 		strSend = "VER";
 		strSend += '\r';
 		
-		byte[] bt = scSerial.txRx(strSend.getBytes(), strSend.length(), AL5B_SEND_POS_TIME);
-		
-		strReturn = new String(bt);
+		byte[] bt = null;
+		try {
+			bt = scSerial.txRx(strSend.getBytes(), strSend.length(), AL5B_SEND_POS_TIME);
+			strReturn = new String(bt);
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println("IOException no getVersion");
+		}
+			
 		System.out.println("strRETURN = " + strReturn);
 		return strReturn;
 	}
@@ -168,6 +189,7 @@ public class Al5b implements RoboticArm {
 	 * @param btArticulation
 	 * @return
 	 */
+	@SuppressWarnings("unused")
 	private int getPosition(int intArticulation) {
 		int btReturn = 0;
 	

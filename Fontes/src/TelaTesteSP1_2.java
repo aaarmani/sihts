@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.swing.ComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JSlider;
 import javax.swing.SwingConstants;
 
@@ -37,14 +38,14 @@ public class TelaTesteSP1_2 extends JPanel {
 	 * Create the panel.
 	 */
 	public TelaTesteSP1_2() {
-		setBackground(Color.GRAY);
+		setBackground(Color.LIGHT_GRAY);
 		setLayout(null);
 		
 		cbPortComm = new JComboBox<String>(getArrayPorts());
 		cbPortComm.setBounds(25, 64, 175, 35);
 		add(cbPortComm);
 		
-		JLabel lblTitle = new JLabel("Simuladro IHTS SP1");
+		JLabel lblTitle = new JLabel("Simulador IHTS SP1");
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitle.setFont(new Font("Lucida Grande", Font.BOLD, 18));
 		lblTitle.setBounds(6, 6, 468, 16);
@@ -121,8 +122,7 @@ public class TelaTesteSP1_2 extends JPanel {
 					bolIsConnect = true;
 				} catch (Exception e1) {
 					roboticArm.close();
-					System.out.println("Não abriu a serial");
-					e1.printStackTrace();
+					JOptionPane.showMessageDialog(null, "Erro na inicialização", e1.getMessage(), JOptionPane.ERROR_MESSAGE);
 				}
 			}
 			else {
