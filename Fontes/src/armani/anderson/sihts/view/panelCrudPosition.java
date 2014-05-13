@@ -22,8 +22,28 @@ public class panelCrudPosition extends JPanel {
 	private JSlider sldArtc3;
 	private JSlider sldArtc4;
 	private JSlider sldArtc5;
-	private JTextField txtStatus;
+	private JButton btnExcluir;
+	private JButton btnCancelar;
+	private JButton btnSalvar;
 	
+	public JButton getBtnExcluir() {
+		return btnExcluir;
+	}
+	public void setBtnExcluir(JButton btnExcluir) {
+		this.btnExcluir = btnExcluir;
+	}
+	public JButton getBtnCancelar() {
+		return btnCancelar;
+	}
+	public void setBtnCancelar(JButton btnCancelar) {
+		this.btnCancelar = btnCancelar;
+	}
+	public JButton getBtnSalvar() {
+		return btnSalvar;
+	}
+	public void setBtnSalvar(JButton btnSalvar) {
+		this.btnSalvar = btnSalvar;
+	}
 	public JLabel getLblType() {
 		return lblType;
 	}
@@ -66,12 +86,6 @@ public class panelCrudPosition extends JPanel {
 	public void setSldArtc5(JSlider sldArtc5) {
 		this.sldArtc5 = sldArtc5;
 	}
-	public JTextField getTxtStatus() {
-		return txtStatus;
-	}
-	public void setTxtStatus(JTextField txtStatus) {
-		this.txtStatus = txtStatus;
-	}
 	public char getType() {
 		return type;
 	}
@@ -106,42 +120,35 @@ public class panelCrudPosition extends JPanel {
 		tfNome.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
 		tfNome.setColumns(10);
 		
-		JLabel lblArtc1 = new JLabel("Artc1");
+		JLabel lblArtc1 = new JLabel("Base");
 		
 		sldArtc1 = new JSlider();
 		sldArtc1.setMaximum(2000);
 		
-		JLabel lblArtc2 = new JLabel("Artc2");
+		JLabel lblArtc2 = new JLabel("Ombro");
 		
 		sldArtc2 = new JSlider();
 		sldArtc2.setMaximum(2000);
 		
-		JLabel lblArtc3 = new JLabel("Artc3");
+		JLabel lblArtc3 = new JLabel("Cotovelo");
 		
 		sldArtc3 = new JSlider();
 		sldArtc3.setMaximum(2000);
 		
-		JLabel lblArtc4 = new JLabel("Artc4");
+		JLabel lblArtc4 = new JLabel("Pulso");
 		
 		sldArtc4 = new JSlider();
 		sldArtc4.setMaximum(2000);
 		
-		JLabel lblArtc5 = new JLabel("Artc5");
+		JLabel lblArtc5 = new JLabel("Pinça");
 		
 		sldArtc5 = new JSlider();
 		sldArtc5.setMaximum(2000);
 		
 		//Buttons
-		JButton btnExcluir = new JButton("Excluir");
-		JButton btnCancelar = new JButton("Cancelar");
-		JButton btnSalvar = new JButton("Salvar");
-		
-		txtStatus = new JTextField();
-		txtStatus.setHorizontalAlignment(SwingConstants.CENTER);
-		txtStatus.setBackground(UIManager.getColor("Panel.background"));
-		txtStatus.setEnabled(false);
-		txtStatus.setEditable(false);
-		txtStatus.setColumns(10);
+		btnExcluir = new JButton("Excluir");
+		btnCancelar = new JButton("Cancelar");
+		btnSalvar = new JButton("Salvar");
 		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
@@ -157,21 +164,19 @@ public class panelCrudPosition extends JPanel {
 						.addComponent(lblArtc1, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addComponent(sldArtc5, GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-						.addComponent(sldArtc4, GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-						.addComponent(sldArtc3, GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-						.addComponent(sldArtc2, GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-						.addComponent(sldArtc1, GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+						.addComponent(sldArtc5, GroupLayout.DEFAULT_SIZE, 301, Short.MAX_VALUE)
+						.addComponent(sldArtc4, GroupLayout.DEFAULT_SIZE, 301, Short.MAX_VALUE)
+						.addComponent(sldArtc3, GroupLayout.DEFAULT_SIZE, 301, Short.MAX_VALUE)
+						.addComponent(sldArtc2, GroupLayout.DEFAULT_SIZE, 301, Short.MAX_VALUE)
+						.addComponent(sldArtc1, GroupLayout.DEFAULT_SIZE, 301, Short.MAX_VALUE)
 						.addComponent(tfNome, 300, 300, 300)
-						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-							.addComponent(txtStatus, GroupLayout.PREFERRED_SIZE, 278, GroupLayout.PREFERRED_SIZE)
-							.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
-								.addComponent(btnExcluir)
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addComponent(btnCancelar)
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addComponent(btnSalvar))))
-					.addContainerGap(30, Short.MAX_VALUE))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(btnExcluir)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnCancelar)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnSalvar)))
+					.addContainerGap(31, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -205,9 +210,7 @@ public class panelCrudPosition extends JPanel {
 						.addComponent(btnExcluir)
 						.addComponent(btnCancelar)
 						.addComponent(btnSalvar))
-					.addGap(18)
-					.addComponent(txtStatus, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(32))
+					.addGap(78))
 		);
 		
 		setLayout(groupLayout);
