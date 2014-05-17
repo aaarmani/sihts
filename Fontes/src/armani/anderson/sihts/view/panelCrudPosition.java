@@ -5,7 +5,10 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import javax.swing.JSlider;
+
+import java.awt.Dimension;
 import java.awt.Font;
+
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -214,6 +217,5 @@ public class panelCrudPosition extends JPanel {
 		);
 		
 		setLayout(groupLayout);
-		this.setBounds(0, 0, 450, 430);
 	}	
 }

@@ -3,11 +3,13 @@ package armani.anderson.sihts.control;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import armani.anderson.sihts.model.PositionDAO;
 import armani.anderson.sihts.model.PositionVO;
+import armani.anderson.sihts.serial.Al5b;
 import armani.anderson.sihts.serial.RoboticArm;
 import armani.anderson.sihts.view.panelCrudPosition;
 
@@ -33,6 +35,7 @@ public class PositionCTRL implements ActionListener, ChangeListener {
 	private PositionVO getPosition() {
 		PositionVO posVo = new PositionVO();
 		posVo.setName(this.pnCrudPosition.getTfNome().getText());
+		posVo.setType(this.pnCrudPosition.getType());
 		posVo.setPositionArtc1(this.pnCrudPosition.getSldArtc1().getValue());
 		posVo.setPositionArtc2(this.pnCrudPosition.getSldArtc2().getValue());
 		posVo.setPositionArtc3(this.pnCrudPosition.getSldArtc3().getValue());
@@ -48,15 +51,10 @@ public class PositionCTRL implements ActionListener, ChangeListener {
 			PositionVO posVO = getPosition();
 			PositionDAO posDAO = new PositionDAO();
 			
-			System.out.println(posVO.getName());
-			System.out.println(posVO.getPositionArtc1());
-			System.out.println(posVO.getPositionArtc2());
-			System.out.println(posVO.getPositionArtc3());
-			System.out.println(posVO.getPositionArtc4());
-			System.out.println(posVO.getPositionArtc5());
 			posDAO.insert(posVO);
 		}
 		else if(objEvent == this.pnCrudPosition.getBtnCancelar()) {
+			this.pnCrudPosition.getTfNome().setText("");
 			this.pnCrudPosition.getSldArtc1().setValue(0);
 			this.pnCrudPosition.getSldArtc2().setValue(0);
 			this.pnCrudPosition.getSldArtc3().setValue(0);
@@ -70,28 +68,36 @@ public class PositionCTRL implements ActionListener, ChangeListener {
 
 	@Override
 	public void stateChanged(ChangeEvent e) {
-		int intArtc = 0;
-		int	intPos = 0; 
+		int intArtc = Al5b.ARTC_BASE;
+		int	intPos = 0;
+		JSlider sldBkp = null;
+		
 		Object objEvent = e.getSource();
 		
+		sldBkp = (JSlider) objEvent;
+		if(sldBkp.getValueIsAdjusting() == true) {
+			//while change
+			return;
+		}
+		System.out.println("ATUALIZANDO...");
 		if(objEvent == this.pnCrudPosition.getSldArtc1()) {
-			intArtc = 0;
+			intArtc = Al5b.ARTC_BASE; 
 			intPos = this.pnCrudPosition.getSldArtc1().getValue();
 		}
 		else if(objEvent == this.pnCrudPosition.getSldArtc2()) {
-			intArtc = 1;
+			intArtc = Al5b.ARTC_OMBRO;
 			intPos = this.pnCrudPosition.getSldArtc2().getValue();
 		}
 		else if(objEvent == this.pnCrudPosition.getSldArtc3()) {
-			intArtc = 2;
+			intArtc = Al5b.ARTC_COTOVELO;
 			intPos = this.pnCrudPosition.getSldArtc3().getValue();
 		}
 		else if(objEvent == this.pnCrudPosition.getSldArtc4()) {
-			intArtc = 3;
+			intArtc = Al5b.ARTC_PULSO;
 			intPos = this.pnCrudPosition.getSldArtc4().getValue();
 		}
 		else if(objEvent == this.pnCrudPosition.getSldArtc5()) {
-			intArtc = 4;
+			intArtc = Al5b.ARTC_PINCA;
 			intPos = this.pnCrudPosition.getSldArtc5().getValue();
 		}
 		else {

@@ -11,8 +11,9 @@ import armani.anderson.sihts.serial.SerialComm;
 
 /**
  * <p>Classe de interface com o braço robótico AL5B
- * @author armani
  *
+ * @version v00.01
+ * @author armani
  */
 public class Al5b implements RoboticArm {
 	public static final int ARTC_BASE = 0;

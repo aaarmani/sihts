@@ -12,7 +12,13 @@ import armani.anderson.sihts.serial.Al5b;
 import armani.anderson.sihts.serial.RoboticArm;
 import armani.anderson.sihts.view.MainFrame;
 import armani.anderson.sihts.view.panelCrudPosition;
-
+/**
+ * <p>Classe controlador para a tela principal do software, responsável pelo controle de Menus, Inicialização do Braço Robótico e 
+ * Inicialização dos métodos callback dos CONTROLERS das páginas
+ * 
+ * @version v00.01
+ * @author armani
+ */
 public class MainCTRL implements ActionListener{
 	public final String PN_OBJECT		= "ObjectSettings";
 	public final String PN_POSITION		= "PositionSettings";
@@ -22,6 +28,13 @@ public class MainCTRL implements ActionListener{
 	
 	RoboticArm roboticArm = null;
 
+	JPanel pnCur = null;
+	PositionCTRL posCtrl = null;
+	
+	/**
+	 * Método contrutor da classe controlador do frame principal
+	 * @param mainFrame2
+	 */
 	public MainCTRL(MainFrame mainFrame2) {
 		this.mainFrame = mainFrame2;
 		mainFrame.setVisible(true);
@@ -34,30 +47,67 @@ public class MainCTRL implements ActionListener{
 		mapPanel.put(PN_OBJECT, pnObject);
 		mapPanel.put(PN_POSITION, pnPosition);
 		
-		//################### teste Armani
-		try {
-			roboticArm = new Al5b("/dev/tty.usbserial");
-		} catch (Exception e1) {
-			//roboticArm.close();
-			JOptionPane.showMessageDialog(null, "Erro na inicialização", e1.getMessage(), JOptionPane.ERROR_MESSAGE);
+		if(initializeRoboticArm() == false) {
+			enableMenu(false);
 		}
 		
-		//#########################
-		
+				
 		this.mainFrame.getMntmObjeto().addActionListener(this);
 		this.mainFrame.getMntmPosition().addActionListener(this);
 	}
 
+	/**
+	 * <p> Método que habilita/desabilita menus
+	 * Habilita/Desabilita menus que utilizam o braço robótico
+	 */
+	private void enableMenu(boolean enable) {
+		if(enable == true) {
+			//habilita menus
+		}
+		else {
+			//desabilita menus
+		}
+	}
 
+	/**
+	 * <p> Método que inicializa o braço robótico
+	 * @return true - Braço Robótico Inicializado false - Braço não inicializado
+	 */
+	private boolean initializeRoboticArm() {
+		try {
+			roboticArm = new Al5b("/dev/tty.usbserial");
+			return true;
+		} catch (Exception e1) {
+			roboticArm.close();
+			JOptionPane.showMessageDialog(null, e1.getMessage(), "Erro na inicialização", JOptionPane.ERROR_MESSAGE);
+		}
+		return false;
+	}
+
+	/**
+	 * Método que seta o panel que está sendo utilizado no panel central
+	 * @param strPnCur - Painel a ser setado no centro do Frame Principal
+	 */
 	void setCurrentPanel(String strPnCur) {
-		JPanel pnCur = mapPanel.get(strPnCur);
+		if(pnCur != null) {
+			mainFrame.getPnCenter().remove(pnCur);
+			posCtrl = null;
+		}
+		
+		pnCur = mapPanel.get(strPnCur);
 		mainFrame.getPnCenter().add(pnCur);
-		PositionCTRL posCtrl = new PositionCTRL((panelCrudPosition) pnCur, roboticArm);
+		mainFrame.getPnCenter().setSize(pnCur.getSize());
+		mainFrame.getPnCenter().updateUI();
+		
+		posCtrl = new PositionCTRL((panelCrudPosition) pnCur, roboticArm);
 		System.out.println("Set frame " + strPnCur);
 	}
 
-
+	
 	@Override
+	/**
+	 * <p>Método de tratamento de eventos de click de botões e menus
+	 */
 	public void actionPerformed(ActionEvent e) {
 		Object objSource = e.getSource(); 
 		
