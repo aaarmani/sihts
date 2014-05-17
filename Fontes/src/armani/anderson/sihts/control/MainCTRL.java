@@ -78,7 +78,9 @@ public class MainCTRL implements ActionListener{
 			roboticArm = new Al5b("/dev/tty.usbserial");
 			return true;
 		} catch (Exception e1) {
-			roboticArm.close();
+			if(roboticArm != null) {
+				roboticArm.close();	
+			}
 			JOptionPane.showMessageDialog(null, e1.getMessage(), "Erro na inicialização", JOptionPane.ERROR_MESSAGE);
 		}
 		return false;

@@ -129,6 +129,8 @@ public class MainFrame extends JFrame {
 		pnTop.setLayout(flowLayout);
 		
 		pnCenter = new JPanel();
+		FlowLayout flowLayout_1 = (FlowLayout) pnCenter.getLayout();
+		flowLayout_1.setAlignOnBaseline(true);
 		
 		pnDown = new JPanel();
 		pnDown.setBackground(UIManager.getColor("Menu.background"));
