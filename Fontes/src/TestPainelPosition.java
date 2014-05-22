@@ -5,7 +5,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import armani.anderson.sihts.view.panelCrudPosition;
+import armani.anderson.sihts.view.PositionView;
 import java.awt.FlowLayout;
 
 
@@ -39,7 +39,7 @@ public class TestPainelPosition extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 5));
 		
-		panelCrudPosition pnPosition = new panelCrudPosition('P');
+		PositionView pnPosition = new PositionView('P');
 		contentPane.add(pnPosition);
 		
 		

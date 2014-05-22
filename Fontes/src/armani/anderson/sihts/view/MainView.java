@@ -16,7 +16,7 @@ import javax.swing.GroupLayout.Alignment;
 import java.awt.FlowLayout;
 import javax.swing.UIManager;
 
-public class MainFrame extends JFrame {
+public class MainView extends JFrame {
 	private int frmWidth;
 	private int frmHeight;
 	private JPanel contentPane;
@@ -25,9 +25,9 @@ public class MainFrame extends JFrame {
 	private JPanel pnTop;
 	private JPanel pnDown;
 	
-	private JMenuItem mntmObjeto;
+	private JMenuItem mntmAction;
 	private JMenuItem mntmPosition;
-	
+	private JMenuItem mntmObjeto;
 	
 	public JPanel getPnCenter() {
 		return pnCenter;
@@ -68,11 +68,19 @@ public class MainFrame extends JFrame {
 	public void setMntmPosio(JMenuItem mntmPosition) {
 		this.mntmPosition = mntmPosition;
 	}
+	
+	public JMenuItem getMntmAction() {
+		return mntmAction;
+	}
+
+	public void setMntmAction(JMenuItem mntmAction) {
+		this.mntmAction = mntmAction;
+	}
 
 	/**
 	 * Create the frame.
 	 */
-	public MainFrame(){
+	public MainView(){
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setFrameSize();
 		
@@ -112,11 +120,14 @@ public class MainFrame extends JFrame {
 		JMenu mnCadastro = new JMenu("Cadastro");
 		menuBar.add(mnCadastro);
 		
-		mntmObjeto = new JMenuItem("Objeto");
-		mnCadastro.add(mntmObjeto);
+		mntmAction = new JMenuItem("Ação");
+		mnCadastro.add(mntmAction);
 		
 		mntmPosition = new JMenuItem("Posição");
 		mnCadastro.add(mntmPosition);
+		
+		mntmObjeto = new JMenuItem("Objeto");
+		mnCadastro.add(mntmObjeto);
 		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

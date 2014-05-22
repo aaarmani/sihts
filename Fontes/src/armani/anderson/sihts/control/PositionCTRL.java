@@ -12,20 +12,28 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import sun.misc.Cleaner;
+
+import com.sun.org.apache.bcel.internal.generic.LSTORE;
+
 import armani.anderson.sihts.model.PositionBO;
 import armani.anderson.sihts.model.PositionDAO;
 import armani.anderson.sihts.model.PositionVO;
 import armani.anderson.sihts.serial.Al5b;
 import armani.anderson.sihts.serial.RoboticArm;
-import armani.anderson.sihts.view.panelCrudPosition;
+import armani.anderson.sihts.view.PositionView;
 /**
  * Controller para o painel CRUD de Posição
  * @author armani
  * @version V00.01
  */
 public class PositionCTRL implements ActionListener, ChangeListener, ListSelectionListener {
-	private panelCrudPosition pnCrudPosition = null;
+	private PositionView pnCrudPosition = null;
 	private RoboticArm roboticArm = null;
+	
+	private Vector<String> vctPosition;
+	private boolean isEdition = false;
+	private long idForEdition = -1;
 
 	/**
 	 * Método Construtor do Controller
@@ -34,11 +42,13 @@ public class PositionCTRL implements ActionListener, ChangeListener, ListSelecti
 	 * @param pnCrudPosition2 - Painel que será controlado
 	 * @param roboticArm2 - Controle do braço mecânico
 	 */
-	public PositionCTRL(panelCrudPosition pnCrudPosition2, RoboticArm roboticArm2) {
+	public PositionCTRL(PositionView pnCrudPosition2, RoboticArm roboticArm2) {
 		this.pnCrudPosition = pnCrudPosition2;
 		this.roboticArm = roboticArm2;
 		
-		initializeListI();
+		initializeListPositions();
+		
+		this.pnCrudPosition.getBtnExcluir().setVisible(false);
 		
 		this.pnCrudPosition.getLstPosition().addListSelectionListener(this);
 		this.pnCrudPosition.getSldArtc1().addChangeListener(this);
@@ -64,24 +74,42 @@ public class PositionCTRL implements ActionListener, ChangeListener, ListSelecti
 			PositionVO posVO = getPosition();
 			
 			PositionBO posBO = new PositionBO();
-			if(posBO.insert(posVO) == true) {
-				JOptionPane.showMessageDialog(null, "Posição inserida com sucesso!", "Insert", JOptionPane.ERROR_MESSAGE);	
+			if(isEdition == false) {
+				//INSERT
+				if(posBO.insert(posVO) == true) {
+					JOptionPane.showMessageDialog(null, "Posição inserida com sucesso!", "Insert", JOptionPane.ERROR_MESSAGE);	
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "Erro ao inserir posição", "Insert", JOptionPane.ERROR_MESSAGE);
+				}	
 			}
 			else {
-				JOptionPane.showMessageDialog(null, "Erro ao inserir posição", "Insert", JOptionPane.ERROR_MESSAGE);
+				//UPDATE
+				posVO.setId(idForEdition);
+				if(posBO.update(posVO) == true) {
+					JOptionPane.showMessageDialog(null, "Posição atualizada com sucesso!", "Insert", JOptionPane.ERROR_MESSAGE);	
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "Erro ao atualizar posição", "Insert", JOptionPane.ERROR_MESSAGE);
+				}
 			}
+			initializeListPositions();
 		}
 		//CANCELAR
 		else if(objEvent == this.pnCrudPosition.getBtnCancelar()) {
-			this.pnCrudPosition.getTfNome().setText("");
-			this.pnCrudPosition.getSldArtc1().setValue(0);
-			this.pnCrudPosition.getSldArtc2().setValue(0);
-			this.pnCrudPosition.getSldArtc3().setValue(0);
-			this.pnCrudPosition.getSldArtc4().setValue(0);
-			this.pnCrudPosition.getSldArtc5().setValue(0);
+			clearPositionPanel();
 		}
 		//DELETAR
 		else if(objEvent == this.pnCrudPosition.getBtnExcluir()) {
+			PositionVO posVO = getPosition();
+			posVO.setId(idForEdition);
+			
+			clearPositionPanel();
+			
+			PositionBO posBO = new PositionBO();
+			posBO.delete(posVO);
+			
+			initializeListPositions();
 			
 		}
 	}
@@ -103,7 +131,7 @@ public class PositionCTRL implements ActionListener, ChangeListener, ListSelecti
 			//while change
 			return;
 		}
-		System.out.println("ATUALIZANDO...");
+
 		if(objEvent == this.pnCrudPosition.getSldArtc1()) {
 			intArtc = Al5b.ARTC_BASE; 
 			intPos = this.pnCrudPosition.getSldArtc1().getValue();
@@ -137,12 +165,41 @@ public class PositionCTRL implements ActionListener, ChangeListener, ListSelecti
 		
 		//PositionBO posBO = new PositionBO();
 		
-		
-
+		if(e.getValueIsAdjusting() == false) {
+			System.out.println("ValueChanged listener");
+			
+			int idx = e.getLastIndex();
+			String name = vctPosition.get(idx);
+			
+			PositionVO posVO = new PositionVO();
+			posVO.setName(name);
+			
+			PositionBO posBO = new PositionBO();
+			List<PositionVO> lstVO = posBO.select(posVO);
+			
+			if(lstVO.size() == 1) {
+				posVO = lstVO.get(0);
+				setPanelForEdit(posVO);
+			}
+		}
 	}
 	
 //########################### Métodos Auxiliares ###########################
 	
+	private void setPanelForEdit(PositionVO posVO) {
+		isEdition = true;
+		idForEdition = posVO.getId();
+		this.pnCrudPosition.getBtnExcluir().setVisible(true);
+		
+		this.pnCrudPosition.getTfNome().setText(posVO.getName());
+		this.pnCrudPosition.setType(posVO.getType());
+		this.pnCrudPosition.getSldArtc1().setValue(posVO.getPositionArtc1());
+		this.pnCrudPosition.getSldArtc2().setValue(posVO.getPositionArtc2());
+		this.pnCrudPosition.getSldArtc3().setValue(posVO.getPositionArtc3());
+		this.pnCrudPosition.getSldArtc4().setValue(posVO.getPositionArtc4());
+		this.pnCrudPosition.getSldArtc5().setValue(posVO.getPositionArtc5());
+	}
+
 	/**
 	 * Carrega os dados do Painel CRUD Position e um Objeto PositionVO
 	 * @return {@link PositionVO}
@@ -159,10 +216,10 @@ public class PositionCTRL implements ActionListener, ChangeListener, ListSelecti
 		return posVo;
 	}
 	
-	private void initializeListI() {
+	private void initializeListPositions() {
 		PositionBO posBO = new PositionBO();
-		Vector<String> vctPosition = new Vector<String>();
-		
+		vctPosition = new Vector<String>();
+			
 		List<PositionVO> lstPosVO = posBO.select(null);
 		
 		for(int i = 0; i < lstPosVO.size(); i++) {
@@ -175,5 +232,20 @@ public class PositionCTRL implements ActionListener, ChangeListener, ListSelecti
 		this.pnCrudPosition.updateUI();
 		System.out.println("Tamanho da lista = " + lstPosVO.size());
 		
+	}
+	
+	private void clearPositionPanel() {
+		this.pnCrudPosition.getLstPosition().clearSelection();			
+		this.pnCrudPosition.getBtnExcluir().setVisible(false);
+		
+		isEdition = false;
+		idForEdition = -1;
+
+		this.pnCrudPosition.getTfNome().setText("");
+		this.pnCrudPosition.getSldArtc1().setValue(0);
+		this.pnCrudPosition.getSldArtc2().setValue(0);
+		this.pnCrudPosition.getSldArtc3().setValue(0);
+		this.pnCrudPosition.getSldArtc4().setValue(0);
+		this.pnCrudPosition.getSldArtc5().setValue(0);		
 	}
 }

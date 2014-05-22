@@ -93,14 +93,15 @@ public class PositionDAO {
 			}
 			
 			if(position.getName() != "") {
-				where += "name = " + position.getName();
+				where += POS_COL_NAME + " = '" + position.getName() + "'";
 			}
 			
 			if(position.getType() == 'P' || position.getType() == 'O') {
-				where += position.getType();
+				where += POS_COL_TYPE + " = '" + position.getType() + "";
 			}
 			
-			sql += where;	
+			sql += where;
+			System.out.println("SQL = " + sql);
 		}
 		
 		sql += " ORDER BY name";
@@ -112,10 +113,10 @@ public class PositionDAO {
 				resSet = stmt.getResultSet();
 				if(resSet != null) {
 					lstPosVO = new LinkedList<PositionVO>();
-
+System.out.println("Teste 1");
 					while(resSet.next()) {
 						PositionVO posVO = new PositionVO();
-						
+System.out.println("Teste 2");						
 						posVO.setId(Long.valueOf(resSet.getString(PositionDAO.POS_COL_ID)));
 						posVO.setName(resSet.getString(PositionDAO.POS_COL_NAME));
 						posVO.setType(resSet.getString(PositionDAO.POS_COL_TYPE).charAt(0));
@@ -167,7 +168,8 @@ public class PositionDAO {
 		    stmt.setInt(4, position.getPositionArtc2());
 		    stmt.setInt(5, position.getPositionArtc3());
 		    stmt.setInt(6, position.getPositionArtc4());
-		    stmt.setInt(7, position.getPositionArtc5());			
+		    stmt.setInt(7, position.getPositionArtc5());
+		    stmt.setLong(8, position.getId());
 			ret = stmt.executeUpdate();
 			stmt.close();
 		} catch (SQLException e) {

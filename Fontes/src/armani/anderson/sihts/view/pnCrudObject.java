@@ -8,7 +8,7 @@ import javax.swing.JList;
 import javax.swing.ListSelectionModel;
 
 public class pnCrudObject extends JPanel {
-	panelCrudPosition pnCrudPos = null;
+	PositionView pnCrudPos = null;
 	JPanel pnListObj = null;
 	
 	/**
@@ -28,7 +28,7 @@ public class pnCrudObject extends JPanel {
 		this.add(pnListObj);
 		
 		
-		pnCrudPos = new panelCrudPosition('O');
+		pnCrudPos = new PositionView('O');
 		this.add(pnCrudPos);
 
 	}

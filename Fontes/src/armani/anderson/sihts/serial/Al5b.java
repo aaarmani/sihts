@@ -154,7 +154,7 @@ public class Al5b implements RoboticArm {
 	
 	/**
 	 * <p>Método que retorna a versão da placa de controle do kit Al5b
-	 * @return
+	 * @return String - Versão do software controlador do kit AL5B
 	 */
 	public String getVersion() {
 		String strSend;

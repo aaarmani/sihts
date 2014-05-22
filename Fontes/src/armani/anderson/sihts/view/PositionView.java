@@ -17,7 +17,7 @@ import javax.swing.JList;
 
 
 
-public class panelCrudPosition extends JPanel {
+public class PositionView extends JPanel {
 	private char type;
 	private JLabel lblType;
 	private JTextField tfNome;
@@ -29,8 +29,8 @@ public class panelCrudPosition extends JPanel {
 	private JButton btnExcluir;
 	private JButton btnCancelar;
 	private JButton btnSalvar;
-	private JList lstPosition;
 	private JLabel lblLstPosition;
+	private JList lstPosition;
 	
 	public JButton getBtnExcluir() {
 		return btnExcluir;
@@ -95,7 +95,7 @@ public class panelCrudPosition extends JPanel {
 	public char getType() {
 		return type;
 	}
-	private void setType(char type2) {
+	public void setType(char type2) {
 		this.type = type2;
 		
 		if(this.type == 'P') {
@@ -122,7 +122,7 @@ public class panelCrudPosition extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public panelCrudPosition(char type) {		
+	public PositionView(char type) {		
 		initComponent();
 		setType(type);
 	}
@@ -134,14 +134,18 @@ public class panelCrudPosition extends JPanel {
 		
 		JPanel pnRight = new JPanel();
 		
-		JScrollPane pnLeft = new JScrollPane();
-		
 		JLabel lblTitle = new JLabel("Cadastro de Posição");
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitle.setFont(new Font("Lucida Grande", Font.BOLD, 18));
 		
 		lblLstPosition = new JLabel("Posições Cadastradas:");
 		lblLstPosition.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
+		
+		JPanel pnLeft = new JPanel();
+		
+		lstPosition = new JList();
+		lstPosition.setBounds(6, 6, 311, 284);
+		pnLeft.add(lstPosition);
 		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
@@ -152,9 +156,12 @@ public class panelCrudPosition extends JPanel {
 						.addComponent(lblTitle, GroupLayout.DEFAULT_SIZE, 768, Short.MAX_VALUE)
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblLstPosition, GroupLayout.DEFAULT_SIZE, 311, Short.MAX_VALUE)
-								.addComponent(pnLeft, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 311, Short.MAX_VALUE))
-							.addGap(18)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addComponent(lblLstPosition, GroupLayout.DEFAULT_SIZE, 311, Short.MAX_VALUE)
+									.addGap(18))
+								.addGroup(groupLayout.createSequentialGroup()
+									.addComponent(pnLeft, GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE)
+									.addPreferredGap(ComponentPlacement.RELATED)))
 							.addComponent(pnRight, GroupLayout.PREFERRED_SIZE, 439, GroupLayout.PREFERRED_SIZE)))
 					.addContainerGap())
 		);
@@ -174,23 +181,23 @@ public class panelCrudPosition extends JPanel {
 		);
 		pnLeft.setLayout(null);
 		
-		lstPosition = new JList();
-		lstPosition.setToolTipText("Editor");
-		lstPosition.setBounds(6, 44, 299, 318);
-		pnLeft.setViewportView(lstPosition);
-		
 		JLabel lblArtc5 = new JLabel("Pinça");
+		lblArtc5.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
 		
 		lblType = new JLabel("Tipo");
 		lblType.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
 		
 		JLabel lblArtc4 = new JLabel("Pulso");
+		lblArtc4.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
 		
 		JLabel lblArtc3 = new JLabel("Cotovelo");
+		lblArtc3.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
 		
 		JLabel lblArtc2 = new JLabel("Ombro");
+		lblArtc2.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
 		
 		JLabel lblArtc1 = new JLabel("Base");
+		lblArtc1.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
 		
 		sldArtc5 = new JSlider();
 		sldArtc5.setMaximum(2000);
