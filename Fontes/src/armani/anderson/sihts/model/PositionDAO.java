@@ -113,10 +113,10 @@ public class PositionDAO {
 				resSet = stmt.getResultSet();
 				if(resSet != null) {
 					lstPosVO = new LinkedList<PositionVO>();
-System.out.println("Teste 1");
+
 					while(resSet.next()) {
 						PositionVO posVO = new PositionVO();
-System.out.println("Teste 2");						
+			
 						posVO.setId(Long.valueOf(resSet.getString(PositionDAO.POS_COL_ID)));
 						posVO.setName(resSet.getString(PositionDAO.POS_COL_NAME));
 						posVO.setType(resSet.getString(PositionDAO.POS_COL_TYPE).charAt(0));

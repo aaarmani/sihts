@@ -11,6 +11,13 @@ public class ActionListVO {
 	private int actionId;
 	private int positionId;
 	
+	public ActionListVO() {
+		this.id = -1;
+		this.index = -1;
+		this.actionId = -1;
+		this.positionId = -1;
+	}
+	
 	public int getId() {
 		return id;
 	}

@@ -5,26 +5,38 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+
 import java.awt.Font;
+
 import javax.swing.JList;
-import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JScrollPane;
+import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.JButton;
+import java.awt.Rectangle;
 
 public class ActionView extends JPanel {
 	private JTextField txtName = null;
-	private JList lstAction = null;
-	private JList lstPosition = null;
+	private JList<String> lstAction = null;
+	private JList<String> lstPosition = null;
 	private JTextArea txtaDescription = null;
 	private JButton btnSave = null;
 	private JButton btnCancel = null;
 	private JButton btnDelete = null;
 	private JButton btnPlay = null;
 	private JButton btnAddPosition = null; 
+	private JTextPane textPane = null;
 	
+	public JTextPane getTextPane() {
+		return textPane;
+	}
+
+	public void setTextPane(JTextPane textPane) {
+		this.textPane = textPane;
+	}
+
 	public JTextField getTxtName() {
 		return txtName;
 	}
@@ -33,19 +45,19 @@ public class ActionView extends JPanel {
 		this.txtName = txtName;
 	}
 
-	public JList getLstAction() {
+	public JList<String> getLstAction() {
 		return lstAction;
 	}
 
-	public void setLstAction(JList lstAction) {
+	public void setLstAction(JList<String> lstAction) {
 		this.lstAction = lstAction;
 	}
 
-	public JList getLstPosition() {
+	public JList<String> getLstPosition() {
 		return lstPosition;
 	}
 
-	public void setLstPosition(JList lstPosition) {
+	public void setLstPosition(JList<String> lstPosition) {
 		this.lstPosition = lstPosition;
 	}
 
@@ -106,16 +118,6 @@ public class ActionView extends JPanel {
 		lblTitle.setFont(new Font("Lucida Grande", Font.BOLD, 18));
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		lstAction = new JList();
-		
-		lstPosition = new JList();
-		
-		JLabel lblPosition = new JLabel("Posições:");
-		lblPosition.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-		
-		JLabel lblAction = new JLabel("Ações:");
-		lblAction.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-		
 		txtName = new JTextField();
 		txtName.setColumns(20);
 		
@@ -132,7 +134,7 @@ public class ActionView extends JPanel {
 		txtaDescription.setTabSize(0);
 		txtaDescription.setRows(2);
 		
-		JTextPane textPane = new JTextPane();
+		textPane = new JTextPane();
 		textPane.setEditable(false);
 		
 		btnSave = new JButton("Salvar");
@@ -145,6 +147,8 @@ public class ActionView extends JPanel {
 		
 		btnAddPosition = new JButton(">>");
 		
+		JPanel pnPos = new JPanel();
+		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.TRAILING)
@@ -155,14 +159,10 @@ public class ActionView extends JPanel {
 							.addComponent(lblTitle, GroupLayout.DEFAULT_SIZE, 788, Short.MAX_VALUE)
 							.addContainerGap())
 						.addGroup(groupLayout.createSequentialGroup()
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-								.addComponent(lblAction, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(lstPosition, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(lstAction, GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)
-								.addComponent(lblPosition))
-							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(pnPos, GroupLayout.PREFERRED_SIZE, 166, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(btnAddPosition, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addGap(18)
 							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 								.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
 									.addGroup(groupLayout.createSequentialGroup()
@@ -172,7 +172,7 @@ public class ActionView extends JPanel {
 										.addPreferredGap(ComponentPlacement.RELATED)
 										.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
 											.addComponent(txtName)
-											.addComponent(txtaDescription, GroupLayout.DEFAULT_SIZE, 357, Short.MAX_VALUE)))
+											.addComponent(txtaDescription, GroupLayout.PREFERRED_SIZE, 357, GroupLayout.PREFERRED_SIZE)))
 									.addGroup(groupLayout.createSequentialGroup()
 										.addComponent(btnPlay)
 										.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -182,50 +182,64 @@ public class ActionView extends JPanel {
 										.addPreferredGap(ComponentPlacement.RELATED)
 										.addComponent(btnSave)))
 								.addComponent(textPane, GroupLayout.PREFERRED_SIZE, 444, GroupLayout.PREFERRED_SIZE))
-							.addGap(72))))
+							.addGap(40))))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(26)
 					.addComponent(lblTitle)
-					.addPreferredGap(ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
-							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblName)
-								.addComponent(txtName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addGap(6))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(lblPosition)
-							.addPreferredGap(ComponentPlacement.RELATED)))
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(txtaDescription, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblDescription))
-							.addGap(12)
-							.addComponent(textPane, GroupLayout.PREFERRED_SIZE, 330, GroupLayout.PREFERRED_SIZE))
-						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(32)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+										.addComponent(lblName)
+										.addComponent(txtName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+										.addComponent(txtaDescription, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addComponent(lblDescription))
+									.addGap(12)
+									.addComponent(textPane, GroupLayout.PREFERRED_SIZE, 330, GroupLayout.PREFERRED_SIZE))
+								.addComponent(pnPos, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addGroup(groupLayout.createSequentialGroup()
-									.addGap(67)
-									.addComponent(btnAddPosition))
-								.addGroup(groupLayout.createSequentialGroup()
-									.addComponent(lstPosition, GroupLayout.PREFERRED_SIZE, 167, GroupLayout.PREFERRED_SIZE)
-									.addGap(18)
-									.addComponent(lblAction)
-									.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-									.addComponent(lstAction, GroupLayout.PREFERRED_SIZE, 167, GroupLayout.PREFERRED_SIZE)))))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnPlay)
-						.addComponent(btnSave)
-						.addComponent(btnCancel)
-						.addComponent(btnDelete))
-					.addContainerGap())
+							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(btnPlay)
+								.addComponent(btnSave)
+								.addComponent(btnCancel)
+								.addComponent(btnDelete))
+							.addContainerGap())
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(118)
+							.addComponent(btnAddPosition)
+							.addContainerGap())))
 		);
+		pnPos.setLayout(null);
+		
+		JLabel lblPosition = new JLabel("Posições:");
+		lblPosition.setBounds(0, 0, 72, 20);
+		pnPos.add(lblPosition);
+		lblPosition.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
+		
+		JScrollPane scpPosition = new JScrollPane();
+		pnPos.add(scpPosition);
+		scpPosition.setBounds(new Rectangle(0, 25, 166, 180));
+		lstPosition = new JList<String>();
+		scpPosition.setViewportView(lstPosition);
+		
+		JLabel lblAction = new JLabel("Ações:");
+		lblAction.setBounds(0, 217, 143, 20);
+		pnPos.add(lblAction);
+		lblAction.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
+		
+		JScrollPane scpAction = new JScrollPane();
+		pnPos.add(scpAction);
+		scpAction.setBounds(new Rectangle(0, 239, 166, 180));
+		lstAction = new JList<String>();
+		scpAction.setViewportView(lstAction);
+		
 		setLayout(groupLayout);
 
 	}

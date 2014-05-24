@@ -1,17 +1,13 @@
 package armani.anderson.sihts.model;
 
 public class ActionVO {
-	final static String COL_ID = "id";
-	final static String COL_NAME = "name";
-	final static String COL_DESCRIPTION = "description";
-	
-	private int id;
+	private long id;
 	private String name;
 	private String description;
-	public int getId() {
+	public long getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public String getName() {

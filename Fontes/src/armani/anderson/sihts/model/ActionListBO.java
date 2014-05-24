@@ -5,8 +5,9 @@ import java.util.List;
 public class ActionListBO {
 	
 	public boolean insert(ActionListVO actionListVO) {
+		ActionListDAO actLstDAO = new ActionListDAO();
 		
-		return false;
+		return actLstDAO.insert(actionListVO);
 	}
 	
 	public List<ActionListVO> select(ActionListVO actionListVO) {
