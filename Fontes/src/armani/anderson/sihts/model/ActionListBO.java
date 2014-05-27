@@ -11,17 +11,20 @@ public class ActionListBO {
 	}
 	
 	public List<ActionListVO> select(ActionListVO actionListVO) {
-		
-		return null;
+		ActionListDAO actLstDAO = new ActionListDAO();
+
+		return actLstDAO.select(actionListVO);
 	}
 	
 	public int update(ActionListVO actionListVO) {
+		ActionListDAO actLstDAO = new ActionListDAO();
 		
-		return 0;
+		return actLstDAO.update(actionListVO);
 	}
 	
 	public int delete(ActionListVO actionListVO) {
-	
-		return 0;
+		ActionListDAO actLstDAO = new ActionListDAO();
+
+		return actLstDAO.delete(actionListVO);
 	}
 }

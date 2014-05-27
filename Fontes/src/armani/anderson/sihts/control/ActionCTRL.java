@@ -12,13 +12,13 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import armani.anderson.sihts.model.ActionBO;
-import armani.anderson.sihts.model.ActionDAO;
 import armani.anderson.sihts.model.ActionListBO;
 import armani.anderson.sihts.model.ActionListVO;
 import armani.anderson.sihts.model.ActionVO;
 import armani.anderson.sihts.model.PositionBO;
 import armani.anderson.sihts.model.PositionVO;
 import armani.anderson.sihts.serial.RoboticArm;
+import armani.anderson.sihts.view.ActPositionView;
 import armani.anderson.sihts.view.ActionView;
 
 /**
@@ -36,6 +36,7 @@ public class ActionCTRL implements ActionListener, ListSelectionListener{
 	Vector<String> vctPosition = null;
 	Vector<String> vctAction = null;
 	
+	Map<Integer, ActPositionView> mapViewPositions= null;
 	Map<String, PositionVO> mapPosition = null;
 	Map<Integer, PositionVO> mapActionPositions = null;
 	ActionVO currentActionVO = null;
@@ -129,6 +130,13 @@ public class ActionCTRL implements ActionListener, ListSelectionListener{
 				Integer index = mapActionPositions.size();
 				mapActionPositions.put(index, posVO);
 				
+				ActPositionView actPosView = new ActPositionView();
+				actPosView.getLblPositionName().setText(posVO.getName());
+				
+				//adicionar no map e mandar printar o map pois pode alterar posição
+				this.actView.getPnActionPositions().add(actPosView);
+				this.actView.updateUI();
+				
 				for(int i = 0; i < mapActionPositions.size(); i++) {
 					System.out.println("POS ACT = " + mapActionPositions.get(i).getName());
 				}
@@ -137,9 +145,7 @@ public class ActionCTRL implements ActionListener, ListSelectionListener{
 			}
 		}
 		else if(objBtn == this.actView.getBtnCancel()) {
-			this.actView.getTxtaDescription().setText(null);
-			this.actView.getTxtName().setText(null);
-			this.actView.getTextPane().setText(null);
+			clearActionView();
 		}
 		else if(objBtn == this.actView.getBtnDelete()) {
 			
@@ -187,7 +193,6 @@ public class ActionCTRL implements ActionListener, ListSelectionListener{
 	private void clearActionView() {
 		this.actView.getTxtName().setText(null);
 		this.actView.getTxtaDescription().setText(null);
-		this.actView.getTextPane().setText(null);
 		
 		mapActionPositions.clear();
 	}

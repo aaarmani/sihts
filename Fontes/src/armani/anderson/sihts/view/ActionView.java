@@ -16,6 +16,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.JButton;
 import java.awt.Rectangle;
+import java.awt.Color;
 
 public class ActionView extends JPanel {
 	private JTextField txtName = null;
@@ -27,14 +28,14 @@ public class ActionView extends JPanel {
 	private JButton btnDelete = null;
 	private JButton btnPlay = null;
 	private JButton btnAddPosition = null; 
-	private JTextPane textPane = null;
+	private JPanel pnActionPositions = null;
 	
-	public JTextPane getTextPane() {
-		return textPane;
+	public JPanel getPnActionPositions() {
+		return pnActionPositions;
 	}
 
-	public void setTextPane(JTextPane textPane) {
-		this.textPane = textPane;
+	public void setPnActionPositions(JPanel pnActionPositions) {
+		this.pnActionPositions = pnActionPositions;
 	}
 
 	public JTextField getTxtName() {
@@ -134,8 +135,8 @@ public class ActionView extends JPanel {
 		txtaDescription.setTabSize(0);
 		txtaDescription.setRows(2);
 		
-		textPane = new JTextPane();
-		textPane.setEditable(false);
+		pnActionPositions = new JPanel();
+		pnActionPositions.setBackground(Color.WHITE);
 		
 		btnSave = new JButton("Salvar");
 		
@@ -181,7 +182,7 @@ public class ActionView extends JPanel {
 										.addComponent(btnCancel)
 										.addPreferredGap(ComponentPlacement.RELATED)
 										.addComponent(btnSave)))
-								.addComponent(textPane, GroupLayout.PREFERRED_SIZE, 444, GroupLayout.PREFERRED_SIZE))
+								.addComponent(pnActionPositions, GroupLayout.PREFERRED_SIZE, 444, GroupLayout.PREFERRED_SIZE))
 							.addGap(40))))
 		);
 		groupLayout.setVerticalGroup(
@@ -202,7 +203,7 @@ public class ActionView extends JPanel {
 										.addComponent(txtaDescription, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 										.addComponent(lblDescription))
 									.addGap(12)
-									.addComponent(textPane, GroupLayout.PREFERRED_SIZE, 330, GroupLayout.PREFERRED_SIZE))
+									.addComponent(pnActionPositions, GroupLayout.PREFERRED_SIZE, 330, GroupLayout.PREFERRED_SIZE))
 								.addComponent(pnPos, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
