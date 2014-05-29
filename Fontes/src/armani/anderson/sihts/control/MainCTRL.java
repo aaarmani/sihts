@@ -2,15 +2,20 @@ package armani.anderson.sihts.control;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import armani.anderson.sihts.model.ConfigurationVO;
 import armani.anderson.sihts.serial.Al5b;
 import armani.anderson.sihts.serial.RoboticArm;
 import armani.anderson.sihts.view.ActionView;
+import armani.anderson.sihts.view.ConfigurationView;
 import armani.anderson.sihts.view.MainView;
 import armani.anderson.sihts.view.PositionView;
 /**
@@ -24,6 +29,7 @@ public class MainCTRL implements ActionListener{
 	public final String PN_OBJECT		= "ObjectSettings";
 	public final String PN_POSITION		= "PositionSettings";
 	public final String PN_ACTION		= "ActionSettings";
+	public final String PN_CONFIG		= "Configurations";
 	
 	MainView mainFrame = null;
 	Map<String, JPanel> mapPanel = null;
@@ -33,6 +39,7 @@ public class MainCTRL implements ActionListener{
 	JPanel pnCur = null;
 	PositionCTRL posCtrl = null;
 	ActionCTRL actCtrl = null;
+	
 	
 	/**
 	 * Método contrutor da classe controlador do frame principal
@@ -47,10 +54,15 @@ public class MainCTRL implements ActionListener{
 		PositionView pnObject = new PositionView('O');
 		PositionView pnPosition = new PositionView('P');
 		ActionView pnAction = new ActionView();
+		ConfigurationView pnConfiguration = new ConfigurationView();
 		
 		mapPanel.put(PN_OBJECT, pnObject);
 		mapPanel.put(PN_POSITION, pnPosition);
 		mapPanel.put(PN_ACTION, pnAction);
+		mapPanel.put(PN_CONFIG, pnConfiguration);
+				
+		//read config.properties and sets configuration
+		configInitialize();
 		
 		if(initializeRoboticArm() == false) {
 			enableMenu(false);
@@ -59,6 +71,17 @@ public class MainCTRL implements ActionListener{
 		this.mainFrame.getMntmAction().addActionListener(this);
 		this.mainFrame.getMntmObjeto().addActionListener(this);
 		this.mainFrame.getMntmPosition().addActionListener(this);
+	}
+
+	private void configInitialize() {
+		ConfigurationVO configVo = null;
+		try {
+			configVo = new ConfigurationVO();
+			
+			
+		} catch (FileNotFoundException e) {
+			
+		}
 	}
 
 	/**

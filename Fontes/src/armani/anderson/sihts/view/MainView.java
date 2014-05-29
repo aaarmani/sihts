@@ -90,6 +90,9 @@ public class MainView extends JFrame {
 		JMenu mnArquivo = new JMenu("Arquivo");
 		menuBar.add(mnArquivo);
 		
+		JMenuItem mntmConfig = new JMenuItem("Configuração");
+		mnArquivo.add(mntmConfig);
+		
 		JMenuItem mntmSair = new JMenuItem("Sair");
 		mnArquivo.add(mntmSair);
 		
