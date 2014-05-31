@@ -73,6 +73,10 @@ public class MainCTRL implements ActionListener{
 		this.mainFrame.getMntmPosition().addActionListener(this);
 	}
 
+	/**
+	 * Método de inicialização dos parâmetros pré-configurados
+	 * Caso não exista arquivo de configuração cria um novo e inicia na tela de configuração
+	 */
 	private void configInitialize() {
 		ConfigurationVO configVo = null;
 		try {

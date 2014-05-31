@@ -2,6 +2,11 @@ package armani.anderson.sihts.model;
 
 import java.util.List;
 
+/**
+ * Classe que descreve a entidade Action
+ * @author armani
+ * V00.01
+ */
 public class ActionBO {
 
 	public boolean insert(ActionVO actionVO) {

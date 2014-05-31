@@ -9,6 +9,11 @@ import java.util.List;
 
 import armani.anderson.sihts.factory.ConnectionFactory;
 
+/**
+ * <p>Classe que contém os métodos de acesso a tabela Action do banco no padrão DAO
+ * @author armani
+ * V00.01
+ */
 public class ActionDAO {
 	final static String COL_ID = "id";
 	final static String COL_NAME = "name";
