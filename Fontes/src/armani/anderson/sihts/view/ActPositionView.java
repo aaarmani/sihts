@@ -8,7 +8,6 @@ import java.awt.Font;
 import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ImageIcon;
-import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
 
@@ -16,6 +15,16 @@ public class ActPositionView extends JPanel {
 	private JLabel lblPositionName = null;
 	private JButton btnUp = null;
 	private JButton btnDown = null;
+	private JButton btnDelete = null;
+	private int index = -1;
+	
+	public JButton getBtnDelete() {
+		return btnDelete;
+	}
+
+	public void setBtnDelete(JButton btnDelete) {
+		this.btnDelete = btnDelete;
+	}
 	
 	public JLabel getLblPositionName() {
 		return lblPositionName;
@@ -44,7 +53,9 @@ public class ActPositionView extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public ActPositionView() {
+	public ActPositionView(int index) {
+		this.index = index;
+		
 		setBackground(Color.WHITE);
 		setBorder(new LineBorder(Color.LIGHT_GRAY, 2, true));
 		
@@ -57,8 +68,8 @@ public class ActPositionView extends JPanel {
 		btnDown = new JButton("");
 		btnDown.setIcon(new ImageIcon("/Users/armani/Documents/Senac/TCC/Imagens/arrow-down.png"));
 		
-		JButton btnExcluir = new JButton("");
-		btnExcluir.setIcon(new ImageIcon("/Users/armani/Documents/Senac/TCC/Imagens/1401169701_f-cross_256.png"));
+		btnDelete = new JButton("");
+		btnDelete.setIcon(new ImageIcon("/Users/armani/Documents/Senac/TCC/Imagens/1401169701_f-cross_256.png"));
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -70,7 +81,7 @@ public class ActPositionView extends JPanel {
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(btnUp)
 					.addGap(18)
-					.addComponent(btnExcluir)
+					.addComponent(btnDelete)
 					.addContainerGap())
 		);
 		groupLayout.setVerticalGroup(
@@ -80,11 +91,19 @@ public class ActPositionView extends JPanel {
 					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 						.addComponent(btnDown)
 						.addComponent(btnUp)
-						.addComponent(btnExcluir))
+						.addComponent(btnDelete))
 					.addContainerGap(8, Short.MAX_VALUE))
 				.addComponent(lblPositionName, GroupLayout.DEFAULT_SIZE, 58, Short.MAX_VALUE)
 		);
 		setLayout(groupLayout);
 
+	}
+
+	public int getIndex() {
+		return index;
+	}
+
+	public void setIndex(int index) {
+		this.index = index;
 	}
 }

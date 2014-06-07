@@ -28,7 +28,25 @@ public class MainView extends JFrame {
 	private JMenuItem mntmAction;
 	private JMenuItem mntmPosition;
 	private JMenuItem mntmObjeto;
+	private JMenuItem mntmConfig;
+	private JMenuItem mntmSair;
 	
+	public JMenuItem getMntmSair() {
+		return mntmSair;
+	}
+
+	public void setMntmSair(JMenuItem mntmSair) {
+		this.mntmSair = mntmSair;
+	}
+
+	public JMenuItem getMntmConfig() {
+		return mntmConfig;
+	}
+
+	public void setMntmConfig(JMenuItem mntmConfig) {
+		this.mntmConfig = mntmConfig;
+	}
+
 	public JPanel getPnCenter() {
 		return pnCenter;
 	}
@@ -90,10 +108,10 @@ public class MainView extends JFrame {
 		JMenu mnArquivo = new JMenu("Arquivo");
 		menuBar.add(mnArquivo);
 		
-		JMenuItem mntmConfig = new JMenuItem("Configuração");
+		mntmConfig = new JMenuItem("Configuração");
 		mnArquivo.add(mntmConfig);
 		
-		JMenuItem mntmSair = new JMenuItem("Sair");
+		mntmSair = new JMenuItem("Sair");
 		mnArquivo.add(mntmSair);
 		
 		JMenu mnTeste = new JMenu("Teste");
@@ -131,6 +149,8 @@ public class MainView extends JFrame {
 		
 		mntmObjeto = new JMenuItem("Objeto");
 		mnCadastro.add(mntmObjeto);
+		
+		
 		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

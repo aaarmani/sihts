@@ -156,7 +156,7 @@ public class PositionCTRL implements ActionListener, ChangeListener, ListSelecti
 			return;
 		}
 		
-		roboticArm.sendPosition(intArtc, intPos, 10);
+		roboticArm.sendPosition(intArtc, intPos, 1000);
 	}
 
 	@Override

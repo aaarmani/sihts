@@ -128,7 +128,7 @@ public class Al5b implements RoboticArm {
 		
 		strSend = '#' + Integer.toString(intArticulation);
 		strSend += 'P' + Integer.toString(intPosition);
-		strSend += 'T' + Integer.toString(intTime);
+		strSend += 'S' + Integer.toString(intTime);
 		strSend += '\r';
 		
 		//RETIRAR

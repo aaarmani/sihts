@@ -39,6 +39,7 @@ public class MainCTRL implements ActionListener{
 	JPanel pnCur = null;
 	PositionCTRL posCtrl = null;
 	ActionCTRL actCtrl = null;
+	ConfigurationCTRL confCtrl = null;
 	
 	
 	/**
@@ -71,6 +72,8 @@ public class MainCTRL implements ActionListener{
 		this.mainFrame.getMntmAction().addActionListener(this);
 		this.mainFrame.getMntmObjeto().addActionListener(this);
 		this.mainFrame.getMntmPosition().addActionListener(this);
+		this.mainFrame.getMntmConfig().addActionListener(this);
+		this.mainFrame.getMntmSair().addActionListener(this);
 	}
 
 	/**
@@ -78,14 +81,9 @@ public class MainCTRL implements ActionListener{
 	 * Caso não exista arquivo de configuração cria um novo e inicia na tela de configuração
 	 */
 	private void configInitialize() {
-		ConfigurationVO configVo = null;
-		try {
-			configVo = new ConfigurationVO();
-			
-			
-		} catch (FileNotFoundException e) {
-			
-		}
+		//ConfigurationVO configVo = null;
+
+		//configVo = new ConfigurationVO();
 	}
 
 	/**
@@ -139,6 +137,9 @@ public class MainCTRL implements ActionListener{
 		else if (strPnCur == PN_ACTION) {
 			actCtrl = new ActionCTRL((ActionView)pnCur, roboticArm);
 		}
+		else if (strPnCur == PN_CONFIG) {
+			confCtrl = new ConfigurationCTRL((ConfigurationView)pnCur);
+		}
 		
 		System.out.println("Set frame " + strPnCur);
 	}
@@ -160,5 +161,12 @@ public class MainCTRL implements ActionListener{
 		else if(objSource == this.mainFrame.getMntmAction()) {
 			setCurrentPanel(PN_ACTION);
 		}
+		else if(objSource == this.mainFrame.getMntmConfig()) {
+			setCurrentPanel(PN_CONFIG);
+		}
+		else if(objSource == this.mainFrame.getMntmSair()) {
+			System.exit(0);
+		}
+		
 	}
 }
