@@ -28,7 +28,7 @@ public class ActionBO {
 	}
 	
 	public int delete(ActionVO actionVO) {
-	
-		return 0;
+		ActionDAO actDAO = new ActionDAO();
+		return actDAO.delete(actionVO);
 	}
 }

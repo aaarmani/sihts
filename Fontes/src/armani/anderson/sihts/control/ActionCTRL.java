@@ -1,5 +1,6 @@
 package armani.anderson.sihts.control;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
@@ -8,6 +9,7 @@ import java.util.Map;
 import java.util.Vector;
 
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -40,6 +42,8 @@ public class ActionCTRL implements ActionListener, ListSelectionListener{
 	Map<Integer, ActPositionView> mapViewPositions= null;
 	Map<String, PositionVO> mapPosition = null;
 	Map<Integer, PositionVO> mapActionPositions = null;
+	Map<Integer, ActPositionView> mapActPosViews = null;
+	
 	ActionVO currentActionVO = null;
 	
 	/**
@@ -56,6 +60,7 @@ public class ActionCTRL implements ActionListener, ListSelectionListener{
 		
 		mapPosition = new HashMap<String, PositionVO>();
 		mapActionPositions = new HashMap<Integer, PositionVO>();
+		mapActPosViews = new HashMap<Integer, ActPositionView>();
 		
 		jlstAction = this.actView.getLstAction();
 		jlstPosition = this.actView.getLstPosition();
@@ -127,29 +132,7 @@ public class ActionCTRL implements ActionListener, ListSelectionListener{
 			if(posName != null) {
 				System.out.println("Position Selected = " + posName);
 				
-				PositionVO posVO = mapPosition.get(posName);
-				
-				Integer index = mapActionPositions.size();
-				mapActionPositions.put(index, posVO);
-				
-				System.out.println("INDEX = " + index + " pos =  " + posVO.getName());
-				
-				ActPositionView actPosView = new ActPositionView(index);
-				//ActPositionView actPosView = new ActPositionView();
-				actPosView.getLblPositionName().setText(posVO.getName());
-				
-				ActPositionCTRL actPosCTRL = new ActPositionCTRL(actPosView, this.actView.getPnActionPositions());
-				
-				//adicionar no map e mandar printar o map pois pode alterar posição
-				this.actView.getPnActionPositions().add(actPosView);
-				this.actView.updateUI();
-				
-				for(int i = 0; i < mapActionPositions.size(); i++) {
-					System.out.println("POS ACT = " + mapActionPositions.get(i).getName());
-				}
-				
-				//insertIntoActionPositionsView();
-				
+				addToActListPositionsPanel(posName);
 				
 				//ativa os botões delete e play
 				this.actView.getBtnPlay().setVisible(true);
@@ -162,16 +145,28 @@ public class ActionCTRL implements ActionListener, ListSelectionListener{
 		}
 		//Deleta Ação selecionada
 		else if(objBtn == this.actView.getBtnDelete()) {
+			//Só pode excluir se tiver ação selecionada
+			if(currentActionVO == null) {
+				return;
+			}
+			
 			//deletar realmente??
+			if(JOptionPane.showConfirmDialog(null, "Deseja excluir realmente esta Ação?") > 0) {
+				//não deve deletar a ação
+				return;
+			}
 			
+			ActionBO actBO = new ActionBO();
 			
+			actBO.delete(currentActionVO);
 			
+			//atualiza a tabela de Ações
+			lstActionInitialize();
 			
 			//se sim 
 			clearActionView();
 			this.actView.getBtnPlay().setVisible(false);
 			this.actView.getBtnDelete().setVisible(false);
-			//mapActionPositions
 		}
 		//Executa a Ação selecionada
 		else if(objBtn == this.actView.getBtnPlay()) {
@@ -203,6 +198,29 @@ public class ActionCTRL implements ActionListener, ListSelectionListener{
 					clearActionView();
 				}
 			}
+			else {
+				JOptionPane.showMessageDialog(null, "Falta nome da Ação", null, JOptionPane.ERROR_MESSAGE);
+			}
+		}
+	}
+
+	/**
+	 * Método que adiciona uma posição na painel de posições de uma ação através do nome da posição.
+	 * @param posName
+	 */
+	private void addToActListPositionsPanel(String posName) {
+		PositionVO posVO = mapPosition.get(posName);
+		
+		Integer index = mapActionPositions.size();
+		mapActionPositions.put(index, posVO);
+		
+		ActPositionView actPosView = new ActPositionView(index, posVO.getName());
+		mapActPosViews.put(index, actPosView);
+		
+		ActPositionCTRL actPosCTRL = new ActPositionCTRL(actPosView, this.actView.getPnActionPositions(), mapActionPositions, mapActPosViews);
+		
+		for(int i = 0; i < mapActionPositions.size(); i++) {
+			System.out.println("POS ACT = " + mapActionPositions.get(i).getName());
 		}
 	}
 
@@ -211,20 +229,21 @@ public class ActionCTRL implements ActionListener, ListSelectionListener{
 	 */
 	private void actionExecute() {
 		for(int i = 0; i < mapActionPositions.size(); i++) {
-			System.out.println("POS ACT = " + mapActionPositions.get(i).getName());
 			
 			PositionVO posVo = mapActionPositions.get(i);
+			System.out.println("SIMULANDO POS " + posVo.getName());
 			
 			roboticArm.sendPosition(Al5b.ARTC_BASE, posVo.getPositionArtc1(), 500);
 			delay(300);
-			roboticArm.sendPosition(Al5b.ARTC_OMBRO, posVo.getPositionArtc1(), 500);
+			roboticArm.sendPosition(Al5b.ARTC_OMBRO, posVo.getPositionArtc2(), 500);
 			delay(300);
-			roboticArm.sendPosition(Al5b.ARTC_COTOVELO, posVo.getPositionArtc1(), 500);
+			roboticArm.sendPosition(Al5b.ARTC_COTOVELO, posVo.getPositionArtc3(), 500);
 			delay(300);
-			roboticArm.sendPosition(Al5b.ARTC_PULSO, posVo.getPositionArtc1(), 500);
+			roboticArm.sendPosition(Al5b.ARTC_PULSO, posVo.getPositionArtc4(), 500);
 			delay(300);
-			roboticArm.sendPosition(Al5b.ARTC_PINCA, posVo.getPositionArtc1(), 500);
-			delay(200);
+			roboticArm.sendPosition(Al5b.ARTC_PINCA, posVo.getPositionArtc5(), 500);
+			delay(2000);
+			
 		}
 	}
 
@@ -251,7 +270,9 @@ public class ActionCTRL implements ActionListener, ListSelectionListener{
 	 * Limpa também o mapa de posições para a ação selecionada
 	 */
 	private void clearActionView() {
+		currentActionVO = null;
 		mapActionPositions.clear();
+		mapActPosViews.clear();
 		
 		this.actView.getTxtName().setText(null);
 		this.actView.getTxtaDescription().setText(null);
@@ -271,13 +292,42 @@ public class ActionCTRL implements ActionListener, ListSelectionListener{
 		
 		if(objLst == this.actView.getLstAction()) {
 			if(e.getValueIsAdjusting() == false) {
+				System.out.println("ACTION!!!");
+				
 				clearActionView();
 				
 				//select na ação e na lista de posições
+				ActionVO actionVO = new ActionVO();
+				ActionBO actBO = new ActionBO();
 
+				actionVO.setName(vctAction.get(jlstAction.getSelectedIndex()));
+				actionVO = actBO.select(actionVO).get(0);
+				
+				//seta para edição
+				currentActionVO = actionVO;
+
+				ActionListVO actionLstVO = new ActionListVO();
+				actionLstVO.setActionId((int)actionVO.getId());
+				
+				ActionListBO actLstBO = new ActionListBO();
+				Vector<String> vctPosName = actLstBO.selectPositions(actionLstVO);
+				
+				for(int i = 0; i < vctPosName.size(); i++) {
+					String posName = vctPosName.elementAt(i);
+					
+					addToActListPositionsPanel(posName);
+				}
+				
 				//seta dados na tela
+				this.actView.getTxtName().setText(actionVO.getName());
+				this.actView.getTxtaDescription().setText(actionVO.getDescription());
 				
 				//atualiza dados na tela
+				this.actView.updateUI();
+			
+				//habilita deletar e simular
+				this.actView.getBtnDelete().setVisible(true);
+				this.actView.getBtnPlay().setVisible(true);
 			}
 		}
 		else if(objLst == this.actView.getLstPosition()) {

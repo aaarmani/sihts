@@ -60,6 +60,8 @@ public class PositionCTRL implements ActionListener, ChangeListener, ListSelecti
 		this.pnCrudPosition.getBtnSalvar().addActionListener(this);
 		this.pnCrudPosition.getBtnCancelar().addActionListener(this);
 		this.pnCrudPosition.getBtnExcluir().addActionListener(this);
+		
+		clearPositionPanel();
 	}
 	
 	/**
@@ -242,10 +244,10 @@ public class PositionCTRL implements ActionListener, ChangeListener, ListSelecti
 		idForEdition = -1;
 
 		this.pnCrudPosition.getTfNome().setText("");
-		this.pnCrudPosition.getSldArtc1().setValue(0);
-		this.pnCrudPosition.getSldArtc2().setValue(0);
-		this.pnCrudPosition.getSldArtc3().setValue(0);
-		this.pnCrudPosition.getSldArtc4().setValue(0);
-		this.pnCrudPosition.getSldArtc5().setValue(0);		
+		this.pnCrudPosition.getSldArtc1().setValue(1000);
+		this.pnCrudPosition.getSldArtc2().setValue(1000);
+		this.pnCrudPosition.getSldArtc3().setValue(1000);
+		this.pnCrudPosition.getSldArtc4().setValue(1000);
+		this.pnCrudPosition.getSldArtc5().setValue(1000);		
 	}
 }

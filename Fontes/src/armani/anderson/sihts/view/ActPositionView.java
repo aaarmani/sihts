@@ -4,11 +4,14 @@ import javax.swing.JPanel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
+
 import java.awt.Font;
+
 import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ImageIcon;
 import javax.swing.border.LineBorder;
+
 import java.awt.Color;
 
 public class ActPositionView extends JPanel {
@@ -52,14 +55,15 @@ public class ActPositionView extends JPanel {
 
 	/**
 	 * Create the panel.
+	 * @param posName 
 	 */
-	public ActPositionView(int index) {
+	public ActPositionView(int index, String posName) {
 		this.index = index;
 		
 		setBackground(Color.WHITE);
 		setBorder(new LineBorder(Color.LIGHT_GRAY, 2, true));
 		
-		lblPositionName = new JLabel("Position Name");
+		lblPositionName = new JLabel(posName);
 		lblPositionName.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
 		
 		btnUp = new JButton("");

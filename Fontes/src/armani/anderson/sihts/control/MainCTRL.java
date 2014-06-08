@@ -31,6 +31,8 @@ public class MainCTRL implements ActionListener{
 	public final String PN_ACTION		= "ActionSettings";
 	public final String PN_CONFIG		= "Configurations";
 	
+	String PROPERTIES_STR_SERIAL = "";
+	
 	MainView mainFrame = null;
 	Map<String, JPanel> mapPanel = null;
 	
@@ -67,6 +69,9 @@ public class MainCTRL implements ActionListener{
 		
 		if(initializeRoboticArm() == false) {
 			enableMenu(false);
+			
+			//inicializa o painel de configuração do sistema
+			setCurrentPanel(PN_CONFIG);
 		}
 		
 		this.mainFrame.getMntmAction().addActionListener(this);
@@ -81,9 +86,9 @@ public class MainCTRL implements ActionListener{
 	 * Caso não exista arquivo de configuração cria um novo e inicia na tela de configuração
 	 */
 	private void configInitialize() {
-		//ConfigurationVO configVo = null;
-
-		//configVo = new ConfigurationVO();
+		ConfigurationVO configVO = new ConfigurationVO();
+		
+		PROPERTIES_STR_SERIAL = configVO.getValue("prop.serial.interface.name");
 	}
 
 	/**
@@ -105,7 +110,7 @@ public class MainCTRL implements ActionListener{
 	 */
 	private boolean initializeRoboticArm() {
 		try {
-			roboticArm = new Al5b("/dev/tty.usbserial");
+			roboticArm = new Al5b(PROPERTIES_STR_SERIAL);
 			return true;
 		} catch (Exception e1) {
 			if(roboticArm != null) {

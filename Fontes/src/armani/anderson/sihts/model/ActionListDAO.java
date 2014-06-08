@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Vector;
 
 import armani.anderson.sihts.factory.ConnectionFactory;
 
@@ -58,7 +59,7 @@ public class ActionListDAO {
 		PreparedStatement stmt = null;
 		List<ActionListVO> lstActListVO = null;
 		
-		String sql = "SELECT * FROM action";
+		String sql = "SELECT * FROM action_list";
 		
 		if(actionListVO != null) {
 			String where = " WHERE ";
@@ -128,5 +129,46 @@ public class ActionListDAO {
 	public int delete(ActionListVO actionListVO) {
 	
 		return 0;
+	}
+
+	public Vector<String> selectPositions(ActionListVO actionLstVO) {
+		ResultSet resSet = null;
+		Connection connection = null;
+		PreparedStatement stmt = null;
+		Vector<String> vctPosName = null;
+		
+		String sql = "SELECT position.name FROM action_list, position WHERE action_list.position_id = position.id AND action_id = ";
+		sql += actionLstVO.getActionId();
+		sql += " ORDER BY action_list.index";
+
+		System.out.println(sql);
+		try {
+			connection = new ConnectionFactory().getConnection();
+			stmt = connection.prepareStatement(sql);
+			
+			if(stmt.execute() == true) {
+				resSet = stmt.getResultSet();
+				if(resSet != null) {
+
+					vctPosName = new Vector<>();
+					while(resSet.next()) {
+						vctPosName.add(resSet.getString("name"));
+					}
+				}
+			}
+			
+			stmt.close();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			try {
+				stmt.close();
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return vctPosName;
+
 	}
 }

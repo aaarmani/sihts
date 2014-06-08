@@ -141,11 +141,7 @@ public class PositionView extends JPanel {
 		lblLstPosition = new JLabel("Posições Cadastradas:");
 		lblLstPosition.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
 		
-		JPanel pnLeft = new JPanel();
-		
-		lstPosition = new JList();
-		lstPosition.setBounds(6, 6, 311, 284);
-		pnLeft.add(lstPosition);
+		JScrollPane scrollPane = new JScrollPane();
 		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
@@ -156,12 +152,9 @@ public class PositionView extends JPanel {
 						.addComponent(lblTitle, GroupLayout.DEFAULT_SIZE, 768, Short.MAX_VALUE)
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addGroup(groupLayout.createSequentialGroup()
-									.addComponent(lblLstPosition, GroupLayout.DEFAULT_SIZE, 311, Short.MAX_VALUE)
-									.addGap(18))
-								.addGroup(groupLayout.createSequentialGroup()
-									.addComponent(pnLeft, GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE)
-									.addPreferredGap(ComponentPlacement.RELATED)))
+								.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 311, Short.MAX_VALUE)
+								.addComponent(lblLstPosition, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 311, Short.MAX_VALUE))
+							.addGap(18)
 							.addComponent(pnRight, GroupLayout.PREFERRED_SIZE, 439, GroupLayout.PREFERRED_SIZE)))
 					.addContainerGap())
 		);
@@ -176,10 +169,12 @@ public class PositionView extends JPanel {
 						.addGroup(groupLayout.createSequentialGroup()
 							.addComponent(lblLstPosition)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(pnLeft, GroupLayout.PREFERRED_SIZE, 296, GroupLayout.PREFERRED_SIZE)))
+							.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 323, GroupLayout.PREFERRED_SIZE)))
 					.addContainerGap())
 		);
-		pnLeft.setLayout(null);
+		
+		lstPosition = new JList();
+		scrollPane.setViewportView(lstPosition);
 		
 		JLabel lblArtc5 = new JLabel("Pinça");
 		lblArtc5.setFont(new Font("Lucida Grande", Font.PLAIN, 16));

@@ -7,6 +7,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
+import javax.swing.JOptionPane;
+
 public class ConfigurationVO {
 	private Properties properties;
 	final char SEPARATOR = File.separatorChar;
@@ -63,6 +65,8 @@ public class ConfigurationVO {
 		try {
 			file = new FileOutputStream(propertiesName);
 			properties.store(file, null);
+			
+			JOptionPane.showMessageDialog(null, "Arquivo de configurações salvo!", null, JOptionPane.INFORMATION_MESSAGE);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

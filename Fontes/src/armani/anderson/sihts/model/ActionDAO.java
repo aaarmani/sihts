@@ -66,9 +66,6 @@ public class ActionDAO {
 		if(actionVO != null) {
 			String where = " WHERE ";
 			
-			if(actionVO.getId() >= 0) {
-				where += COL_ID + " = " + actionVO.getId();
-			}
 			
 			if(actionVO.getName() != "") {
 				where += COL_NAME + " = '" + actionVO.getName() + "'";

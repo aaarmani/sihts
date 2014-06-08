@@ -1,6 +1,7 @@
 package armani.anderson.sihts.model;
 
 import java.util.List;
+import java.util.Vector;
 
 public class ActionListBO {
 	
@@ -26,5 +27,10 @@ public class ActionListBO {
 		ActionListDAO actLstDAO = new ActionListDAO();
 
 		return actLstDAO.delete(actionListVO);
+	}
+
+	public Vector<String> selectPositions(ActionListVO actionLstVO) {
+		ActionListDAO actLstDAO = new ActionListDAO();
+		return actLstDAO.selectPositions(actionLstVO);
 	}
 }
