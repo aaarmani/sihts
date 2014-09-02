@@ -18,6 +18,7 @@ import armani.anderson.sihts.view.ActionView;
 import armani.anderson.sihts.view.ConfigurationView;
 import armani.anderson.sihts.view.MainView;
 import armani.anderson.sihts.view.PositionView;
+import armani.anderson.sihts.view.TestView;
 /**
  * <p>Classe controlador para a tela principal do software, responsável pelo controle de Menus, Inicialização do Braço Robótico e 
  * Inicialização dos métodos callback dos CONTROLERS das páginas
@@ -30,6 +31,8 @@ public class MainCTRL implements ActionListener{
 	public final String PN_POSITION		= "PositionSettings";
 	public final String PN_ACTION		= "ActionSettings";
 	public final String PN_CONFIG		= "Configurations";
+	public final String PN_TEST			= "TestSettings";
+	public final String PN_SCRIPT		= "ScriptSettings";
 	
 	String PROPERTIES_STR_SERIAL = "";
 	
@@ -42,6 +45,7 @@ public class MainCTRL implements ActionListener{
 	PositionCTRL posCtrl = null;
 	ActionCTRL actCtrl = null;
 	ConfigurationCTRL confCtrl = null;
+	TestCTRL testCtrl = null;
 	
 	
 	/**
@@ -58,11 +62,14 @@ public class MainCTRL implements ActionListener{
 		PositionView pnPosition = new PositionView('P');
 		ActionView pnAction = new ActionView();
 		ConfigurationView pnConfiguration = new ConfigurationView();
+		TestView pnTest = new TestView();
 		
 		mapPanel.put(PN_OBJECT, pnObject);
 		mapPanel.put(PN_POSITION, pnPosition);
 		mapPanel.put(PN_ACTION, pnAction);
 		mapPanel.put(PN_CONFIG, pnConfiguration);
+		mapPanel.put(PN_TEST, pnTest);
+		//mapPanel.put(PN_SCRIPT, pnScript);
 				
 		//read config.properties and sets configuration
 		configInitialize();
@@ -79,6 +86,8 @@ public class MainCTRL implements ActionListener{
 		this.mainFrame.getMntmPosition().addActionListener(this);
 		this.mainFrame.getMntmConfig().addActionListener(this);
 		this.mainFrame.getMntmSair().addActionListener(this);
+		this.mainFrame.getMntmNewTst().addActionListener(this);
+		this.mainFrame.getMntmNewScpt().addActionListener(this);
 	}
 
 	/**
@@ -140,10 +149,16 @@ public class MainCTRL implements ActionListener{
 			posCtrl = new PositionCTRL((PositionView) pnCur, roboticArm);	
 		}
 		else if (strPnCur == PN_ACTION) {
-			actCtrl = new ActionCTRL((ActionView)pnCur, roboticArm);
+			actCtrl = new ActionCTRL((ActionView) pnCur, roboticArm);
 		}
 		else if (strPnCur == PN_CONFIG) {
 			confCtrl = new ConfigurationCTRL((ConfigurationView)pnCur);
+		}
+		else if (strPnCur == PN_TEST) {
+			testCtrl = new TestCTRL((TestView) pnCur, roboticArm);
+		}
+		else if (strPnCur == PN_SCRIPT) {
+			//testCtrl = new TestCTRL((TestView) pnCur, roboticArm);
 		}
 		
 		System.out.println("Set frame " + strPnCur);
@@ -165,6 +180,12 @@ public class MainCTRL implements ActionListener{
 		}
 		else if(objSource == this.mainFrame.getMntmAction()) {
 			setCurrentPanel(PN_ACTION);
+		}
+		else if(objSource == this.mainFrame.getMntmNewTst()) {
+			setCurrentPanel(PN_TEST);
+		}
+		else if(objSource == this.mainFrame.getMntmNewScpt()) {
+			setCurrentPanel(PN_SCRIPT);
 		}
 		else if(objSource == this.mainFrame.getMntmConfig()) {
 			setCurrentPanel(PN_CONFIG);

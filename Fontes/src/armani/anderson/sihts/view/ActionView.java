@@ -13,8 +13,9 @@ import javax.swing.JScrollPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
-import javax.swing.JTextPane;
 import javax.swing.JButton;
+
+import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.Color;
 
@@ -28,14 +29,15 @@ public class ActionView extends JPanel {
 	private JButton btnDelete = null;
 	private JButton btnPlay = null;
 	private JButton btnAddPosition = null; 
-	private JPanel pnActionPositions = null;
+	private JPanel pnActionPositions2 = null;
+	private JScrollPane pnActionPositions = null;
 	
 	public JPanel getPnActionPositions() {
-		return pnActionPositions;
+		return pnActionPositions2;
 	}
 
 	public void setPnActionPositions(JPanel pnActionPositions) {
-		this.pnActionPositions = pnActionPositions;
+		this.pnActionPositions2 = pnActionPositions;
 	}
 
 	public JTextField getTxtName() {
@@ -135,7 +137,9 @@ public class ActionView extends JPanel {
 		txtaDescription.setTabSize(0);
 		txtaDescription.setRows(2);
 		
-		pnActionPositions = new JPanel();
+		pnActionPositions2 = new JPanel();
+		pnActionPositions2.setBackground(Color.WHITE);
+		pnActionPositions = new JScrollPane();
 		pnActionPositions.setBackground(Color.WHITE);
 		
 		btnSave = new JButton("Salvar");
@@ -210,12 +214,11 @@ public class ActionView extends JPanel {
 								.addComponent(btnPlay)
 								.addComponent(btnSave)
 								.addComponent(btnCancel)
-								.addComponent(btnDelete))
-							.addContainerGap())
+								.addComponent(btnDelete)))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(118)
-							.addComponent(btnAddPosition)
-							.addContainerGap())))
+							.addComponent(btnAddPosition)))
+					.addContainerGap())
 		);
 		pnPos.setLayout(null);
 		
@@ -240,6 +243,10 @@ public class ActionView extends JPanel {
 		scpAction.setBounds(new Rectangle(0, 239, 166, 180));
 		lstAction = new JList<String>();
 		scpAction.setViewportView(lstAction);
+		
+		//pnActionPositions2.setBounds(0, 0, 410, 310);
+		pnActionPositions2.setPreferredSize(new Dimension(330, 1500));
+		pnActionPositions.setViewportView(pnActionPositions2);
 		
 		setLayout(groupLayout);
 
