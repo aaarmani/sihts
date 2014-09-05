@@ -2,7 +2,9 @@ package armani.anderson.sihts.control;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
 import javax.swing.JList;
@@ -12,6 +14,7 @@ import armani.anderson.sihts.model.ActionVO;
 import armani.anderson.sihts.model.TestBO;
 import armani.anderson.sihts.model.TestVO;
 import armani.anderson.sihts.serial.RoboticArm;
+import armani.anderson.sihts.view.TestActionView;
 import armani.anderson.sihts.view.TestView;
 
 public class TestCTRL implements ActionListener {
@@ -25,11 +28,18 @@ public class TestCTRL implements ActionListener {
 	Vector<String> vctAction = null;
 	Vector<String> vctEspecial = null;
 	Vector<String> vctTest = null;
+	
+	Map<Integer, ActionVO> mapTestActions = null;
+	Map<Integer, TestActionView> mapTestActionViews = null;
 
 	
 	public TestCTRL(TestView testView, RoboticArm roboticArm) {
 		this.testView = testView;
 		this.roboticArm = roboticArm;
+		
+		//Inicializa Listas de Ações de um Teste
+		mapTestActions = new HashMap<Integer, ActionVO>();
+		mapTestActionViews = new HashMap<Integer, TestActionView>();
 		
 		jlstAction = this.testView.getLstAction();
 		jlstEspecial = this.testView.getLstEspecial();
@@ -41,13 +51,16 @@ public class TestCTRL implements ActionListener {
 		
 		
 		//Inicializa a visualização dos botoes
-		
+		this.testView.getBtnDelete().setVisible(false);
+		this.testView.getBtnExecute().setVisible(false);
 		
 		//inicializa as acoes
 		this.testView.getBtnExecute().addActionListener(this);
 		this.testView.getBtnDelete().addActionListener(this);
 		this.testView.getBtnCancel().addActionListener(this);
 		this.testView.getBtnSave().addActionListener(this);
+		this.testView.getBtnActionAdd().addActionListener(this);
+		this.testView.getBtnEspecialAdd().addActionListener(this);
 		
 		
 	}
@@ -106,8 +119,13 @@ public class TestCTRL implements ActionListener {
 		else if (objBtn == this.testView.getBtnSave()) {
 			saveClick();
 		}
+		else if (objBtn == this.testView.getBtnActionAdd()) {
+			addAction();
+		}
+		else if (objBtn == this.testView.getBtnEspecialAdd()) {
+			addEspecial();
+		}
 	}
-
 
 	private void executeClick() {
 		System.out.println("Execute");
@@ -119,6 +137,10 @@ public class TestCTRL implements ActionListener {
 	
 	private void cancelClick() {
 		System.out.println("Cancel");
+		
+		//limpar dados do test selecionado
+			//id
+			//Map de Test
 	}
 	
 	private void saveClick() {
@@ -134,6 +156,16 @@ public class TestCTRL implements ActionListener {
 				//insert testxaction
 			}
 		}
+		
+	}
+
+	private void addEspecial() {
+		System.out.println("AddEspecial");
+	}
+
+
+	private void addAction() {
+		System.out.println("AddAction");
 		
 	}
 }

@@ -27,16 +27,14 @@ public class MainView extends JFrame {
 	
 	private JMenuItem mntmAction;
 	private JMenuItem mntmPosition;
-	private JMenuItem mntmObjeto;
+	private JMenuItem mntmReturn;
 	private JMenuItem mntmConfig;
 	private JMenuItem mntmSair;
 	
 	private JMenuItem mntmNewTst;
 	private JMenuItem mntmExecutarTst;
-	private JMenuItem mntmEditarTst;
 	
 	private JMenuItem mntmNewScpt;
-	private JMenuItem mntmEditarScpt;
 	private JMenuItem mntmExecutarScpt;
 	
 	
@@ -56,28 +54,12 @@ public class MainView extends JFrame {
 		this.mntmExecutarTst = mntmExecutarTst;
 	}
 
-	public JMenuItem getMntmEditarTst() {
-		return mntmEditarTst;
-	}
-
-	public void setMntmEditarTst(JMenuItem mntmEditarTst) {
-		this.mntmEditarTst = mntmEditarTst;
-	}
-
 	public JMenuItem getMntmNewScpt() {
 		return mntmNewScpt;
 	}
 
 	public void setMntmNewScpt(JMenuItem mntmNewScpt) {
 		this.mntmNewScpt = mntmNewScpt;
-	}
-
-	public JMenuItem getMntmEditarScpt() {
-		return mntmEditarScpt;
-	}
-
-	public void setMntmEditarScpt(JMenuItem mntmEditarScpt) {
-		this.mntmEditarScpt = mntmEditarScpt;
 	}
 
 	public JMenuItem getMntmExecutarScpt() {
@@ -128,12 +110,12 @@ public class MainView extends JFrame {
 		this.pnDown = pnDown;
 	}
 
-	public JMenuItem getMntmObjeto() {
-		return mntmObjeto;
+	public JMenuItem getMntmReturn() {
+		return mntmReturn;
 	}
 
-	public void setMntmObjeto(JMenuItem mntmObjeto) {
-		this.mntmObjeto = mntmObjeto;
+	public void setMntmReturn(JMenuItem mntmObjeto) {
+		this.mntmReturn = mntmObjeto;
 	}
 
 	public JMenuItem getMntmPosition() {
@@ -170,30 +152,6 @@ public class MainView extends JFrame {
 		
 		mntmSair = new JMenuItem("Sair");
 		mnArquivo.add(mntmSair);
-//TEST		
-		JMenu mnTeste = new JMenu("Teste");
-		menuBar.add(mnTeste);
-		
-		mntmNewTst = new JMenuItem("Novo");
-		mnTeste.add(mntmNewTst);
-
-		mntmEditarTst = new JMenuItem("Editar");
-		mnTeste.add(mntmEditarTst);
-		
-		mntmExecutarTst = new JMenuItem("Executar");
-		mnTeste.add(mntmExecutarTst);
-//SCRIPT		
-		JMenu mnScript = new JMenu("Script");
-		menuBar.add(mnScript);
-		
-		mntmNewScpt = new JMenuItem("Novo");
-		mnScript.add(mntmNewScpt);
-		
-		mntmEditarScpt = new JMenuItem("Editar");
-		mnScript.add(mntmEditarScpt);
-		
-		mntmExecutarScpt = new JMenuItem("Executar");
-		mnScript.add(mntmExecutarScpt);
 		
 		JMenu mnCadastro = new JMenu("Cadastro");
 		menuBar.add(mnCadastro);
@@ -204,8 +162,26 @@ public class MainView extends JFrame {
 		mntmPosition = new JMenuItem("Posição");
 		mnCadastro.add(mntmPosition);
 		
-		mntmObjeto = new JMenuItem("Objeto");
-		mnCadastro.add(mntmObjeto);
+		mntmReturn = new JMenuItem("Retorno");
+		mnCadastro.add(mntmReturn);
+//TEST		
+		JMenu mnTeste = new JMenu("Teste");
+		menuBar.add(mnTeste);
+		
+		mntmNewTst = new JMenuItem("Novo");
+		mnTeste.add(mntmNewTst);
+		
+		mntmExecutarTst = new JMenuItem("Executar");
+		mnTeste.add(mntmExecutarTst);
+//SCRIPT		
+		JMenu mnScript = new JMenu("Script");
+		menuBar.add(mnScript);
+		
+		mntmNewScpt = new JMenuItem("Novo");
+		mnScript.add(mntmNewScpt);
+		
+		mntmExecutarScpt = new JMenuItem("Executar");
+		mnScript.add(mntmExecutarScpt);
 		
 		
 		

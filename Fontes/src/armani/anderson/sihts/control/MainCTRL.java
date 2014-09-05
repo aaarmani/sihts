@@ -18,6 +18,10 @@ import armani.anderson.sihts.view.ActionView;
 import armani.anderson.sihts.view.ConfigurationView;
 import armani.anderson.sihts.view.MainView;
 import armani.anderson.sihts.view.PositionView;
+import armani.anderson.sihts.view.ReturnView;
+import armani.anderson.sihts.view.ScriptExecView;
+import armani.anderson.sihts.view.ScriptView;
+import armani.anderson.sihts.view.TestExecView;
 import armani.anderson.sihts.view.TestView;
 /**
  * <p>Classe controlador para a tela principal do software, responsável pelo controle de Menus, Inicialização do Braço Robótico e 
@@ -27,12 +31,14 @@ import armani.anderson.sihts.view.TestView;
  * @author armani
  */
 public class MainCTRL implements ActionListener{
-	public final String PN_OBJECT		= "ObjectSettings";
+	public final String PN_RETURN		= "ReturnSettings";
 	public final String PN_POSITION		= "PositionSettings";
 	public final String PN_ACTION		= "ActionSettings";
 	public final String PN_CONFIG		= "Configurations";
 	public final String PN_TEST			= "TestSettings";
+	public final String PN_TEST_EXEC	= "TestExecute";
 	public final String PN_SCRIPT		= "ScriptSettings";
+	public final String PN_SCRIPT_EXEC	= "ScriptExecute";
 	
 	String PROPERTIES_STR_SERIAL = "";
 	
@@ -44,9 +50,12 @@ public class MainCTRL implements ActionListener{
 	JPanel pnCur = null;
 	PositionCTRL posCtrl = null;
 	ActionCTRL actCtrl = null;
+	ReturnCTRL retCtrl = null;
 	ConfigurationCTRL confCtrl = null;
 	TestCTRL testCtrl = null;
-	
+	TestExecCTRL testExecCtrl = null;
+	ScriptCTRL scriptCtrl = null;
+	ScriptExecCTRL scriptExecCtrl = null;
 	
 	/**
 	 * Método contrutor da classe controlador do frame principal
@@ -58,18 +67,23 @@ public class MainCTRL implements ActionListener{
 
 		mapPanel = new HashMap<String, JPanel>();
 		
-		PositionView pnObject = new PositionView('O');
+		ReturnView pnReturn = new ReturnView();
 		PositionView pnPosition = new PositionView('P');
 		ActionView pnAction = new ActionView();
 		ConfigurationView pnConfiguration = new ConfigurationView();
 		TestView pnTest = new TestView();
+		TestExecView pnTestExec = new TestExecView();
+		ScriptView pnScript = new ScriptView();
+		ScriptExecView pnScriptExec = new ScriptExecView();
 		
-		mapPanel.put(PN_OBJECT, pnObject);
 		mapPanel.put(PN_POSITION, pnPosition);
 		mapPanel.put(PN_ACTION, pnAction);
+		mapPanel.put(PN_RETURN, pnReturn);
 		mapPanel.put(PN_CONFIG, pnConfiguration);
 		mapPanel.put(PN_TEST, pnTest);
-		//mapPanel.put(PN_SCRIPT, pnScript);
+		mapPanel.put(PN_TEST_EXEC, pnTestExec);
+		mapPanel.put(PN_SCRIPT, pnScript);
+		mapPanel.put(PN_SCRIPT_EXEC, pnScriptExec);
 				
 		//read config.properties and sets configuration
 		configInitialize();
@@ -82,12 +96,14 @@ public class MainCTRL implements ActionListener{
 		}
 		
 		this.mainFrame.getMntmAction().addActionListener(this);
-		this.mainFrame.getMntmObjeto().addActionListener(this);
+		this.mainFrame.getMntmReturn().addActionListener(this);
 		this.mainFrame.getMntmPosition().addActionListener(this);
 		this.mainFrame.getMntmConfig().addActionListener(this);
 		this.mainFrame.getMntmSair().addActionListener(this);
 		this.mainFrame.getMntmNewTst().addActionListener(this);
+		this.mainFrame.getMntmExecutarTst().addActionListener(this);
 		this.mainFrame.getMntmNewScpt().addActionListener(this);
+		this.mainFrame.getMntmExecutarScpt().addActionListener(this);
 	}
 
 	/**
@@ -145,11 +161,14 @@ public class MainCTRL implements ActionListener{
 		mainFrame.getPnCenter().setSize(pnCur.getSize());
 		mainFrame.getPnCenter().updateUI();
 		
-		if ((strPnCur == PN_OBJECT) || (strPnCur == PN_POSITION)) {
+		if (strPnCur == PN_POSITION){
 			posCtrl = new PositionCTRL((PositionView) pnCur, roboticArm);	
 		}
 		else if (strPnCur == PN_ACTION) {
 			actCtrl = new ActionCTRL((ActionView) pnCur, roboticArm);
+		}
+		else if (strPnCur == PN_RETURN) {
+			retCtrl = new ReturnCTRL((ReturnView) pnCur);
 		}
 		else if (strPnCur == PN_CONFIG) {
 			confCtrl = new ConfigurationCTRL((ConfigurationView)pnCur);
@@ -157,8 +176,14 @@ public class MainCTRL implements ActionListener{
 		else if (strPnCur == PN_TEST) {
 			testCtrl = new TestCTRL((TestView) pnCur, roboticArm);
 		}
+		else if (strPnCur == PN_TEST_EXEC) {
+			testExecCtrl = new TestExecCTRL((TestExecView) pnCur, roboticArm);
+		}
 		else if (strPnCur == PN_SCRIPT) {
-			//testCtrl = new TestCTRL((TestView) pnCur, roboticArm);
+			scriptCtrl = new ScriptCTRL((ScriptView) pnCur, roboticArm);
+		}
+		else if (strPnCur == PN_SCRIPT) {
+			scriptExecCtrl = new ScriptExecCTRL((ScriptExecView) pnCur, roboticArm);
 		}
 		
 		System.out.println("Set frame " + strPnCur);
@@ -172,8 +197,8 @@ public class MainCTRL implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		Object objSource = e.getSource(); 
 		
-		if(objSource == this.mainFrame.getMntmObjeto()) {
-			setCurrentPanel(PN_OBJECT);
+		if(objSource == this.mainFrame.getMntmReturn()) {
+			setCurrentPanel(PN_RETURN);
 		}
 		else if(objSource == this.mainFrame.getMntmPosition()) {
 			setCurrentPanel(PN_POSITION);
@@ -184,8 +209,14 @@ public class MainCTRL implements ActionListener{
 		else if(objSource == this.mainFrame.getMntmNewTst()) {
 			setCurrentPanel(PN_TEST);
 		}
+		else if(objSource == this.mainFrame.getMntmExecutarTst()) {
+			setCurrentPanel(PN_TEST_EXEC);
+		}
 		else if(objSource == this.mainFrame.getMntmNewScpt()) {
 			setCurrentPanel(PN_SCRIPT);
+		}
+		else if(objSource == this.mainFrame.getMntmExecutarScpt()) {
+			setCurrentPanel(PN_SCRIPT_EXEC);
 		}
 		else if(objSource == this.mainFrame.getMntmConfig()) {
 			setCurrentPanel(PN_CONFIG);

@@ -11,6 +11,8 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 
 import java.awt.Color;
+import java.awt.Font;
+import javax.swing.SwingConstants;
 
 public class TestView extends JPanel {
 	private JTextField txtName;
@@ -21,11 +23,30 @@ public class TestView extends JPanel {
 	private JButton btnCancel;
 	private JButton btnSave;
 	
+	private JButton btnActionAdd;
+	private JButton btnEspecialAdd;
+	
 	private JList<String> lstAction;
 	private JList<String> lstEspecial;
 	private JList<String> lstTests;
 	private JPanel pnTestActive;
 	
+	public JButton getBtnActionAdd() {
+		return btnActionAdd;
+	}
+
+	public void setBtnActionAdd(JButton btnActionAdd) {
+		this.btnActionAdd = btnActionAdd;
+	}
+
+	public JButton getBtnEspecialAdd() {
+		return btnEspecialAdd;
+	}
+
+	public void setBtnEspecialAdd(JButton btnEspecialAdd) {
+		this.btnEspecialAdd = btnEspecialAdd;
+	}
+
 	public JTextField getTxtName() {
 		return txtName;
 	}
@@ -143,13 +164,20 @@ public class TestView extends JPanel {
 		
 		btnExecute = new JButton("Simular");
 		
+		JLabel lblTeste_1 = new JLabel("Teste");
+		lblTeste_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTeste_1.setFont(new Font("Lucida Grande", Font.BOLD, 18));
+		
+		btnActionAdd = new JButton(">>");
+		
+		btnEspecialAdd = new JButton(">>");
+		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(18)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblAoEspecial)
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 								.addComponent(scpEspecial, GroupLayout.PREFERRED_SIZE, 179, GroupLayout.PREFERRED_SIZE)
@@ -157,60 +185,75 @@ public class TestView extends JPanel {
 								.addComponent(scpAction, GroupLayout.PREFERRED_SIZE, 177, GroupLayout.PREFERRED_SIZE)
 								.addComponent(lblTeste)
 								.addComponent(scpTests, GroupLayout.PREFERRED_SIZE, 177, GroupLayout.PREFERRED_SIZE))
-							.addGap(62)
-							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
-								.addComponent(spnTest, GroupLayout.PREFERRED_SIZE, 497, GroupLayout.PREFERRED_SIZE)
-								.addGroup(groupLayout.createSequentialGroup()
-									.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-										.addComponent(lblDescrio)
-										.addComponent(lblNome))
-									.addGap(18)
-									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-										.addComponent(txtDesc)
-										.addComponent(txtName, GroupLayout.DEFAULT_SIZE, 405, Short.MAX_VALUE)))
-								.addGroup(groupLayout.createSequentialGroup()
-									.addComponent(btnExecute)
-									.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-									.addComponent(btnDelete)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(btnCancel)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(btnSave)))))
-					.addContainerGap(44, Short.MAX_VALUE))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(btnActionAdd, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
+								.addComponent(btnEspecialAdd, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)))
+						.addComponent(lblAoEspecial))
+					.addGap(18)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblTeste_1, GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)
+						.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
+							.addComponent(spnTest, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 497, Short.MAX_VALUE)
+							.addGroup(groupLayout.createSequentialGroup()
+								.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+									.addComponent(lblDescrio)
+									.addComponent(lblNome))
+								.addGap(18)
+								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+									.addComponent(txtDesc)
+									.addComponent(txtName, GroupLayout.DEFAULT_SIZE, 405, Short.MAX_VALUE)))
+							.addGroup(groupLayout.createSequentialGroup()
+								.addComponent(btnExecute)
+								.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(btnDelete)
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(btnCancel)
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(btnSave))))
+					.addContainerGap(13, GroupLayout.PREFERRED_SIZE))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(24)
-					.addComponent(lblAoEspecial)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
-							.addComponent(scpEspecial, GroupLayout.PREFERRED_SIZE, 107, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(lblAo)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(scpAction, GroupLayout.PREFERRED_SIZE, 162, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(lblTeste)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(scpTests, GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE))
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
-							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(txtName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblNome))
-							.addGap(18)
-							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(txtDesc, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblDescrio))
-							.addPreferredGap(ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
-							.addComponent(spnTest, GroupLayout.PREFERRED_SIZE, 293, GroupLayout.PREFERRED_SIZE)
-							.addGap(18)
-							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(btnSave)
-								.addComponent(btnCancel)
-								.addComponent(btnDelete)
-								.addComponent(btnExecute))))
+							.addGap(12)
+							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+								.addComponent(lblAoEspecial)
+								.addComponent(lblTeste_1))
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addComponent(scpEspecial, GroupLayout.PREFERRED_SIZE, 107, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(lblAo)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(scpAction, GroupLayout.PREFERRED_SIZE, 162, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(lblTeste)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(scpTests, GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE))
+								.addGroup(groupLayout.createSequentialGroup()
+									.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+										.addComponent(txtName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addComponent(lblNome))
+									.addGap(18)
+									.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+										.addComponent(txtDesc, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addComponent(lblDescrio)
+										.addComponent(btnEspecialAdd))
+									.addPreferredGap(ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+									.addComponent(spnTest, GroupLayout.PREFERRED_SIZE, 293, GroupLayout.PREFERRED_SIZE)
+									.addGap(18)
+									.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+										.addComponent(btnSave)
+										.addComponent(btnCancel)
+										.addComponent(btnDelete)
+										.addComponent(btnExecute)))))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(241)
+							.addComponent(btnActionAdd)))
 					.addContainerGap())
 		);
 		

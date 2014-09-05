@@ -176,7 +176,7 @@ public class ConfigurationView extends JPanel {
 		
 		JLabel lblConfiguraes = new JLabel("Configurações");
 		lblConfiguraes.setHorizontalAlignment(SwingConstants.CENTER);
-		lblConfiguraes.setFont(new Font("Lucida Grande", Font.PLAIN, 18));
+		lblConfiguraes.setFont(new Font("Lucida Grande", Font.BOLD, 18));
 		
 		JPanel pnDB = new JPanel();
 		pnDB.setBorder(new TitledBorder(null, "Banco de Dados", TitledBorder.LEADING, TitledBorder.TOP, null, null));
