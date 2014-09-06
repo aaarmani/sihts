@@ -27,7 +27,7 @@ public class TestView extends JPanel {
 	private JButton btnEspecialAdd;
 	
 	private JList<String> lstAction;
-	private JList<String> lstEspecial;
+	private JList<String> lstReturn;
 	private JList<String> lstTests;
 	private JPanel pnTestActive;
 	
@@ -103,12 +103,12 @@ public class TestView extends JPanel {
 		this.lstAction = lstAction;
 	}
 	
-	public JList<String> getLstEspecial() {
-		return lstEspecial;
+	public JList<String> getLstReturn() {
+		return lstReturn;
 	}
 
 	public void setLstEspecial(JList<String> lstEspecial) {
-		this.lstEspecial = lstEspecial;
+		this.lstReturn = lstEspecial;
 	}
 
 	public JList<String> getLstTests() {
@@ -150,7 +150,7 @@ public class TestView extends JPanel {
 		
 		JScrollPane scpTests = new JScrollPane();
 		
-		JLabel lblAoEspecial = new JLabel("Ação especial");
+		JLabel lblAoEspecial = new JLabel("Retorno");
 		
 		JLabel lblAo = new JLabel("Ação");
 		
@@ -265,9 +265,9 @@ public class TestView extends JPanel {
 		lstAction.setBackground(Color.WHITE);
 		scpAction.setViewportView(lstAction);
 		
-		lstEspecial = new JList<String>();
-		lstEspecial.setBackground(Color.WHITE);
-		scpEspecial.setViewportView(lstEspecial);
+		lstReturn = new JList<String>();
+		lstReturn.setBackground(Color.WHITE);
+		scpEspecial.setViewportView(lstReturn);
 		
 		pnTestActive = new JPanel();
 		pnTestActive.setBackground(Color.WHITE);

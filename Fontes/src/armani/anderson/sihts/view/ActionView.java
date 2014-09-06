@@ -18,6 +18,7 @@ import javax.swing.JButton;
 import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.Color;
+import javax.swing.border.BevelBorder;
 
 public class ActionView extends JPanel {
 	private JTextField txtName = null;
@@ -126,14 +127,16 @@ public class ActionView extends JPanel {
 		
 		JLabel lblName = new JLabel("Nome:");
 		lblName.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-		lblName.setHorizontalAlignment(SwingConstants.LEFT);
+		lblName.setHorizontalAlignment(SwingConstants.RIGHT);
 		
 		JLabel lblDescription = new JLabel("Descrição:");
+		lblDescription.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblDescription.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
 		
 		txtaDescription = new JTextArea();
+		txtaDescription.setDragEnabled(false);
+		txtaDescription.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		txtaDescription.setLineWrap(true);
-		txtaDescription.setColumns(25);
 		txtaDescription.setTabSize(0);
 		txtaDescription.setRows(2);
 		

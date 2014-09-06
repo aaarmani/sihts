@@ -11,6 +11,8 @@ import javax.swing.JList;
 
 import armani.anderson.sihts.model.ActionBO;
 import armani.anderson.sihts.model.ActionVO;
+import armani.anderson.sihts.model.ReturnBO;
+import armani.anderson.sihts.model.ReturnVO;
 import armani.anderson.sihts.model.TestBO;
 import armani.anderson.sihts.model.TestVO;
 import armani.anderson.sihts.serial.RoboticArm;
@@ -22,16 +24,16 @@ public class TestCTRL implements ActionListener {
 	private TestView testView;
 	
 	JList<String> jlstAction = null;
-	JList<String> jlstEspecial = null;
+	JList<String> jlstReturn = null;
 	JList<String> jlstTest = null;
 	
 	Vector<String> vctAction = null;
-	Vector<String> vctEspecial = null;
+	Vector<String> vctReturn = null;
 	Vector<String> vctTest = null;
 	
 	Map<Integer, ActionVO> mapTestActions = null;
 	Map<Integer, TestActionView> mapTestActionViews = null;
-
+	Map<Integer, ReturnVO> mapTestReturns = null;
 	
 	public TestCTRL(TestView testView, RoboticArm roboticArm) {
 		this.testView = testView;
@@ -42,12 +44,12 @@ public class TestCTRL implements ActionListener {
 		mapTestActionViews = new HashMap<Integer, TestActionView>();
 		
 		jlstAction = this.testView.getLstAction();
-		jlstEspecial = this.testView.getLstEspecial();
+		jlstReturn = this.testView.getLstReturn();
 		jlstTest = this.testView.getLstTests();
 		
 		InitializeTestList();
 		InitializeActionList();
-		InitializeEspecialList();
+		InitializeReturnList();
 		
 		
 		//Inicializa a visualização dos botoes
@@ -65,12 +67,19 @@ public class TestCTRL implements ActionListener {
 		
 	}
 
+	private void InitializeReturnList() {
+		ReturnBO retBO = new ReturnBO();
+		vctReturn = new Vector<String>();
+		
+		List<ReturnVO> lstRet = retBO.select(null);
+		if(lstRet != null) {
+			for(int i = 0; i < lstRet.size(); i++) {
+				vctReturn.add(lstRet.get(i).getName());
+			}
 
-	private void InitializeEspecialList() {
-		
-		
+			jlstReturn.setListData(vctReturn);
+		}
 	}
-
 
 	private void InitializeActionList() {
 		ActionBO actBO = new ActionBO();
@@ -137,10 +146,8 @@ public class TestCTRL implements ActionListener {
 	
 	private void cancelClick() {
 		System.out.println("Cancel");
-		
-		//limpar dados do test selecionado
-			//id
-			//Map de Test
+
+		clearFields();
 	}
 	
 	private void saveClick() {
@@ -154,6 +161,10 @@ public class TestCTRL implements ActionListener {
 			TestBO tstBO = new TestBO();
 			if(tstBO.insert(tstVO) == true) {
 				//insert testxaction
+				
+				
+				InitializeTestList();
+				clearFields();
 			}
 		}
 		
@@ -167,5 +178,13 @@ public class TestCTRL implements ActionListener {
 	private void addAction() {
 		System.out.println("AddAction");
 		
+	}
+	
+	//################## Métodos ##################
+	private void clearFields() {
+		this.testView.getTxtName().setText(null);
+		this.testView.getTxtDesc().setText(null);
+		
+		//limpar maps
 	}
 }
