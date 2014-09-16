@@ -9,6 +9,7 @@ public class TestVO {
 	private long id;
 	private String name;
 	private String description;
+	private int returnId;
 
 	public long getId() {
 		return id;
@@ -28,5 +29,10 @@ public class TestVO {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
+	public int getReturnId() {
+		return returnId;
+	}
+	public void setReturnId(int returnId) {
+		this.returnId = returnId;
+	}
 }

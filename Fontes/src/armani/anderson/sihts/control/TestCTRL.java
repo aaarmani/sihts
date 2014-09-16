@@ -3,11 +3,17 @@ package armani.anderson.sihts.control;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
+import javax.swing.JComboBox;
 import javax.swing.JList;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
+import com.sun.org.apache.bcel.internal.generic.LSTORE;
 
 import armani.anderson.sihts.model.ActionBO;
 import armani.anderson.sihts.model.ActionVO;
@@ -16,15 +22,15 @@ import armani.anderson.sihts.model.ReturnVO;
 import armani.anderson.sihts.model.TestBO;
 import armani.anderson.sihts.model.TestVO;
 import armani.anderson.sihts.serial.RoboticArm;
+import armani.anderson.sihts.view.ReturnView;
 import armani.anderson.sihts.view.TestActionView;
 import armani.anderson.sihts.view.TestView;
 
-public class TestCTRL implements ActionListener {
+public class TestCTRL implements ActionListener, ListSelectionListener {
 	private RoboticArm roboticArm;
 	private TestView testView;
 	
 	JList<String> jlstAction = null;
-	JList<String> jlstReturn = null;
 	JList<String> jlstTest = null;
 	
 	Vector<String> vctAction = null;
@@ -33,7 +39,11 @@ public class TestCTRL implements ActionListener {
 	
 	Map<Integer, ActionVO> mapTestActions = null;
 	Map<Integer, TestActionView> mapTestActionViews = null;
-	Map<Integer, ReturnVO> mapTestReturns = null;
+	Map<String, ReturnVO> mapTestReturns = null;
+	
+	JComboBox<String> cbTests = null;
+	
+	TestVO currentTest = null;
 	
 	public TestCTRL(TestView testView, RoboticArm roboticArm) {
 		this.testView = testView;
@@ -42,15 +52,15 @@ public class TestCTRL implements ActionListener {
 		//Inicializa Listas de Ações de um Teste
 		mapTestActions = new HashMap<Integer, ActionVO>();
 		mapTestActionViews = new HashMap<Integer, TestActionView>();
+		mapTestReturns = new HashMap<String, ReturnVO>();
 		
 		jlstAction = this.testView.getLstAction();
-		jlstReturn = this.testView.getLstReturn();
 		jlstTest = this.testView.getLstTests();
+		cbTests =  this.testView.getCbReturn();
 		
 		InitializeTestList();
 		InitializeActionList();
-		InitializeReturnList();
-		
+		InitializeComboReturn();
 		
 		//Inicializa a visualização dos botoes
 		this.testView.getBtnDelete().setVisible(false);
@@ -62,23 +72,9 @@ public class TestCTRL implements ActionListener {
 		this.testView.getBtnCancel().addActionListener(this);
 		this.testView.getBtnSave().addActionListener(this);
 		this.testView.getBtnActionAdd().addActionListener(this);
-		this.testView.getBtnEspecialAdd().addActionListener(this);
 		
+		this.testView.getLstTests().addListSelectionListener(this);
 		
-	}
-
-	private void InitializeReturnList() {
-		ReturnBO retBO = new ReturnBO();
-		vctReturn = new Vector<String>();
-		
-		List<ReturnVO> lstRet = retBO.select(null);
-		if(lstRet != null) {
-			for(int i = 0; i < lstRet.size(); i++) {
-				vctReturn.add(lstRet.get(i).getName());
-			}
-
-			jlstReturn.setListData(vctReturn);
-		}
 	}
 
 	private void InitializeActionList() {
@@ -110,8 +106,55 @@ public class TestCTRL implements ActionListener {
 		}
 	}
 
+	private void InitializeComboReturn() {
+		ReturnVO retVO = null;
+		ReturnBO retBO =  new ReturnBO();
+		List<ReturnVO> lstTst = new LinkedList<ReturnVO>();
+
+		lstTst = retBO.select(null);
+		
+		if(lstTst.size() > 0) {
+			cbTests.removeAllItems();
+			
+			for(int i = 0; i < lstTst.size(); i++) {
+				retVO = lstTst.get(i);
+				
+				mapTestReturns.put(retVO.getName(), retVO);
+				cbTests.addItem(retVO.getName());
+			}
+		}		
+	}	
+	//############ EVENTOS ############
+	@Override
+	public void valueChanged(ListSelectionEvent e) {
+		Object objLst = e.getSource();
+		
+		if ((objLst == this.testView.getLstTests()) && (jlstTest.getSelectedIndex() >= 0)) {
+			if(e.getValueIsAdjusting() == false) {
+				TestVO tstVO = new TestVO();
+				tstVO.setName(vctTest.get(jlstTest.getSelectedIndex()));
+				
+				TestBO tstBO = new TestBO();
+				tstVO = tstBO.select(tstVO).get(0);
+				
+				currentTest = tstVO;
+				
+				//pega dados das ações da tela
+				
+				//seta dados na tela
+				//clearFields();
+				this.testView.getTxtName().setText(tstVO.getName());
+				this.testView.getTxtDesc().setText(tstVO.getDescription());
+				
+				//pega ID do retorno e seta no dropdown
+				
+				//Inicializa a visualização dos botoes
+				this.testView.getBtnDelete().setVisible(true);
+				this.testView.getBtnExecute().setVisible(true);
+			}
+		}
+	}
 	
-	//############ EVENTOS ############ 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object objBtn = e.getSource();
@@ -130,9 +173,6 @@ public class TestCTRL implements ActionListener {
 		}
 		else if (objBtn == this.testView.getBtnActionAdd()) {
 			addAction();
-		}
-		else if (objBtn == this.testView.getBtnEspecialAdd()) {
-			addEspecial();
 		}
 	}
 
@@ -157,6 +197,9 @@ public class TestCTRL implements ActionListener {
 		tstVO.setName(this.testView.getTxtName().getText());
 		tstVO.setDescription(this.testView.getTxtDesc().getText());
 		
+		ReturnVO retVO = mapTestReturns.get(cbTests.getSelectedItem());
+		tstVO.setReturnId(retVO.getId());
+		
 		if(!tstVO.getName().isEmpty()) {
 			TestBO tstBO = new TestBO();
 			if(tstBO.insert(tstVO) == true) {
@@ -170,11 +213,6 @@ public class TestCTRL implements ActionListener {
 		
 	}
 
-	private void addEspecial() {
-		System.out.println("AddEspecial");
-	}
-
-
 	private void addAction() {
 		System.out.println("AddAction");
 		
@@ -186,5 +224,12 @@ public class TestCTRL implements ActionListener {
 		this.testView.getTxtDesc().setText(null);
 		
 		//limpar maps
+		
+		//resetar botoes
+		//Inicializa a visualização dos botoes
+		this.testView.getBtnDelete().setVisible(false);
+		this.testView.getBtnExecute().setVisible(false);
+		//limpa seleção da lista
+		jlstTest.clearSelection();
 	}
 }

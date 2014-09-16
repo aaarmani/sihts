@@ -13,13 +13,14 @@ public class TestDAO {
 	final static String COL_ID = "id";
 	final static String COL_NAME = "name";
 	final static String COL_DESCRIPTION = "description";
+	final static String COL_RET = "return";
 	
 	public boolean insert(TestVO testVO) {
 		int ret = 0;
 		Connection connection = null;
 		PreparedStatement stmt = null;
-	    String sql = "INSERT INTO test(" + COL_NAME + ", " + COL_DESCRIPTION + ")"
-	    		   + " VALUES(?,?)";
+	    String sql = "INSERT INTO test(" + COL_NAME + ", " + COL_DESCRIPTION + ", " + COL_RET + ")"
+	    		   + " VALUES(?,?,?)";
 		
 		try {
 		   connection = new ConnectionFactory().getConnection();
@@ -27,6 +28,7 @@ public class TestDAO {
 		   stmt = connection.prepareStatement(sql, stmt.RETURN_GENERATED_KEYS);
 		   stmt.setString(1, testVO.getName());
 		   stmt.setString(2, testVO.getDescription());
+		   stmt.setInt(3, testVO.getReturnId());
 		   
 		   ret = stmt.executeUpdate();
 
@@ -86,6 +88,7 @@ public class TestDAO {
 						tstVO.setId(Long.valueOf(resSet.getString(COL_ID)));
 						tstVO.setName(resSet.getString(COL_NAME));
 						tstVO.setDescription(resSet.getString(COL_DESCRIPTION));
+						tstVO.setReturnId(resSet.getInt(COL_RET));
 						lstTestVO.add(tstVO);
 					}
 				}
@@ -110,14 +113,15 @@ public class TestDAO {
 		Connection connection = null;
 		PreparedStatement stmt = null;
 		
-		String sql = "UPDATE test SET "+ COL_NAME + "=?, " + COL_DESCRIPTION + "=? WHERE id=?";
+		String sql = "UPDATE test SET "+ COL_NAME + "=?, " + COL_DESCRIPTION + "=?," + COL_RET + "=? WHERE id=?";
 		
 		try {
 			connection = new ConnectionFactory().getConnection();
 			stmt = connection.prepareStatement(sql);
 			stmt.setString(1, testVO.getName());
 			stmt.setString(2, testVO.getDescription());
-		    stmt.setLong(3, testVO.getId());
+			stmt.setInt(3, testVO.getReturnId());
+		    stmt.setLong(4, testVO.getId());
 		    ret = stmt.executeUpdate();
 			stmt.close();
 		} catch (SQLException e) {

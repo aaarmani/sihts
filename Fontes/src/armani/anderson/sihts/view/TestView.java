@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.SwingConstants;
+import javax.swing.JComboBox;
 
 public class TestView extends JPanel {
 	private JTextField txtName;
@@ -24,27 +25,27 @@ public class TestView extends JPanel {
 	private JButton btnSave;
 	
 	private JButton btnActionAdd;
-	private JButton btnEspecialAdd;
 	
 	private JList<String> lstAction;
-	private JList<String> lstReturn;
 	private JList<String> lstTests;
 	private JPanel pnTestActive;
+	private JComboBox cbReturn;
 	
+	
+	public JComboBox getCbReturn() {
+		return cbReturn;
+	}
+
+	public void setCbReturn(JComboBox cbReturn) {
+		this.cbReturn = cbReturn;
+	}
+
 	public JButton getBtnActionAdd() {
 		return btnActionAdd;
 	}
 
 	public void setBtnActionAdd(JButton btnActionAdd) {
 		this.btnActionAdd = btnActionAdd;
-	}
-
-	public JButton getBtnEspecialAdd() {
-		return btnEspecialAdd;
-	}
-
-	public void setBtnEspecialAdd(JButton btnEspecialAdd) {
-		this.btnEspecialAdd = btnEspecialAdd;
 	}
 
 	public JTextField getTxtName() {
@@ -102,14 +103,6 @@ public class TestView extends JPanel {
 	public void setLstAction(JList<String> lstAction) {
 		this.lstAction = lstAction;
 	}
-	
-	public JList<String> getLstReturn() {
-		return lstReturn;
-	}
-
-	public void setLstEspecial(JList<String> lstEspecial) {
-		this.lstReturn = lstEspecial;
-	}
 
 	public JList<String> getLstTests() {
 		return lstTests;
@@ -144,13 +137,9 @@ public class TestView extends JPanel {
 		txtDesc = new JTextField();
 		txtDesc.setColumns(30);
 		
-		JScrollPane scpEspecial = new JScrollPane();
-		
 		JScrollPane scpAction = new JScrollPane();
 		
 		JScrollPane scpTests = new JScrollPane();
-		
-		JLabel lblAoEspecial = new JLabel("Retorno");
 		
 		JLabel lblAo = new JLabel("Ação");
 		
@@ -170,7 +159,10 @@ public class TestView extends JPanel {
 		
 		btnActionAdd = new JButton(">>");
 		
-		btnEspecialAdd = new JButton(">>");
+		JLabel lblReturn = new JLabel("Retorno");
+		lblReturn.setHorizontalAlignment(SwingConstants.RIGHT);
+		
+		cbReturn = new JComboBox();
 		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
@@ -179,30 +171,29 @@ public class TestView extends JPanel {
 					.addGap(18)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(scpEspecial, GroupLayout.PREFERRED_SIZE, 179, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblAo)
-								.addComponent(scpAction, GroupLayout.PREFERRED_SIZE, 177, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblTeste)
-								.addComponent(scpTests, GroupLayout.PREFERRED_SIZE, 177, GroupLayout.PREFERRED_SIZE))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(btnActionAdd, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
-								.addComponent(btnEspecialAdd, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)))
-						.addComponent(lblAoEspecial))
+							.addComponent(scpAction, GroupLayout.PREFERRED_SIZE, 177, GroupLayout.PREFERRED_SIZE)
+							.addGap(8)
+							.addComponent(btnActionAdd, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE))
+						.addComponent(lblAo)
+						.addComponent(lblTeste)
+						.addComponent(scpTests, GroupLayout.PREFERRED_SIZE, 177, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addComponent(lblTeste_1, GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)
 						.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
 							.addComponent(spnTest, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 497, Short.MAX_VALUE)
 							.addGroup(groupLayout.createSequentialGroup()
-								.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+								.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
+									.addComponent(lblNome)
 									.addComponent(lblDescrio)
-									.addComponent(lblNome))
+									.addGroup(groupLayout.createSequentialGroup()
+										.addGap(6)
+										.addComponent(lblReturn, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
 								.addGap(18)
-								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-									.addComponent(txtDesc)
-									.addComponent(txtName, GroupLayout.DEFAULT_SIZE, 405, Short.MAX_VALUE)))
+								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+									.addComponent(cbReturn, 0, 417, Short.MAX_VALUE)
+									.addComponent(txtName, GroupLayout.DEFAULT_SIZE, 412, Short.MAX_VALUE)
+									.addComponent(txtDesc)))
 							.addGroup(groupLayout.createSequentialGroup()
 								.addComponent(btnExecute)
 								.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -219,31 +210,31 @@ public class TestView extends JPanel {
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(12)
-							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-								.addComponent(lblAoEspecial)
-								.addComponent(lblTeste_1))
+							.addComponent(lblTeste_1)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 								.addGroup(groupLayout.createSequentialGroup()
-									.addComponent(scpEspecial, GroupLayout.PREFERRED_SIZE, 107, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED)
+									.addGap(101)
 									.addComponent(lblAo)
 									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(scpAction, GroupLayout.PREFERRED_SIZE, 162, GroupLayout.PREFERRED_SIZE)
+									.addComponent(scpAction, GroupLayout.PREFERRED_SIZE, 154, GroupLayout.PREFERRED_SIZE)
 									.addPreferredGap(ComponentPlacement.RELATED)
 									.addComponent(lblTeste)
 									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(scpTests, GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE))
+									.addComponent(scpTests, GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE))
 								.addGroup(groupLayout.createSequentialGroup()
 									.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 										.addComponent(txtName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 										.addComponent(lblNome))
-									.addGap(18)
+									.addPreferredGap(ComponentPlacement.RELATED)
 									.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 										.addComponent(txtDesc, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-										.addComponent(lblDescrio)
-										.addComponent(btnEspecialAdd))
-									.addPreferredGap(ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+										.addComponent(lblDescrio))
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+										.addComponent(lblReturn)
+										.addComponent(cbReturn, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+									.addPreferredGap(ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
 									.addComponent(spnTest, GroupLayout.PREFERRED_SIZE, 293, GroupLayout.PREFERRED_SIZE)
 									.addGap(18)
 									.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
@@ -264,10 +255,6 @@ public class TestView extends JPanel {
 		lstAction = new JList<String>();
 		lstAction.setBackground(Color.WHITE);
 		scpAction.setViewportView(lstAction);
-		
-		lstReturn = new JList<String>();
-		lstReturn.setBackground(Color.WHITE);
-		scpEspecial.setViewportView(lstReturn);
 		
 		pnTestActive = new JPanel();
 		pnTestActive.setBackground(Color.WHITE);

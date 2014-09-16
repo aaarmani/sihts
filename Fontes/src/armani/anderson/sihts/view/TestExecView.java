@@ -12,6 +12,46 @@ import javax.swing.JButton;
 import javax.swing.JTextArea;
 
 public class TestExecView extends JPanel {
+	private JComboBox comboBox;
+	private JButton btnExecute;
+	private JButton btnReport;
+	private JTextArea txtrTextarea;
+	
+	
+	
+	public JComboBox getComboBox() {
+		return comboBox;
+	}
+
+	public void setComboBox(JComboBox comboBox) {
+		this.comboBox = comboBox;
+	}
+
+	public JButton getBtnExecute() {
+		return btnExecute;
+	}
+
+	public void setBtnExecute(JButton btnExecute) {
+		this.btnExecute = btnExecute;
+	}
+
+	public JButton getBtnReport() {
+		return btnReport;
+	}
+
+	public void setBtnReport(JButton btnReport) {
+		this.btnReport = btnReport;
+	}
+
+	public JTextArea getTxtrTextarea() {
+		return txtrTextarea;
+	}
+
+	public void setTxtrTextarea(JTextArea txtrTextarea) {
+		this.txtrTextarea = txtrTextarea;
+	}
+
+
 
 	/**
 	 * Create the panel.
@@ -24,13 +64,14 @@ public class TestExecView extends JPanel {
 		
 		JLabel lblTest = new JLabel("Teste");
 		
-		JComboBox comboBox = new JComboBox();
+		comboBox = new JComboBox();
 		
-		JButton btnExecute = new JButton("Executar");
+		btnExecute = new JButton("Executar");
 		
-		JButton btnReport = new JButton("Relatório");
+		btnReport = new JButton("Relatório");
 		
-		JTextArea txtrTextarea = new JTextArea();
+		txtrTextarea = new JTextArea();
+		txtrTextarea.setEditable(false);
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
