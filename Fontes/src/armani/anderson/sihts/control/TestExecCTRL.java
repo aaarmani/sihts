@@ -17,8 +17,7 @@ public class TestExecCTRL {
 	private JComboBox<String> cbTest = null;
 	
 	private Map<String, TestVO> mapTest = null;
-	
-	
+
 	public TestExecCTRL(TestExecView testExecView, RoboticArm roboticArm) {
 		this.testExecView = testExecView;
 		this.cbTest = testExecView.getComboBox();
