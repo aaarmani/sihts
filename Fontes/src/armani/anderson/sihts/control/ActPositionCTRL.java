@@ -87,7 +87,7 @@ public class ActPositionCTRL implements ActionListener {
 			}
 			refreshPanel();
 		}
-		else if(obj == this.actPosView.getBtnDown()) {			
+		else if(obj == this.actPosView.getBtnDown()) {		
 			int index = actPosView.getIndex();
 			System.out.println("BTN DOWN " + index);
 			
@@ -122,7 +122,6 @@ public class ActPositionCTRL implements ActionListener {
 			mapActPosViews.clear();
 		}
 		else {
-			PositionVO posVO;
 			ActPositionView actPosView;
 			
 			for(int i = index; i < mapActionPositions.size() - 1; i++) {

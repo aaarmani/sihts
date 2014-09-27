@@ -63,13 +63,11 @@ public class TestDAO {
 		if(testVO != null) {
 			String where = " WHERE ";
 			
-			
 			if(testVO.getName() != "") {
 				where += COL_NAME + " = '" + testVO.getName() + "'";
 			}
 			
 			sql += where;
-			System.out.println("SQL = " + sql);
 		}
 		
 		sql += " ORDER BY " + COL_NAME;

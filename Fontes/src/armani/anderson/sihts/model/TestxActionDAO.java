@@ -14,15 +14,14 @@ public class TestxActionDAO {
 	final static String COL_ID = "id";
 	final static String COL_INDEX = "index";
 	final static String COL_ACTION_ID = "action_id";
-	final static String COL_ACTION_TYPE = "action_type";
 	final static String COL_TEST_ID = "test_id";
 	
 	public boolean insert(TestxActionVO testxactionVO) {
 		int ret = 0;
 		Connection connection = null;
 		PreparedStatement stmt = null;
-	    String sql = "INSERT INTO testxaction(" + COL_INDEX + ", " + COL_TEST_ID + "," + ", " + COL_ACTION_ID + "," + COL_ACTION_TYPE + ")"
-	    		   + " VALUES(?,?,?,?)";
+	    String sql = "INSERT INTO testxaction(" + COL_INDEX + ", " + COL_TEST_ID + "," + COL_ACTION_ID + ")"
+	    		   + " VALUES(?,?,?)";
 		
 		try {
 		   connection = new ConnectionFactory().getConnection();
@@ -31,8 +30,7 @@ public class TestxActionDAO {
 		   stmt.setInt(1, testxactionVO.getIndex());
 		   stmt.setInt(2, testxactionVO.getTestId());
 		   stmt.setInt(3, testxactionVO.getActionId());
-		   stmt.setString(4, String.valueOf(testxactionVO.getType()));
-		   
+		   System.out.println("SQL =  " + sql);
 		   ret = stmt.executeUpdate();
 
 		   ResultSet keys = stmt.getGeneratedKeys();
@@ -78,10 +76,6 @@ public class TestxActionDAO {
 				where += COL_ACTION_ID + " = " + testxactionVO.getActionId();
 			}
 			
-			if(testxactionVO.getType() == 'A' || testxactionVO.getType() == 'E') {
-				where += COL_ACTION_TYPE + " = '" + testxactionVO.getType() + "";
-			}
-			
 			sql += where;
 			System.out.println("SQL = " + sql);
 		}
@@ -102,7 +96,6 @@ public class TestxActionDAO {
 						tstxactVO.setId(Integer.valueOf(resSet.getString(COL_ID)));
 						tstxactVO.setIndex(Integer.valueOf(resSet.getString(COL_INDEX)));
 						tstxactVO.setActionId(Integer.valueOf(resSet.getString(COL_ACTION_ID)));
-						tstxactVO.setType(resSet.getString(COL_ACTION_TYPE).charAt(0));
 						tstxactVO.setTestId(Integer.valueOf(resSet.getString(COL_TEST_ID)));
 
 						lstTstxActVO.add(tstxactVO);
@@ -144,7 +137,6 @@ public class TestxActionDAO {
 		sql += testxactionVO.getTestId();
 		sql += " ORDER BY testxaction.index";
 
-		System.out.println(sql);
 		try {
 			connection = new ConnectionFactory().getConnection();
 			stmt = connection.prepareStatement(sql);

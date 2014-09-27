@@ -21,7 +21,10 @@ import armani.anderson.sihts.model.ReturnBO;
 import armani.anderson.sihts.model.ReturnVO;
 import armani.anderson.sihts.model.TestBO;
 import armani.anderson.sihts.model.TestVO;
+import armani.anderson.sihts.model.TestxActionBO;
+import armani.anderson.sihts.model.TestxActionVO;
 import armani.anderson.sihts.serial.RoboticArm;
+import armani.anderson.sihts.view.ActPositionView;
 import armani.anderson.sihts.view.ReturnView;
 import armani.anderson.sihts.view.TestActionView;
 import armani.anderson.sihts.view.TestView;
@@ -37,8 +40,9 @@ public class TestCTRL implements ActionListener, ListSelectionListener {
 	Vector<String> vctReturn = null;
 	Vector<String> vctTest = null;
 	
+	Map<String, ActionVO> mapActions = null;
 	Map<Integer, ActionVO> mapTestActions = null;
-	Map<Integer, TestActionView> mapTestActionViews = null;
+	Map<Integer, ActPositionView> mapTestActionViews = null;
 	Map<String, ReturnVO> mapTestReturns = null;
 	
 	JComboBox<String> cbTests = null;
@@ -50,8 +54,9 @@ public class TestCTRL implements ActionListener, ListSelectionListener {
 		this.roboticArm = roboticArm;
 		
 		//Inicializa Listas de Ações de um Teste
+		mapActions = new HashMap<String, ActionVO>();
 		mapTestActions = new HashMap<Integer, ActionVO>();
-		mapTestActionViews = new HashMap<Integer, TestActionView>();
+		mapTestActionViews = new HashMap<Integer, ActPositionView>();
 		mapTestReturns = new HashMap<String, ReturnVO>();
 		
 		jlstAction = this.testView.getLstAction();
@@ -85,6 +90,7 @@ public class TestCTRL implements ActionListener, ListSelectionListener {
 		if(lstAct != null) {
 			for(int i = 0; i < lstAct.size(); i++) {
 				vctAction.add(lstAct.get(i).getName());
+				mapActions.put(lstAct.get(i).getName(), lstAct.get(i));
 			}
 			System.out.println("SIZE VECT = " + vctAction.size());
 			jlstAction.setListData(vctAction);
@@ -204,32 +210,73 @@ public class TestCTRL implements ActionListener, ListSelectionListener {
 			TestBO tstBO = new TestBO();
 			if(tstBO.insert(tstVO) == true) {
 				//insert testxaction
+				TestxActionBO txaBO = new TestxActionBO();
 				
+				for(int i = 0; i < mapTestActions.size(); i++) {
+					TestxActionVO txaVO= new TestxActionVO();
+					
+					txaVO.setTestId((int)tstVO.getId());
+					txaVO.setActionId((int)mapTestActions.get(i).getId());
+					txaVO.setIndex(i);
+					
+					txaBO.insert(txaVO);
+				}
 				
 				InitializeTestList();
 				clearFields();
 			}
 		}
-		
 	}
 
 	private void addAction() {
-		System.out.println("AddAction");
+		String actName = this.testView.getLstAction().getSelectedValue();
+		
+		if(actName != null) {
+			System.out.println("Position Selected = " + actName);
+			
+			addToTestListActionPanel(actName);
+			
+			this.testView.getBtnExecute().setVisible(true);
+		}
 		
 	}
-	
 	//################## Métodos ##################
+	private void addToTestListActionPanel(String actName) {
+		ActionVO actVO = mapActions.get(actName);
+		
+		Integer index = mapTestActions.size();
+		mapTestActions.put(index, actVO);
+		
+		ActPositionView actPosView = new ActPositionView(index, actVO.getName());
+		mapTestActionViews.put(index, actPosView);
+		
+		TestxActionCTRL tstxactCTRL = new TestxActionCTRL(actPosView, this.testView.getPnTestActive(), mapTestActions, mapTestActionViews);
+			
+		for(int i = 0; i < mapTestActions.size(); i++) {
+			System.out.println("TST ACT = " + mapTestActions.get(i).getName());
+		}
+		
+	}
+
+	
 	private void clearFields() {
 		this.testView.getTxtName().setText(null);
 		this.testView.getTxtDesc().setText(null);
 		
 		//limpar maps
+		mapTestActions.clear();
+		mapTestActionViews.clear();
+		this.testView.getPnTestActive().removeAll();
+		this.testView.updateUI();
 		
-		//resetar botoes
 		//Inicializa a visualização dos botoes
 		this.testView.getBtnDelete().setVisible(false);
 		this.testView.getBtnExecute().setVisible(false);
+		
 		//limpa seleção da lista
 		jlstTest.clearSelection();
+		
+		//reseta teste corrente
+		this.currentTest = null;
 	}
 }

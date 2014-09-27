@@ -10,7 +10,6 @@ public class TestxActionVO {
 	private int index;
 	private int testId;
 	private int actionId;
-	private char type; //A Action or E Especial
 
 	public int getId() {
 		return id;
@@ -35,11 +34,5 @@ public class TestxActionVO {
 	}
 	public void setActionId(int actionId) {
 		this.actionId = actionId;
-	}
-	public char getType() {
-		return type;
-	}
-	public void setType(char type) {
-		this.type = type;
 	}
 }
