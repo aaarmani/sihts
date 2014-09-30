@@ -70,19 +70,19 @@ public class ReturnDAO {
 				where += COL_ID + " = " + returnVO.getId();
 			}
 			
-			if(returnVO.getName().length() >= 0) {
+			if(returnVO.getName() != null  && returnVO.getName().length() >= 0) {
 				where += COL_NAME + " = " + returnVO.getName();
 			}
 			
-			if(returnVO.getDescription().length() >= 0) {
+			if(returnVO.getDescription() != null && returnVO.getDescription().length() >= 0) {
 				where += COL_DESC + " = " + returnVO.getDescription();
 			}
 			
-			if(returnVO.getTimeout() >= 0) {
+			/*if(returnVO.getTimeout() >= 0) {
 				where += COL_TIMEOUT + " = " + returnVO.getTimeout();
-			}
+			}*/
 			
-			if(returnVO.getText().length() >= 0) {
+			if(returnVO.getText() != null && returnVO.getText().length() >= 0) {
 				where += COL_TEXT + " = " + returnVO.getText();
 			}
 			
