@@ -126,9 +126,32 @@ public class ActionListDAO {
 		return 0;
 	}
 	
-	public int delete(ActionListVO actionListVO) {
-	
-		return 0;
+	public int delete(ActionVO actionVO) {
+		int ret = 0;
+		Connection connection = null;
+		PreparedStatement stmt = null;
+		
+		String sql = "DELETE FROM action_list WHERE action_id = ?";
+
+		try {
+			connection = new ConnectionFactory().getConnection();
+			
+			stmt = connection.prepareStatement(sql);
+			stmt.setLong(1, actionVO.getId());
+			ret = stmt.executeUpdate();
+			stmt.close();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			try {
+				stmt.close();
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return ret;
 	}
 
 	public Vector<String> selectPositions(ActionListVO actionLstVO) {
@@ -141,7 +164,6 @@ public class ActionListDAO {
 		sql += actionLstVO.getActionId();
 		sql += " ORDER BY action_list.index";
 
-		System.out.println(sql);
 		try {
 			connection = new ConnectionFactory().getConnection();
 			stmt = connection.prepareStatement(sql);
@@ -170,5 +192,59 @@ public class ActionListDAO {
 		}
 		return vctPosName;
 
+	}
+
+	public List<PositionVO> selectPositionsBO(ActionVO actionVO) {
+		ResultSet resSet = null;
+		Connection connection = null;
+		PreparedStatement stmt = null;
+		List<PositionVO> lstPosVO = null;
+		
+		String sql = "SELECT pos.id, pos.name, pos.pos_type, pos.positionartc1, pos.positionartc2," +
+				     " pos.positionartc3, pos.positionartc4, pos.positionartc5"+
+				     " FROM action_list act, position pos"+
+				     " where act.position_id = pos.id and act.action_id = ";
+
+		sql += actionVO.getId();
+		sql += " ORDER BY act.index";
+
+		try {
+			connection = new ConnectionFactory().getConnection();
+			stmt = connection.prepareStatement(sql);
+			
+			if(stmt.execute() == true) {
+				resSet = stmt.getResultSet();
+				if(resSet != null) {
+					lstPosVO = new LinkedList<PositionVO>();
+
+					while(resSet.next()) {
+						PositionVO posVO = new PositionVO();
+						
+						posVO.setId(Long.valueOf(resSet.getString(PositionDAO.POS_COL_ID)));
+						posVO.setName(resSet.getString(PositionDAO.POS_COL_NAME));
+						posVO.setType(resSet.getString(PositionDAO.POS_COL_TYPE).charAt(0));
+						posVO.setPositionArtc1(Integer.valueOf(resSet.getString(PositionDAO.POS_COL_ARTC1)));
+						posVO.setPositionArtc2(Integer.valueOf(resSet.getString(PositionDAO.POS_COL_ARTC2)));
+						posVO.setPositionArtc3(Integer.valueOf(resSet.getString(PositionDAO.POS_COL_ARTC3)));
+						posVO.setPositionArtc4(Integer.valueOf(resSet.getString(PositionDAO.POS_COL_ARTC4)));
+						posVO.setPositionArtc5(Integer.valueOf(resSet.getString(PositionDAO.POS_COL_ARTC5)));
+						
+						lstPosVO.add(posVO);
+					}
+				}
+			}
+			
+			stmt.close();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			try {
+				stmt.close();
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return lstPosVO;
 	}
 }

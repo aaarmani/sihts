@@ -151,13 +151,15 @@ public class ActionCTRL implements ActionListener, ListSelectionListener{
 			}
 			
 			//deletar realmente??
-			if(JOptionPane.showConfirmDialog(null, "Deseja excluir realmente esta Ação?") > 0) {
+			if(JOptionPane.showConfirmDialog(null, "Deseja excluir realmente esta Ação?", "Exclusão de Ação", 0, JOptionPane.WARNING_MESSAGE) > 0) {
 				//não deve deletar a ação
 				return;
 			}
 			
-			ActionBO actBO = new ActionBO();
+			ActionListBO actlstBO =  new ActionListBO();
+			actlstBO.delete(currentActionVO);
 			
+			ActionBO actBO = new ActionBO();
 			actBO.delete(currentActionVO);
 			
 			//atualiza a tabela de Ações
@@ -228,6 +230,11 @@ public class ActionCTRL implements ActionListener, ListSelectionListener{
 	 * Método que simula a posição selecionada/em cadastro
 	 */
 	private void actionExecute() {
+		if(roboticArm == null) {
+			JOptionPane.showMessageDialog(null, "Serial de controle não inicializada", "Erro na comunicação com o braço robótico", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		
 		for(int i = 0; i < mapActionPositions.size(); i++) {
 			
 			PositionVO posVo = mapActionPositions.get(i);

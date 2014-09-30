@@ -4,7 +4,11 @@ import javax.swing.JPanel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
+
+import java.awt.Color;
 import java.awt.Font;
+
+import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.JComboBox;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -72,6 +76,11 @@ public class TestExecView extends JPanel {
 		
 		txtrTextarea = new JTextArea();
 		txtrTextarea.setEditable(false);
+		
+		JScrollPane scpTextArea = new JScrollPane();
+		scpTextArea.setBackground(Color.WHITE);
+		scpTextArea.setViewportView(txtrTextarea);
+		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -83,7 +92,7 @@ public class TestExecView extends JPanel {
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(100)
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(txtrTextarea, GroupLayout.PREFERRED_SIZE, 591, GroupLayout.PREFERRED_SIZE)
+								.addComponent(scpTextArea, GroupLayout.PREFERRED_SIZE, 591, GroupLayout.PREFERRED_SIZE)
 								.addGroup(groupLayout.createSequentialGroup()
 									.addComponent(lblTest, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
 									.addPreferredGap(ComponentPlacement.RELATED)
@@ -107,7 +116,7 @@ public class TestExecView extends JPanel {
 						.addComponent(btnExecute)
 						.addComponent(btnReport))
 					.addGap(18)
-					.addComponent(txtrTextarea, GroupLayout.PREFERRED_SIZE, 400, GroupLayout.PREFERRED_SIZE)
+					.addComponent(scpTextArea, GroupLayout.PREFERRED_SIZE, 400, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(60, Short.MAX_VALUE))
 		);
 		setLayout(groupLayout);

@@ -14,6 +14,7 @@ import java.awt.Color;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.JComboBox;
+import java.awt.Dimension;
 
 public class TestView extends JPanel {
 	private JTextField txtName;
@@ -257,6 +258,7 @@ public class TestView extends JPanel {
 		scpAction.setViewportView(lstAction);
 		
 		pnTestActive = new JPanel();
+		pnTestActive.setPreferredSize(new Dimension(330, 1500));
 		pnTestActive.setBackground(Color.WHITE);
 		spnTest.setViewportView(pnTestActive);
 		setLayout(groupLayout);

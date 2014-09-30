@@ -1,36 +1,51 @@
 package armani.anderson.sihts.control;
 
+import java.awt.Desktop;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
 
+import armani.anderson.sihts.model.ActionVO;
 import armani.anderson.sihts.model.TestBO;
 import armani.anderson.sihts.model.TestVO;
+import armani.anderson.sihts.model.TestxActionBO;
 import armani.anderson.sihts.serial.RoboticArm;
 import armani.anderson.sihts.view.TestExecView;
 
-public class TestExecCTRL {
+public class TestExecCTRL implements ActionListener {
+	private RoboticArm roboticArm = null;
 	private TestExecView testExecView = null;
 	private JComboBox<String> cbTest = null;
 	
 	private Map<String, TestVO> mapTest = null;
 
 	public TestExecCTRL(TestExecView testExecView, RoboticArm roboticArm) {
+		this.roboticArm = roboticArm;
 		this.testExecView = testExecView;
 		this.cbTest = testExecView.getComboBox();
 		
 		cbTest.removeAllItems();
+		this.testExecView.getTxtrTextarea().setText("");
 		
 		//Inicializa Map
 		mapTest = new HashMap<String, TestVO>();
 		
 		//Initialize botao de relatorio desabilitado
-		this.testExecView.getBtnReport().setVisible(false);
+		//this.testExecView.getBtnReport().setVisible(false);
 		
 		InitializeListTest();
+		
+		this.testExecView.getBtnExecute().addActionListener(this);
+		this.testExecView.getBtnReport().addActionListener(this);
+		
 	}
 
 	private void InitializeListTest() {
@@ -47,6 +62,46 @@ public class TestExecCTRL {
 				mapTest.put(tstVO.getName(), tstVO);
 				cbTest.addItem(tstVO.getName());
 			}
+		}
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object obj = e.getSource();
+		
+		if(obj == this.testExecView.getBtnExecute()) {
+			executeClick();
+		}
+		else if (obj == this.testExecView.getBtnReport()) {
+			reportClick();
+		}
+		
+	}
+
+	private void executeClick() {
+		//limpa textarea
+		this.testExecView.getTxtrTextarea().setText("");
+		
+		TestVO tstVO = null;
+		
+		tstVO = mapTest.get(cbTest.getSelectedItem());
+		
+		try {
+			ExecuteTest exectTest = new ExecuteTest(roboticArm, tstVO, this.testExecView.getTxtrTextarea(), "ReportTest.PDF");
+			exectTest.run();
+		}catch(Exception e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro ao rodar Teste", JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		}
+	}
+
+	private void reportClick() {
+		File pdf = new File("/Users/armani/Documents/Senac/TCC/TCC/GitHub/Fontes/report/ReportTest.PDF");  
+		try {  
+		  Desktop.getDesktop().open(pdf);  
+		} catch(Exception ex) {  
+		  ex.printStackTrace();  
+		  JOptionPane.showMessageDialog(null, "Erro no Desktop: " + ex);  
 		}
 	}
 }

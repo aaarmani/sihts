@@ -53,52 +53,31 @@ public class TestxActionDAO {
 		return (ret > 0);
 	}
 	
-	public List<TestxActionVO> select(TestxActionVO testxactionVO) {
+	public List<ActionVO> select(TestVO testVO) {
 		ResultSet resSet = null;
 		Connection connection = null;
 		PreparedStatement stmt = null;
-		List<TestxActionVO> lstTstxActVO = null;
+		List<ActionVO> lstActVO = null;
 		
-		String sql = "SELECT * FROM testxaction";
-		
-		if(testxactionVO != null) {
-			String where = " WHERE ";
-			
-			if(testxactionVO.getId() >= 0) {
-				where += COL_ID + " = " + testxactionVO.getId();
-			}
-			
-			if(testxactionVO.getIndex() >= 0) {
-				where += COL_INDEX + " = " + testxactionVO.getIndex();
-			}
-			
-			if(testxactionVO.getActionId() >= 0) {
-				where += COL_ACTION_ID + " = " + testxactionVO.getActionId();
-			}
-			
-			sql += where;
-			System.out.println("SQL = " + sql);
-		}
-		
-		sql += " ORDER BY " + COL_ACTION_ID + "," + COL_INDEX;
+		String sql = "SELECT action.id, action.name, action.description FROM testxaction, action WHERE testxaction.action_id = action.id AND test_id = ";
+		sql += testVO.getId();
+		sql += " ORDER BY testxaction.index";
 		
 		try {
 			connection = new ConnectionFactory().getConnection();
 			stmt = connection.prepareStatement(sql);
+			
 			if(stmt.execute() == true) {
 				resSet = stmt.getResultSet();
 				if(resSet != null) {
-					lstTstxActVO = new LinkedList<TestxActionVO>();
-
+					lstActVO = new LinkedList<ActionVO>();
 					while(resSet.next()) {
-						TestxActionVO tstxactVO = new TestxActionVO();
-			
-						tstxactVO.setId(Integer.valueOf(resSet.getString(COL_ID)));
-						tstxactVO.setIndex(Integer.valueOf(resSet.getString(COL_INDEX)));
-						tstxactVO.setActionId(Integer.valueOf(resSet.getString(COL_ACTION_ID)));
-						tstxactVO.setTestId(Integer.valueOf(resSet.getString(COL_TEST_ID)));
-
-						lstTstxActVO.add(tstxactVO);
+						ActionVO actVO = new ActionVO();
+						actVO.setName(resSet.getString("name"));
+						actVO.setId(resSet.getLong("id"));
+						actVO.setDescription(resSet.getString("description"));
+						
+						lstActVO.add(actVO);
 					}
 				}
 			}
@@ -114,7 +93,7 @@ public class TestxActionDAO {
 				e.printStackTrace();
 			}
 		}
-		return lstTstxActVO;
+		return lstActVO;
 	}
 	
 	public int update(TestxActionVO testxactionVO) {
@@ -122,19 +101,42 @@ public class TestxActionDAO {
 		return 0;
 	}
 	
-	public int delete(TestxActionVO testxactionVO) {
-	
-		return 0;
+	public int delete(TestVO testVO) {
+		int ret = 0;
+		Connection connection = null;
+		PreparedStatement stmt = null;
+		
+		String sql = "DELETE FROM testxaction WHERE testxaction.test_id = ?";
+
+		try {
+			connection = new ConnectionFactory().getConnection();
+			
+			stmt = connection.prepareStatement(sql);
+			stmt.setLong(1, testVO.getId());
+			ret = stmt.executeUpdate();
+			stmt.close();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			try {
+				stmt.close();
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return ret;
 	}
 
-	public Vector<String> selectActions(TestxActionVO testxactionVO) {
+	public Vector<String> selectActions(TestVO testVO) {
 		ResultSet resSet = null;
 		Connection connection = null;
 		PreparedStatement stmt = null;
 		Vector<String> vctActionName = null;
 		
 		String sql = "SELECT action.name FROM testxaction, action WHERE testxaction.action_id = action.id AND test_id = ";
-		sql += testxactionVO.getTestId();
+		sql += testVO.getId();
 		sql += " ORDER BY testxaction.index";
 
 		try {

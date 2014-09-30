@@ -10,10 +10,10 @@ public class TestxActionBO {
 		return tstxactDAO.insert(testxactionVO);
 	}
 	
-	public List<TestxActionVO> select(TestxActionVO testxactionVO) {
+	public List<ActionVO> select(TestVO testVO) {
 		TestxActionDAO tstxactDAO = new TestxActionDAO();
 
-		return tstxactDAO.select(testxactionVO);
+		return tstxactDAO.select(testVO);
 	}
 	
 	public int update(TestxActionVO testxactionVO) {
@@ -22,14 +22,14 @@ public class TestxActionBO {
 		return tstxactDAO.update(testxactionVO);
 	}
 	
-	public int delete(TestxActionVO testxactionVO) {
+	public int delete(TestVO testVO) {
 		TestxActionDAO tstxactDAO = new TestxActionDAO();
 
-		return tstxactDAO.delete(testxactionVO);
+		return tstxactDAO.delete(testVO);
 	}
 
-	public Vector<String> selectPositions(TestxActionVO actionLstVO) {
+	public Vector<String> selectActions(TestVO tstVO) {
 		TestxActionDAO tstxactDAO = new TestxActionDAO();
-		return tstxactDAO.selectActions(actionLstVO);
+		return tstxactDAO.selectActions(tstVO);
 	}
 }

@@ -10,6 +10,7 @@ import java.util.Vector;
 
 import javax.swing.JComboBox;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -116,7 +117,8 @@ public class TestCTRL implements ActionListener, ListSelectionListener {
 		ReturnVO retVO = null;
 		ReturnBO retBO =  new ReturnBO();
 		List<ReturnVO> lstTst = new LinkedList<ReturnVO>();
-
+		vctReturn = new Vector<String>();
+		
 		lstTst = retBO.select(null);
 		
 		if(lstTst.size() > 0) {
@@ -127,6 +129,8 @@ public class TestCTRL implements ActionListener, ListSelectionListener {
 				
 				mapTestReturns.put(retVO.getName(), retVO);
 				cbTests.addItem(retVO.getName());
+				
+				vctReturn.add(retVO.getName());
 			}
 		}		
 	}	
@@ -136,7 +140,12 @@ public class TestCTRL implements ActionListener, ListSelectionListener {
 		Object objLst = e.getSource();
 		
 		if ((objLst == this.testView.getLstTests()) && (jlstTest.getSelectedIndex() >= 0)) {
+			this.testView.getPnTestActive().removeAll();
+			
 			if(e.getValueIsAdjusting() == false) {
+				
+				System.out.println("INDEX = " + jlstTest.getSelectedIndex());
+				
 				TestVO tstVO = new TestVO();
 				tstVO.setName(vctTest.get(jlstTest.getSelectedIndex()));
 				
@@ -146,11 +155,28 @@ public class TestCTRL implements ActionListener, ListSelectionListener {
 				currentTest = tstVO;
 				
 				//pega dados das ações da tela
+				TestxActionBO tstxactBO = new TestxActionBO();
+				Vector<String> vctActName = tstxactBO.selectActions(tstVO);
 				
-				//seta dados na tela
+				for(int i = 0; i < vctActName.size(); i++) {
+					String actName = vctActName.elementAt(i);
+					
+					addToTestListActionPanel(actName);
+				}
+				
+				for(int i = 0; i < mapTestReturns.size(); i++) {
+					ReturnVO retVO = mapTestReturns.get(vctReturn.get(i));
+					
+					if(retVO.getId() == tstVO.getReturnId()) {
+						this.testView.getCbReturn().setSelectedIndex(i);
+						break;
+					}
+				}
+				
 				//clearFields();
 				this.testView.getTxtName().setText(tstVO.getName());
 				this.testView.getTxtDesc().setText(tstVO.getDescription());
+				
 				
 				//pega ID do retorno e seta no dropdown
 				
@@ -188,6 +214,28 @@ public class TestCTRL implements ActionListener, ListSelectionListener {
 	
 	private void deleteClick() {
 		System.out.println("Delete");
+		
+		if(currentTest == null) {
+			return;
+		}
+		
+		//deletar realmente??
+		if(JOptionPane.showConfirmDialog(null, "Deseja excluir realmente este Teste?", "Exclusão de Teste",0, JOptionPane.WARNING_MESSAGE) > 0) {
+			//não deve deletar o Teste
+			return;
+		}
+		
+		TestxActionBO tstxactBO = new TestxActionBO();
+		tstxactBO.delete(currentTest);
+		
+		TestBO tstBO = new TestBO();
+		tstBO.delete(currentTest);
+		
+		clearFields();
+		InitializeTestList();
+		
+		this.testView.getBtnDelete().setVisible(false);
+		this.testView.getBtnExecute().setVisible(false);
 	}
 	
 	private void cancelClick() {
@@ -251,10 +299,10 @@ public class TestCTRL implements ActionListener, ListSelectionListener {
 		mapTestActionViews.put(index, actPosView);
 		
 		TestxActionCTRL tstxactCTRL = new TestxActionCTRL(actPosView, this.testView.getPnTestActive(), mapTestActions, mapTestActionViews);
-			
-		for(int i = 0; i < mapTestActions.size(); i++) {
+		
+		/*for(int i = 0; i < mapTestActions.size(); i++) {
 			System.out.println("TST ACT = " + mapTestActions.get(i).getName());
-		}
+		}*/
 		
 	}
 

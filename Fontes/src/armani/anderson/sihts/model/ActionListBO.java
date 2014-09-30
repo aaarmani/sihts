@@ -23,14 +23,19 @@ public class ActionListBO {
 		return actLstDAO.update(actionListVO);
 	}
 	
-	public int delete(ActionListVO actionListVO) {
+	public int delete(ActionVO actionVO) {
 		ActionListDAO actLstDAO = new ActionListDAO();
 
-		return actLstDAO.delete(actionListVO);
+		return actLstDAO.delete(actionVO);
 	}
 
 	public Vector<String> selectPositions(ActionListVO actionLstVO) {
 		ActionListDAO actLstDAO = new ActionListDAO();
 		return actLstDAO.selectPositions(actionLstVO);
+	}
+	
+	public List<PositionVO> selectPositionsVO(ActionVO actionVO) {
+		ActionListDAO actLstDAO = new ActionListDAO();
+		return actLstDAO.selectPositionsBO(actionVO);
 	}
 }
