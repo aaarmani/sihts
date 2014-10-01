@@ -109,7 +109,7 @@ public class ExecuteTest implements Runnable{
 		}
 		else
 		{
-			insertReportLine("RETORNO", "ERROR");
+			insertReportLine("RETORNO", "ERRO");
 		}
 		
 		closeReport();

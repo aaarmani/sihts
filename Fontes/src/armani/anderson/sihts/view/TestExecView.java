@@ -116,7 +116,7 @@ public class TestExecView extends JPanel {
 						.addComponent(btnExecute)
 						.addComponent(btnReport))
 					.addGap(18)
-					.addComponent(scpTextArea, GroupLayout.PREFERRED_SIZE, 400, GroupLayout.PREFERRED_SIZE)
+					.addComponent(scpTextArea, GroupLayout.PREFERRED_SIZE, 300, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(60, Short.MAX_VALUE))
 		);
 		setLayout(groupLayout);

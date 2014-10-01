@@ -199,8 +199,12 @@ public class ActionView extends JPanel {
 					.addComponent(lblTitle)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(118)
+							.addComponent(btnAddPosition))
+						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(32)
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(pnPos, GroupLayout.PREFERRED_SIZE, 383, GroupLayout.PREFERRED_SIZE)
 								.addGroup(groupLayout.createSequentialGroup()
 									.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 										.addComponent(lblName)
@@ -210,17 +214,13 @@ public class ActionView extends JPanel {
 										.addComponent(txtaDescription, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 										.addComponent(lblDescription))
 									.addGap(12)
-									.addComponent(pnActionPositions, GroupLayout.PREFERRED_SIZE, 330, GroupLayout.PREFERRED_SIZE))
-								.addComponent(pnPos, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(btnPlay)
-								.addComponent(btnSave)
-								.addComponent(btnCancel)
-								.addComponent(btnDelete)))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(118)
-							.addComponent(btnAddPosition)))
+									.addComponent(pnActionPositions, GroupLayout.PREFERRED_SIZE, 275, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+										.addComponent(btnPlay)
+										.addComponent(btnSave)
+										.addComponent(btnCancel)
+										.addComponent(btnDelete))))))
 					.addContainerGap())
 		);
 		pnPos.setLayout(null);
@@ -232,18 +232,18 @@ public class ActionView extends JPanel {
 		
 		JScrollPane scpPosition = new JScrollPane();
 		pnPos.add(scpPosition);
-		scpPosition.setBounds(new Rectangle(0, 25, 166, 180));
+		scpPosition.setBounds(new Rectangle(0, 25, 166, 150));
 		lstPosition = new JList<String>();
 		scpPosition.setViewportView(lstPosition);
 		
 		JLabel lblAction = new JLabel("Ações:");
-		lblAction.setBounds(0, 217, 143, 20);
+		lblAction.setBounds(0, 195, 143, 20);
 		pnPos.add(lblAction);
 		lblAction.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
 		
 		JScrollPane scpAction = new JScrollPane();
 		pnPos.add(scpAction);
-		scpAction.setBounds(new Rectangle(0, 239, 166, 180));
+		scpAction.setBounds(new Rectangle(0, 215, 166, 150));
 		lstAction = new JList<String>();
 		scpAction.setViewportView(lstAction);
 		

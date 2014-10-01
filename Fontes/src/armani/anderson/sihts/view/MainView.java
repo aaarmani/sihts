@@ -230,14 +230,14 @@ public class MainView extends JFrame {
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addContainerGap()
-							.addComponent(pnDown, GroupLayout.DEFAULT_SIZE, 1270, Short.MAX_VALUE))
+							.addComponent(pnDown, GroupLayout.DEFAULT_SIZE, frmWidth, Short.MAX_VALUE))
 						.addGroup(Alignment.LEADING, gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
 							.addGroup(gl_contentPane.createSequentialGroup()
 								.addContainerGap()
-								.addComponent(pnCenter, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+								.addComponent(pnCenter, GroupLayout.DEFAULT_SIZE, frmWidth, Short.MAX_VALUE))
 							.addGroup(gl_contentPane.createSequentialGroup()
 								.addGap(6)
-								.addComponent(pnTop, GroupLayout.DEFAULT_SIZE, 1254, Short.MAX_VALUE))))
+								.addComponent(pnTop, GroupLayout.DEFAULT_SIZE, frmWidth, Short.MAX_VALUE))))
 					.addContainerGap())
 		);
 		gl_contentPane.setVerticalGroup(

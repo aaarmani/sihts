@@ -21,6 +21,10 @@ import armani.anderson.sihts.serial.RoboticArm;
 import armani.anderson.sihts.view.TestExecView;
 
 public class TestExecCTRL implements ActionListener {
+	final char FS = File.separatorChar;
+	final String REPORT_FOLDER = "report";
+	final String DEFAULT_PATH = System.getProperty("user.dir") + FS + REPORT_FOLDER + FS;
+	
 	private RoboticArm roboticArm = null;
 	private TestExecView testExecView = null;
 	private JComboBox<String> cbTest = null;
@@ -91,12 +95,11 @@ public class TestExecCTRL implements ActionListener {
 			exectTest.run();
 		}catch(Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro ao rodar Teste", JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
 		}
 	}
 
 	private void reportClick() {
-		File pdf = new File("/Users/armani/Documents/Senac/TCC/TCC/GitHub/Fontes/report/ReportTest.PDF");  
+		File pdf = new File(DEFAULT_PATH + "ReportTest.PDF");  
 		try {  
 		  Desktop.getDesktop().open(pdf);  
 		} catch(Exception ex) {  
