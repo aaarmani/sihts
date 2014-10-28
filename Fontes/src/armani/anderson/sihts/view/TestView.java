@@ -30,14 +30,14 @@ public class TestView extends JPanel {
 	private JList<String> lstAction;
 	private JList<String> lstTests;
 	private JPanel pnTestActive;
-	private JComboBox cbReturn;
+	private JComboBox<String> cbReturn;
 	
 	
-	public JComboBox getCbReturn() {
+	public JComboBox<String> getCbReturn() {
 		return cbReturn;
 	}
 
-	public void setCbReturn(JComboBox cbReturn) {
+	public void setCbReturn(JComboBox<String> cbReturn) {
 		this.cbReturn = cbReturn;
 	}
 
