@@ -1,20 +1,27 @@
 package armani.anderson.sihts.control;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import sun.security.action.GetLongAction;
 import armani.anderson.sihts.model.ConfigurationVO;
+import armani.anderson.sihts.model.UserVO;
 import armani.anderson.sihts.serial.Al5b;
 import armani.anderson.sihts.serial.RoboticArm;
 import armani.anderson.sihts.view.ActionView;
+import armani.anderson.sihts.view.AdminView;
 import armani.anderson.sihts.view.ConfigurationView;
 import armani.anderson.sihts.view.MainView;
 import armani.anderson.sihts.view.PositionView;
@@ -23,6 +30,7 @@ import armani.anderson.sihts.view.ScriptExecView;
 import armani.anderson.sihts.view.ScriptView;
 import armani.anderson.sihts.view.TestExecView;
 import armani.anderson.sihts.view.TestView;
+import armani.anderson.sihts.view.UserView;
 /**
  * <p>Classe controlador para a tela principal do software, responsável pelo controle de Menus, Inicialização do Braço Robótico e 
  * Inicialização dos métodos callback dos CONTROLERS das páginas
@@ -30,7 +38,7 @@ import armani.anderson.sihts.view.TestView;
  * @version v00.01
  * @author armani
  */
-public class MainCTRL implements ActionListener{
+public class MainCTRL implements ActionListener, MouseListener{
 	public final String PN_RETURN		= "ReturnSettings";
 	public final String PN_POSITION		= "PositionSettings";
 	public final String PN_ACTION		= "ActionSettings";
@@ -39,6 +47,8 @@ public class MainCTRL implements ActionListener{
 	public final String PN_TEST_EXEC	= "TestExecute";
 	public final String PN_SCRIPT		= "ScriptSettings";
 	public final String PN_SCRIPT_EXEC	= "ScriptExecute";
+	public final String PN_ADM			= "AdminSettings";
+	public final String PN_USER			= "UserSettings";
 	
 	String PROPERTIES_STR_SERIAL = "";
 	
@@ -47,6 +57,8 @@ public class MainCTRL implements ActionListener{
 	
 	RoboticArm roboticArm = null;
 
+	UserVO currentUser = null;
+	
 	JPanel pnCur = null;
 	PositionCTRL posCtrl = null;
 	ActionCTRL actCtrl = null;
@@ -56,7 +68,8 @@ public class MainCTRL implements ActionListener{
 	TestExecCTRL testExecCtrl = null;
 	ScriptCTRL scriptCtrl = null;
 	ScriptExecCTRL scriptExecCtrl = null;
-	
+	AdminCTRL adminCtrl = null;
+	UserCTRL userCtrl = null; 
 	/**
 	 * Método contrutor da classe controlador do frame principal
 	 * @param mainFrame2
@@ -75,6 +88,8 @@ public class MainCTRL implements ActionListener{
 		TestExecView pnTestExec = new TestExecView();
 		ScriptView pnScript = new ScriptView();
 		ScriptExecView pnScriptExec = new ScriptExecView();
+		AdminView pnAdmin = new AdminView();
+		UserView pnUser = new UserView();
 		
 		mapPanel.put(PN_POSITION, pnPosition);
 		mapPanel.put(PN_ACTION, pnAction);
@@ -84,6 +99,8 @@ public class MainCTRL implements ActionListener{
 		mapPanel.put(PN_TEST_EXEC, pnTestExec);
 		mapPanel.put(PN_SCRIPT, pnScript);
 		mapPanel.put(PN_SCRIPT_EXEC, pnScriptExec);
+		mapPanel.put(PN_ADM, pnAdmin);
+		mapPanel.put(PN_USER, pnUser);
 				
 		//read config.properties and sets configuration
 		configInitialize();
@@ -92,7 +109,7 @@ public class MainCTRL implements ActionListener{
 			enableMenu(false);
 			
 			//inicializa o painel de configuração do sistema
-			setCurrentPanel(PN_CONFIG);
+			setCurrentPanel(PN_CONFIG, currentUser);
 		}
 		
 		this.mainFrame.getMntmAction().addActionListener(this);
@@ -104,6 +121,14 @@ public class MainCTRL implements ActionListener{
 		this.mainFrame.getMntmExecutarTst().addActionListener(this);
 		this.mainFrame.getMntmNewScpt().addActionListener(this);
 		this.mainFrame.getMntmExecutarScpt().addActionListener(this);
+		this.mainFrame.getMntmUser().addActionListener(this);
+		this.mainFrame.getMntmAdm().addActionListener(this);
+		
+		this.mainFrame.getLblIcon1().addMouseListener(this);
+		this.mainFrame.getLblIcon2().addMouseListener(this);
+		this.mainFrame.getLblIcon3().addMouseListener(this);
+		this.mainFrame.getLblIcon4().addMouseListener(this);
+		this.mainFrame.getLblIcon5().addMouseListener(this);
 	}
 
 	/**
@@ -150,7 +175,7 @@ public class MainCTRL implements ActionListener{
 	 * Método que seta o panel que está sendo utilizado no panel central
 	 * @param strPnCur - Painel a ser setado no centro do Frame Principal
 	 */
-	void setCurrentPanel(String strPnCur) {
+	void setCurrentPanel(String strPnCur, UserVO user) {
 		if(pnCur != null) {
 			mainFrame.getPnCenter().remove(pnCur);
 			posCtrl = null;
@@ -185,6 +210,12 @@ public class MainCTRL implements ActionListener{
 		else if (strPnCur == PN_SCRIPT) {
 			scriptExecCtrl = new ScriptExecCTRL((ScriptExecView) pnCur, roboticArm);
 		}
+		else if (strPnCur == PN_ADM) {
+			adminCtrl = new AdminCTRL((AdminView) pnCur, user, this);
+		}
+		else if (strPnCur == PN_USER) {
+			userCtrl = new UserCTRL((UserView) pnCur, user);
+		}
 		
 		System.out.println("Set frame " + strPnCur);
 	}
@@ -198,32 +229,84 @@ public class MainCTRL implements ActionListener{
 		Object objSource = e.getSource(); 
 		
 		if(objSource == this.mainFrame.getMntmReturn()) {
-			setCurrentPanel(PN_RETURN);
+			setCurrentPanel(PN_RETURN, currentUser);
 		}
 		else if(objSource == this.mainFrame.getMntmPosition()) {
-			setCurrentPanel(PN_POSITION);
+			setCurrentPanel(PN_POSITION, currentUser);
 		}
 		else if(objSource == this.mainFrame.getMntmAction()) {
-			setCurrentPanel(PN_ACTION);
+			setCurrentPanel(PN_ACTION, currentUser);
 		}
 		else if(objSource == this.mainFrame.getMntmNewTst()) {
-			setCurrentPanel(PN_TEST);
+			setCurrentPanel(PN_TEST, currentUser);
 		}
 		else if(objSource == this.mainFrame.getMntmExecutarTst()) {
-			setCurrentPanel(PN_TEST_EXEC);
+			setCurrentPanel(PN_TEST_EXEC, currentUser);
 		}
 		else if(objSource == this.mainFrame.getMntmNewScpt()) {
-			setCurrentPanel(PN_SCRIPT);
+			setCurrentPanel(PN_SCRIPT, currentUser);
 		}
 		else if(objSource == this.mainFrame.getMntmExecutarScpt()) {
-			setCurrentPanel(PN_SCRIPT_EXEC);
+			setCurrentPanel(PN_SCRIPT_EXEC, currentUser);
+		}
+		else if(objSource == this.mainFrame.getMntmAdm()) {
+			setCurrentPanel(PN_ADM, currentUser);
 		}
 		else if(objSource == this.mainFrame.getMntmConfig()) {
-			setCurrentPanel(PN_CONFIG);
+			setCurrentPanel(PN_CONFIG, currentUser);
+		}
+		else if(objSource == this.mainFrame.getMntmUser()) {
+			setCurrentPanel(PN_USER, currentUser);
 		}
 		else if(objSource == this.mainFrame.getMntmSair()) {
 			System.exit(0);
 		}
+		
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		Object obj = e.getSource();
+		
+		if(obj == this.mainFrame.getLblIcon1()) {
+			setCurrentPanel(PN_CONFIG, currentUser);
+		}
+		else if(obj == this.mainFrame.getLblIcon2()) {
+			setCurrentPanel(PN_POSITION, currentUser);
+		}
+		else if(obj == this.mainFrame.getLblIcon3()) {
+			setCurrentPanel(PN_TEST_EXEC, currentUser);
+		}
+		else if(obj == this.mainFrame.getLblIcon4()) {
+			setCurrentPanel(PN_SCRIPT_EXEC, currentUser);
+		}
+		else if(obj == this.mainFrame.getLblIcon5()) {
+			setCurrentPanel(PN_ADM, currentUser);
+		}
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
 		
 	}
 }

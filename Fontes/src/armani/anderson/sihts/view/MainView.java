@@ -36,6 +36,14 @@ public class MainView extends JFrame {
 	
 	private JMenuItem mntmNewScpt;
 	private JMenuItem mntmExecutarScpt;
+	private JMenuItem mntmAdm;
+	private JMenuItem mntmUser;
+	
+	private JLabel lblIcon1;
+	private JLabel lblIcon2;
+	private JLabel lblIcon3;
+	private JLabel lblIcon4;
+	private JLabel lblIcon5;
 	
 	
 	public JMenuItem getMntmNewTst() {
@@ -134,6 +142,62 @@ public class MainView extends JFrame {
 		this.mntmAction = mntmAction;
 	}
 
+	public JMenuItem getMntmAdm() {
+		return mntmAdm;
+	}
+
+	public void setMntmAdm(JMenuItem mntmAdm) {
+		this.mntmAdm = mntmAdm;
+	}
+
+	public JMenuItem getMntmUser() {
+		return mntmUser;
+	}
+
+	public void setMntmUser(JMenuItem mntmUser) {
+		this.mntmUser = mntmUser;
+	}
+
+	public JLabel getLblIcon1() {
+		return lblIcon1;
+	}
+
+	public void setLblIcon1(JLabel lblIcon1) {
+		this.lblIcon1 = lblIcon1;
+	}
+
+	public JLabel getLblIcon2() {
+		return lblIcon2;
+	}
+
+	public void setLblIcon2(JLabel lblIcon2) {
+		this.lblIcon2 = lblIcon2;
+	}
+
+	public JLabel getLblIcon3() {
+		return lblIcon3;
+	}
+
+	public void setLblIcon3(JLabel lblIcon3) {
+		this.lblIcon3 = lblIcon3;
+	}
+
+	public JLabel getLblIcon4() {
+		return lblIcon4;
+	}
+
+	public void setLblIcon4(JLabel lblIcon4) {
+		this.lblIcon4 = lblIcon4;
+	}
+
+	public JLabel getLblIcon5() {
+		return lblIcon5;
+	}
+
+	public void setLblIcon5(JLabel lblIcon5) {
+		this.lblIcon5 = lblIcon5;
+	}
+
 	/**
 	 * Create the frame.
 	 */
@@ -147,8 +211,14 @@ public class MainView extends JFrame {
 		JMenu mnArquivo = new JMenu("Arquivo");
 		menuBar.add(mnArquivo);
 		
+		mntmAdm = new JMenuItem("Administrador");
+		mnArquivo.add(mntmAdm);
+		
 		mntmConfig = new JMenuItem("Configuração");
 		mnArquivo.add(mntmConfig);
+		
+		mntmUser = new JMenuItem("Usuário");
+		mnArquivo.add(mntmUser);
 		
 		mntmSair = new JMenuItem("Sair");
 		mnArquivo.add(mntmSair);
@@ -203,23 +273,23 @@ public class MainView extends JFrame {
 		pnDown.setBackground(UIManager.getColor("Menu.background"));
 
 		
-		JLabel lblIcon1 = new JLabel("");
+		lblIcon1 = new JLabel("");
 		lblIcon1.setIcon(new ImageIcon("/Users/armani/Documents/Senac/TCC/TCC/GitHub/Fontes/images/icon/home.png"));
 		pnTop.add(lblIcon1);
 		
-		JLabel lblIcon2 = new JLabel("");
+		lblIcon2 = new JLabel("");
 		lblIcon2.setIcon(new ImageIcon("/Users/armani/Documents/Senac/TCC/TCC/GitHub/Fontes/images/icon/arm.png"));
 		pnTop.add(lblIcon2);
 		
-		JLabel lblIcon3 = new JLabel("");
+		lblIcon3 = new JLabel("");
 		lblIcon3.setIcon(new ImageIcon("/Users/armani/Documents/Senac/TCC/TCC/GitHub/Fontes/images/icon/report.png"));
 		pnTop.add(lblIcon3);
 		
-		JLabel lblIcon4 = new JLabel("");
+		lblIcon4 = new JLabel("");
 		lblIcon4.setIcon(new ImageIcon("/Users/armani/Documents/Senac/TCC/TCC/GitHub/Fontes/images/icon/calendar.png"));
 		pnTop.add(lblIcon4);
 		
-		JLabel lblIcon5 = new JLabel("");
+		lblIcon5 = new JLabel("");
 		lblIcon5.setIcon(new ImageIcon("/Users/armani/Documents/Senac/TCC/TCC/GitHub/Fontes/images/icon/settings.png"));
 		pnTop.add(lblIcon5);		
 		
