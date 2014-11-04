@@ -24,15 +24,17 @@ public class UserCTRL implements ActionListener {
 	private JButton btnSave;
 	private JButton btnCancel;
 	private JButton btnDelete;
-	private JComboBox<String> cbxUsers;
+	private JComboBox<String> cbxType;
 	private JTextField txtName;
 	private JTextField txtUser;
 	private JPasswordField txtPsw;
 	private JPasswordField txtConfirm;
+	private MainCTRL mainCtrl;
 
-	public UserCTRL(UserView userView, UserVO user) {
+	public UserCTRL(UserView userView, UserVO user, MainCTRL mainCtrl) {
 		this.userView = userView;
 		this.user = user;
+		this.mainCtrl = mainCtrl;
 		
 		if(userView == null) {
 			throw new IllegalArgumentException("Inválida passagem de parâmetro NULO para Visualização");
@@ -52,9 +54,11 @@ public class UserCTRL implements ActionListener {
 		txtPsw = userView.getPswPass();
 		txtConfirm = userView.getPswConfirm();
 		
-		btnSave = userView.getBtnCancel();
+		btnSave = userView.getBtnSave();
 		btnCancel = userView.getBtnCancel();
 		btnDelete = userView.getBtnDelete();
+		
+		cbxType = userView.getComboBox();
 		
 		btnSave.addActionListener(this);
 		btnCancel.addActionListener(this);
@@ -74,8 +78,7 @@ public class UserCTRL implements ActionListener {
 		txtPsw.setText(user.getPassword());
 		txtConfirm.setText(user.getPassword());
 		
-		System.out.println("INDICE == " + getCbxIndex(user.getType_level()));
-		cbxUsers.setSelectedIndex(getCbxIndex(user.getType_level()));
+		cbxType.setSelectedIndex(getCbxIndex(user.getType_level()));
 	}
 
 	private int getCbxIndex(int type) {
@@ -110,7 +113,7 @@ public class UserCTRL implements ActionListener {
  	}
 	
 	private void btnSaveClick() {
-		if(cbxUsers.getSelectedIndex() < 0) {
+		if(cbxType.getSelectedIndex() < 0) {
 			showError("Selecione um tipo");
 		}
 		else if(txtName.getText().isEmpty() || txtPsw.getText().isEmpty() || txtConfirm.getText().isEmpty()) {
@@ -121,15 +124,33 @@ public class UserCTRL implements ActionListener {
 			showError("Erro na confirmação da Senha");
 		}
 		else {
+			user.setName(txtName.getText());
+			user.setLogin(txtUser.getText());
+			user.setPassword(txtPsw.getText());
+			user.setType(cbxType.getSelectedItem().toString());
+			user.setType_level(cbxType.getSelectedIndex() + 1);
 			
 			UserBO userBO = new UserBO();
-			userBO.insert(this.user);
+			boolean Ret = false;
+			String action;
+			if(this.user.getId() >= 0) {
+				Ret = userBO.update(this.user);
+				action = "atualizado";
+			}
+			else {
+				Ret = userBO.insert(this.user);
+				action = "inserido";
+			}
+			
+			if(Ret == true) {
+				JOptionPane.showMessageDialog(null, "Usuário " + action + " com sucesso");
+			}
 		}
 	}
 
 	private void btnCancelClick() {
-		
-		
+		clearFields();
+		mainCtrl.setCurrentPanel("DefaultSettings", null);
 	}
 
 	private void btnDeleteClick() {

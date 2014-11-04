@@ -1,7 +1,7 @@
 package armani.anderson.sihts.model;
 
 public class UserVO {
-	private int id;
+	private int id = -1;
 	private String name;
 	private String login;
 	private String password;

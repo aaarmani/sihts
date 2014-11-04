@@ -29,7 +29,7 @@ public class UserDAO {
 		Connection connection = null;
 		PreparedStatement stmt = null;
 	    String sql = "INSERT INTO \"user\" (name, login, password, user_type)"
-	    		   + " VALUES(?,?,?,?)";
+	    		   + " VALUES(?,?,md5(?),?)";
 		
 		try {
 		   connection = new ConnectionFactory().getConnection();
@@ -38,7 +38,7 @@ public class UserDAO {
 		   stmt.setString(1, userVO.getName());
 		   stmt.setString(2, userVO.getLogin());
 		   stmt.setString(3, userVO.getPassword());
-		   stmt.setString(4, String.valueOf(userVO.getType()));
+		   stmt.setInt(4, userVO.getType_level());
 		   
 		   ret = stmt.executeUpdate();
 
@@ -145,23 +145,22 @@ public class UserDAO {
 	 */
 	public int update(UserVO userVO) throws RuntimeException {
 		int ret = 0;
-/*		Connection connection = null;
+		Connection connection = null;
 		PreparedStatement stmt = null;
 		
-		String sql = "UPDATE \"user\" SET name=?, login=?, password=?, type=?,"
-				+ " type_id=?, positionArtc4=?, type_level=? WHERE id=?";
+		String sql = "UPDATE \"user\" SET name=?, login=?, password=?, user_type=?"
+				+ " WHERE id=?";
 		
 		try {
 			connection = new ConnectionFactory().getConnection();
 			stmt = connection.prepareStatement(sql);
 			stmt.setString(1, userVO.getName());
-			stmt.setString(2, String.valueOf(userVO.getType()));
-		    stmt.setInt(3, userVO.getPositionArtc1());
-		    stmt.setInt(4, userVO.getPositionArtc2());
-		    stmt.setInt(5, userVO.getPositionArtc3());
-		    stmt.setInt(6, userVO.getPositionArtc4());
-		    stmt.setInt(7, userVO.getPositionArtc5());
-		    stmt.setLong(8, userVO.getId());
+			stmt.setString(2, userVO.getLogin());
+			stmt.setString(3, userVO.getPassword());
+			stmt.setInt(4, userVO.getType_level());
+		    
+		    stmt.setLong(5, userVO.getId());
+		    
 			ret = stmt.executeUpdate();
 			stmt.close();
 		} catch (SQLException e) {
@@ -173,7 +172,7 @@ public class UserDAO {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		}*/
+		}
 		return ret;
 	}
 	

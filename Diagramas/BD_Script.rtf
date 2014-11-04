@@ -1,0 +1,280 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1265\cocoasubrtf210
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+
+\f0\fs24 \cf0 -- Table: action\
+\
+-- DROP TABLE action;\
+\
+CREATE TABLE action\
+(\
+  id serial NOT NULL,\
+  name character varying(30) NOT NULL,\
+  description character varying(50),\
+  CONSTRAINT action_pkey PRIMARY KEY (id ),\
+  CONSTRAINT action_name_key UNIQUE (name )\
+)\
+WITH (\
+  OIDS=FALSE\
+);\
+ALTER TABLE action\
+  OWNER TO armani;\
+\
+\
+-- Table: action_list\
+\
+-- DROP TABLE action_list;\
+\
+CREATE TABLE action_list\
+(\
+  id serial NOT NULL,\
+  index integer NOT NULL,\
+  action_id integer NOT NULL,\
+  position_id integer NOT NULL,\
+  CONSTRAINT action_list_pkey PRIMARY KEY (id ),\
+  CONSTRAINT action_list_action_id FOREIGN KEY (action_id)\
+      REFERENCES action (id) MATCH SIMPLE\
+      ON UPDATE NO ACTION ON DELETE NO ACTION,\
+  CONSTRAINT action_list_position_id FOREIGN KEY (position_id)\
+      REFERENCES "position" (id) MATCH SIMPLE\
+      ON UPDATE NO ACTION ON DELETE NO ACTION\
+)\
+WITH (\
+  OIDS=FALSE\
+);\
+ALTER TABLE action_list\
+  OWNER TO armani;\
+\
+\
+-- Table: page\
+\
+-- DROP TABLE page;\
+\
+CREATE TABLE page\
+(\
+  id serial NOT NULL,\
+  name character varying(30) NOT NULL,\
+  CONSTRAINT page_pkey PRIMARY KEY (id )\
+)\
+WITH (\
+  OIDS=FALSE\
+);\
+ALTER TABLE page\
+  OWNER TO armani;\
+\
+\
+-- Table: "position"\
+\
+-- DROP TABLE "position";\
+\
+CREATE TABLE "position"\
+(\
+  id serial NOT NULL,\
+  name character varying(30) NOT NULL,\
+  pos_type character(1),\
+  positionartc1 integer NOT NULL,\
+  positionartc2 integer NOT NULL,\
+  positionartc3 integer NOT NULL,\
+  positionartc4 integer NOT NULL,\
+  positionartc5 integer NOT NULL,\
+  CONSTRAINT position_pkey PRIMARY KEY (id ),\
+  CONSTRAINT position_name_key UNIQUE (name ),\
+  CONSTRAINT pos_type_check CHECK (pos_type = ANY (ARRAY['P'::bpchar, 'O'::bpchar]))\
+)\
+WITH (\
+  OIDS=FALSE\
+);\
+ALTER TABLE "position"\
+  OWNER TO armani;\
+\
+\
+\
+-- Table: "return"\
+\
+-- DROP TABLE "return";\
+\
+CREATE TABLE "return"\
+(\
+  id serial NOT NULL,\
+  name character varying(30) NOT NULL,\
+  description character varying(100) NOT NULL,\
+  timeout integer NOT NULL,\
+  text character varying(300),\
+  CONSTRAINT return_pkey PRIMARY KEY (id ),\
+  CONSTRAINT return_name_key UNIQUE (name )\
+)\
+WITH (\
+  OIDS=FALSE\
+);\
+ALTER TABLE "return"\
+  OWNER TO armani;\
+\
+\
+\
+-- Table: script\
+\
+-- DROP TABLE script;\
+\
+CREATE TABLE script\
+(\
+  id serial NOT NULL,\
+  name character varying(30) NOT NULL,\
+  description character varying(100) NOT NULL,\
+  CONSTRAINT script_pkey PRIMARY KEY (id ),\
+  CONSTRAINT script_name_key UNIQUE (name )\
+)\
+WITH (\
+  OIDS=FALSE\
+);\
+ALTER TABLE script\
+  OWNER TO armani;\
+\
+\
+\
+\
+-- Table: scriptxtest\
+\
+-- DROP TABLE scriptxtest;\
+\
+CREATE TABLE scriptxtest\
+(\
+  id serial NOT NULL,\
+  index integer NOT NULL,\
+  script_id integer NOT NULL,\
+  test_id integer NOT NULL,\
+  CONSTRAINT scriptxtest_pkey PRIMARY KEY (id ),\
+  CONSTRAINT sciprtxtest_script FOREIGN KEY (script_id)\
+      REFERENCES script (id) MATCH SIMPLE\
+      ON UPDATE NO ACTION ON DELETE NO ACTION\
+)\
+WITH (\
+  OIDS=FALSE\
+);\
+ALTER TABLE scriptxtest\
+  OWNER TO armani;\
+\
+\
+\
+\
+-- Table: test\
+\
+-- DROP TABLE test;\
+\
+CREATE TABLE test\
+(\
+  id serial NOT NULL,\
+  name character varying(30) NOT NULL,\
+  description character varying(100),\
+  "return" integer NOT NULL,\
+  CONSTRAINT test_pkey PRIMARY KEY (id ),\
+  CONSTRAINT test_return_id FOREIGN KEY ("return")\
+      REFERENCES "return" (id) MATCH SIMPLE\
+      ON UPDATE NO ACTION ON DELETE NO ACTION,\
+  CONSTRAINT test_name_key UNIQUE (name )\
+)\
+WITH (\
+  OIDS=FALSE\
+);\
+ALTER TABLE test\
+  OWNER TO armani;\
+\
+\
+\
+\
+-- Table: testxaction\
+\
+-- DROP TABLE testxaction;\
+\
+CREATE TABLE testxaction\
+(\
+  id serial NOT NULL,\
+  index integer NOT NULL,\
+  test_id integer NOT NULL,\
+  action_id integer NOT NULL,\
+  CONSTRAINT testxaction_pkey PRIMARY KEY (id ),\
+  CONSTRAINT testxaction_actid FOREIGN KEY (action_id)\
+      REFERENCES action (id) MATCH SIMPLE\
+      ON UPDATE NO ACTION ON DELETE NO ACTION\
+)\
+WITH (\
+  OIDS=FALSE\
+);\
+ALTER TABLE testxaction\
+  OWNER TO armani;\
+\
+\
+\
+\
+\
+\
+-- Table: "user"\
+\
+-- DROP TABLE "user";\
+\
+CREATE TABLE "user"\
+(\
+  id serial NOT NULL,\
+  name character varying(30) NOT NULL,\
+  login character varying(12) NOT NULL,\
+  password character varying(32) NOT NULL,\
+  user_type integer,\
+  CONSTRAINT user_pkey PRIMARY KEY (id ),\
+  CONSTRAINT user_type_id FOREIGN KEY (user_type)\
+      REFERENCES "userType" (id) MATCH SIMPLE\
+      ON UPDATE NO ACTION ON DELETE NO ACTION,\
+  CONSTRAINT user_login_key UNIQUE (login ),\
+  CONSTRAINT user_name_key UNIQUE (name )\
+)\
+WITH (\
+  OIDS=FALSE\
+);\
+ALTER TABLE "user"\
+  OWNER TO armani;\
+\
+\
+\
+\
+\
+-- Table: "userType"\
+\
+-- DROP TABLE "userType";\
+\
+CREATE TABLE "userType"\
+(\
+  id serial NOT NULL,\
+  name character varying(20) NOT NULL,\
+  level integer NOT NULL,\
+  CONSTRAINT "userType_pkey" PRIMARY KEY (id )\
+)\
+WITH (\
+  OIDS=FALSE\
+);\
+ALTER TABLE "userType"\
+  OWNER TO armani;\
+\
+\
+\
+\
+\
+-- Table: usertyoexpage\
+\
+-- DROP TABLE usertyoexpage;\
+\
+CREATE TABLE usertyoexpage\
+(\
+  id serial NOT NULL,\
+  user_type integer NOT NULL,\
+  page integer NOT NULL,\
+  CONSTRAINT usertyoexpage_pkey PRIMARY KEY (id ),\
+  CONSTRAINT user_type_fk FOREIGN KEY (user_type)\
+      REFERENCES "userType" (id) MATCH SIMPLE\
+      ON UPDATE NO ACTION ON DELETE NO ACTION\
+)\
+WITH (\
+  OIDS=FALSE\
+);\
+ALTER TABLE usertyoexpage\
+  OWNER TO armani;\
+}

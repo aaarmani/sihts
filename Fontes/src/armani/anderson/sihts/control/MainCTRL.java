@@ -23,6 +23,7 @@ import armani.anderson.sihts.serial.RoboticArm;
 import armani.anderson.sihts.view.ActionView;
 import armani.anderson.sihts.view.AdminView;
 import armani.anderson.sihts.view.ConfigurationView;
+import armani.anderson.sihts.view.DefaultView;
 import armani.anderson.sihts.view.MainView;
 import armani.anderson.sihts.view.PositionView;
 import armani.anderson.sihts.view.ReturnView;
@@ -49,6 +50,7 @@ public class MainCTRL implements ActionListener, MouseListener{
 	public final String PN_SCRIPT_EXEC	= "ScriptExecute";
 	public final String PN_ADM			= "AdminSettings";
 	public final String PN_USER			= "UserSettings";
+	public final String PN_DEFAULT		= "DefaultSettings";
 	
 	String PROPERTIES_STR_SERIAL = "";
 	
@@ -90,6 +92,7 @@ public class MainCTRL implements ActionListener, MouseListener{
 		ScriptExecView pnScriptExec = new ScriptExecView();
 		AdminView pnAdmin = new AdminView();
 		UserView pnUser = new UserView();
+		DefaultView pnDefault = new DefaultView();
 		
 		mapPanel.put(PN_POSITION, pnPosition);
 		mapPanel.put(PN_ACTION, pnAction);
@@ -101,6 +104,7 @@ public class MainCTRL implements ActionListener, MouseListener{
 		mapPanel.put(PN_SCRIPT_EXEC, pnScriptExec);
 		mapPanel.put(PN_ADM, pnAdmin);
 		mapPanel.put(PN_USER, pnUser);
+		mapPanel.put(PN_DEFAULT, pnDefault);
 				
 		//read config.properties and sets configuration
 		configInitialize();
@@ -182,6 +186,10 @@ public class MainCTRL implements ActionListener, MouseListener{
 		}
 		
 		pnCur = mapPanel.get(strPnCur);
+		
+		if(pnCur == null)
+			return;
+		
 		mainFrame.getPnCenter().add(pnCur);
 		mainFrame.getPnCenter().setSize(pnCur.getSize());
 		mainFrame.getPnCenter().updateUI();
@@ -214,7 +222,7 @@ public class MainCTRL implements ActionListener, MouseListener{
 			adminCtrl = new AdminCTRL((AdminView) pnCur, user, this);
 		}
 		else if (strPnCur == PN_USER) {
-			userCtrl = new UserCTRL((UserView) pnCur, user);
+			userCtrl = new UserCTRL((UserView) pnCur, user, this);
 		}
 		
 		System.out.println("Set frame " + strPnCur);
@@ -269,10 +277,10 @@ public class MainCTRL implements ActionListener, MouseListener{
 		Object obj = e.getSource();
 		
 		if(obj == this.mainFrame.getLblIcon1()) {
-			setCurrentPanel(PN_CONFIG, currentUser);
+			setCurrentPanel(PN_DEFAULT, currentUser);
 		}
 		else if(obj == this.mainFrame.getLblIcon2()) {
-			setCurrentPanel(PN_POSITION, currentUser);
+			setCurrentPanel(PN_CONFIG, currentUser);
 		}
 		else if(obj == this.mainFrame.getLblIcon3()) {
 			setCurrentPanel(PN_TEST_EXEC, currentUser);
@@ -281,7 +289,10 @@ public class MainCTRL implements ActionListener, MouseListener{
 			setCurrentPanel(PN_SCRIPT_EXEC, currentUser);
 		}
 		else if(obj == this.mainFrame.getLblIcon5()) {
-			setCurrentPanel(PN_ADM, currentUser);
+			//if(currentUser.getType_level() > 0)
+				//setCurrentPanel(PN_USER, currentUser);
+			//else
+				setCurrentPanel(PN_ADM, currentUser);
 		}
 		
 	}
