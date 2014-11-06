@@ -28,18 +28,18 @@ public class ScriptView extends JPanel {
 	private JButton btnCancel;
 	private JButton btnSave;
 	
-	private JButton btnActionAdd;
+	private JButton btnTestAdd;
 	
-	private JList<String> lstAction;
-	private JList<String> lstTests;
+	private JList<String> lstTest;
+	private JList<String> lstScript;
 	private JPanel pnTestActive;
 
-	public JButton getBtnActionAdd() {
-		return btnActionAdd;
+	public JButton getBtnTestAdd() {
+		return btnTestAdd;
 	}
 
-	public void setBtnActionAdd(JButton btnActionAdd) {
-		this.btnActionAdd = btnActionAdd;
+	public void setBtnTestAdd(JButton btnTestAdd) {
+		this.btnTestAdd = btnTestAdd;
 	}
 
 	public JTextField getTxtName() {
@@ -90,20 +90,20 @@ public class ScriptView extends JPanel {
 		this.btnSave = btnSave;
 	}
 
-	public JList<String> getLstAction() {
-		return lstAction;
+	public JList<String> getLstTest() {
+		return lstTest;
 	}
 
-	public void setLstAction(JList<String> lstAction) {
-		this.lstAction = lstAction;
+	public void setLstTest(JList<String> lstTest) {
+		this.lstTest = lstTest;
 	}
 
-	public JList<String> getLstTests() {
-		return lstTests;
+	public JList<String> getLstScript() {
+		return lstScript;
 	}
 
-	public void setLstTests(JList<String> lstTests) {
-		this.lstTests = lstTests;
+	public void setLstTests(JList<String> lstScript) {
+		this.lstScript = lstScript;
 	}
 	
 	public JPanel getPnTestActive() {
@@ -151,7 +151,7 @@ public class ScriptView extends JPanel {
 		lblTeste_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTeste_1.setFont(new Font("Lucida Grande", Font.BOLD, 18));
 		
-		btnActionAdd = new JButton(">>");
+		btnTestAdd = new JButton(">>");
 		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
@@ -167,7 +167,7 @@ public class ScriptView extends JPanel {
 								.addComponent(scpAction, GroupLayout.PREFERRED_SIZE, 177, GroupLayout.PREFERRED_SIZE)
 								.addComponent(scpTests, GroupLayout.PREFERRED_SIZE, 177, GroupLayout.PREFERRED_SIZE))))
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnActionAdd, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
+					.addComponent(btnTestAdd, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addComponent(lblTeste_1, GroupLayout.DEFAULT_SIZE, 497, Short.MAX_VALUE)
@@ -226,17 +226,17 @@ public class ScriptView extends JPanel {
 								.addComponent(btnExecute)))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(185)
-							.addComponent(btnActionAdd)))
+							.addComponent(btnTestAdd)))
 					.addContainerGap())
 		);
 		
-		lstTests = new JList<String>();
-		lstTests.setBackground(Color.WHITE);
-		scpTests.setViewportView(lstTests);
+		lstScript = new JList<String>();
+		lstScript.setBackground(Color.WHITE);
+		scpTests.setViewportView(lstScript);
 		
-		lstAction = new JList<String>();
-		lstAction.setBackground(Color.WHITE);
-		scpAction.setViewportView(lstAction);
+		lstTest = new JList<String>();
+		lstTest.setBackground(Color.WHITE);
+		scpAction.setViewportView(lstTest);
 		
 		pnTestActive = new JPanel();
 		pnTestActive.setPreferredSize(new Dimension(330, 1500));

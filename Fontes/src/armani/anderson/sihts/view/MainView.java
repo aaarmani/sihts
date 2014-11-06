@@ -44,6 +44,8 @@ public class MainView extends JFrame {
 	private JLabel lblIcon3;
 	private JLabel lblIcon4;
 	private JLabel lblIcon5;
+	private JMenu mnUser;
+	private JMenuItem mntmLogout;
 	
 	
 	public JMenuItem getMntmNewTst() {
@@ -198,6 +200,14 @@ public class MainView extends JFrame {
 		this.lblIcon5 = lblIcon5;
 	}
 
+	public JMenuItem getMntmLogout() {
+		return mntmLogout;
+	}
+
+	public void setMntmLogout(JMenuItem mntmLogout) {
+		this.mntmLogout = mntmLogout;
+	}
+
 	/**
 	 * Create the frame.
 	 */
@@ -216,9 +226,6 @@ public class MainView extends JFrame {
 		
 		mntmConfig = new JMenuItem("Configuração");
 		mnArquivo.add(mntmConfig);
-		
-		mntmUser = new JMenuItem("Usuário");
-		mnArquivo.add(mntmUser);
 		
 		mntmSair = new JMenuItem("Sair");
 		mnArquivo.add(mntmSair);
@@ -252,6 +259,15 @@ public class MainView extends JFrame {
 		
 		mntmExecutarScpt = new JMenuItem("Executar");
 		mnScript.add(mntmExecutarScpt);
+		
+		mnUser = new JMenu("Usuário");
+		menuBar.add(mnUser);
+		
+		mntmUser = new JMenuItem("Editar");
+		mnUser.add(mntmUser);
+		
+		mntmLogout = new JMenuItem("Logout");
+		mnUser.add(mntmLogout);
 		
 		
 		

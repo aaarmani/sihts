@@ -61,7 +61,7 @@ public class ScriptExecView extends JPanel {
 	 */
 	public ScriptExecView() {
 		
-		JLabel lblNewLabel = new JLabel("Executa Script");
+		JLabel lblNewLabel = new JLabel("Executar Script");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setFont(new Font("Lucida Grande", Font.BOLD, 18));
 		

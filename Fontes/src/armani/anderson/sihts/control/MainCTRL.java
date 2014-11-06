@@ -24,6 +24,7 @@ import armani.anderson.sihts.view.ActionView;
 import armani.anderson.sihts.view.AdminView;
 import armani.anderson.sihts.view.ConfigurationView;
 import armani.anderson.sihts.view.DefaultView;
+import armani.anderson.sihts.view.LoginView;
 import armani.anderson.sihts.view.MainView;
 import armani.anderson.sihts.view.PositionView;
 import armani.anderson.sihts.view.ReturnView;
@@ -51,6 +52,7 @@ public class MainCTRL implements ActionListener, MouseListener{
 	public final String PN_ADM			= "AdminSettings";
 	public final String PN_USER			= "UserSettings";
 	public final String PN_DEFAULT		= "DefaultSettings";
+	public final String PN_LOGIN		= "LoginSettings";
 	
 	String PROPERTIES_STR_SERIAL = "";
 	
@@ -71,7 +73,8 @@ public class MainCTRL implements ActionListener, MouseListener{
 	ScriptCTRL scriptCtrl = null;
 	ScriptExecCTRL scriptExecCtrl = null;
 	AdminCTRL adminCtrl = null;
-	UserCTRL userCtrl = null; 
+	UserCTRL userCtrl = null;
+	LoginCTRL loginCtrl = null;
 	/**
 	 * Método contrutor da classe controlador do frame principal
 	 * @param mainFrame2
@@ -93,6 +96,7 @@ public class MainCTRL implements ActionListener, MouseListener{
 		AdminView pnAdmin = new AdminView();
 		UserView pnUser = new UserView();
 		DefaultView pnDefault = new DefaultView();
+		LoginView pnLogin = new LoginView();
 		
 		mapPanel.put(PN_POSITION, pnPosition);
 		mapPanel.put(PN_ACTION, pnAction);
@@ -105,6 +109,7 @@ public class MainCTRL implements ActionListener, MouseListener{
 		mapPanel.put(PN_ADM, pnAdmin);
 		mapPanel.put(PN_USER, pnUser);
 		mapPanel.put(PN_DEFAULT, pnDefault);
+		mapPanel.put(PN_LOGIN, pnLogin);
 				
 		//read config.properties and sets configuration
 		configInitialize();
@@ -127,6 +132,7 @@ public class MainCTRL implements ActionListener, MouseListener{
 		this.mainFrame.getMntmExecutarScpt().addActionListener(this);
 		this.mainFrame.getMntmUser().addActionListener(this);
 		this.mainFrame.getMntmAdm().addActionListener(this);
+		this.mainFrame.getMntmLogout().addActionListener(this);
 		
 		this.mainFrame.getLblIcon1().addMouseListener(this);
 		this.mainFrame.getLblIcon2().addMouseListener(this);
@@ -224,6 +230,9 @@ public class MainCTRL implements ActionListener, MouseListener{
 		else if (strPnCur == PN_USER) {
 			userCtrl = new UserCTRL((UserView) pnCur, user, this);
 		}
+		else if (strPnCur == PN_LOGIN) {
+			loginCtrl = new LoginCTRL((LoginView) pnCur, user, this);
+		}
 		
 		System.out.println("Set frame " + strPnCur);
 	}
@@ -265,6 +274,10 @@ public class MainCTRL implements ActionListener, MouseListener{
 		}
 		else if(objSource == this.mainFrame.getMntmUser()) {
 			setCurrentPanel(PN_USER, currentUser);
+		}
+		else if(objSource == this.mainFrame.getMntmLogout()) {
+			this.currentUser = null;
+			setCurrentPanel(PN_LOGIN, currentUser);
 		}
 		else if(objSource == this.mainFrame.getMntmSair()) {
 			System.exit(0);

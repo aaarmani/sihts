@@ -6,33 +6,36 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Vector;
 
 import armani.anderson.sihts.factory.ConnectionFactory;
 
-public class ScriptDAO {
+public class ScriptxTestDAO {
 	final static String COL_ID = "id";
-	final static String COL_NAME = "name";
-	final static String COL_DESCRIPTION = "description";
+	final static String COL_INDEX = "index";
+	final static String COL_SCRIPT_ID = "script_id";
+	final static String COL_TEST_ID = "test_id";
 	
-	public boolean insert(ScriptVO scptVO) {
+	public boolean insert(ScriptxtestVO testxActionVO) {
 		int ret = 0;
 		Connection connection = null;
 		PreparedStatement stmt = null;
-	    String sql = "INSERT INTO test(" + COL_NAME + ", " + COL_DESCRIPTION + ")"
-	    		   + " VALUES(?,?)";
+	    String sql = "INSERT INTO testxaction(" + COL_INDEX + ", " + COL_TEST_ID + "," + COL_SCRIPT_ID + ")"
+	    		   + " VALUES(?,?,?)";
 		
 		try {
 		   connection = new ConnectionFactory().getConnection();
 			
 		   stmt = connection.prepareStatement(sql, stmt.RETURN_GENERATED_KEYS);
-		   stmt.setString(1, scptVO.getName());
-		   stmt.setString(2, scptVO.getDescription());
-		   
+		   stmt.setInt(1, testxActionVO.getIndex());
+		   stmt.setInt(2, testxActionVO.getTestId());
+		   stmt.setInt(3, testxActionVO.getScriptId());
+		   System.out.println("SQL =  " + sql);
 		   ret = stmt.executeUpdate();
 
 		   ResultSet keys = stmt.getGeneratedKeys();
 		   if(keys.next()) {
-			   scptVO.setId(keys.getLong(1));   
+			   testxActionVO.setId(keys.getInt(1));   
 		   }
 		   
 		   keys.close();
@@ -50,41 +53,31 @@ public class ScriptDAO {
 		return (ret > 0);
 	}
 	
-	public List<ScriptVO> select(ScriptVO scptVO) {
+	public List<TestVO> select(ScriptVO scriptVO) {
 		ResultSet resSet = null;
 		Connection connection = null;
 		PreparedStatement stmt = null;
-		List<ScriptVO> lstScptVO = null;
+		List<TestVO> lstTestVO = null;
 		
-		String sql = "SELECT * FROM script";
-		
-		if(scptVO != null) {
-			String where = " WHERE ";
-			
-			if(scptVO.getName() != "") {
-				where += COL_NAME + " = '" + scptVO.getName() + "'";
-			}
-			
-			sql += where;
-		}
-		
-		sql += " ORDER BY " + COL_NAME;
+		String sql = "SELECT test.id, test.name, test.description FROM Scriptxtest, test WHERE scriptxtest.test_id = test.id AND script_id = ";
+		sql += scriptVO.getId();
+		sql += " ORDER BY Scriptxtest.index";
 		
 		try {
 			connection = new ConnectionFactory().getConnection();
 			stmt = connection.prepareStatement(sql);
+			
 			if(stmt.execute() == true) {
 				resSet = stmt.getResultSet();
 				if(resSet != null) {
-					lstScptVO = new LinkedList<ScriptVO>();
-
+					lstTestVO = new LinkedList<TestVO>();
 					while(resSet.next()) {
-						ScriptVO scpRetVO = new ScriptVO();
-			
-						scpRetVO.setId(Long.valueOf(resSet.getString(COL_ID)));
-						scpRetVO.setName(resSet.getString(COL_NAME));
-						scpRetVO.setDescription(resSet.getString(COL_DESCRIPTION));
-						lstScptVO.add(scpRetVO);
+						TestVO tstVO = new TestVO();
+						tstVO.setName(resSet.getString("name"));
+						tstVO.setId(resSet.getLong("id"));
+						tstVO.setDescription(resSet.getString("description"));
+						
+						lstTestVO.add(tstVO);
 					}
 				}
 			}
@@ -100,49 +93,26 @@ public class ScriptDAO {
 				e.printStackTrace();
 			}
 		}
-		return lstScptVO;
+		return lstTestVO;
 	}
 	
-	public int update(ScriptVO scptVO) {
+	public int update(ScriptxtestVO testxactionVO) {
+		
+		return 0;
+	}
+	
+	public int delete(ScriptVO scriptVO) {
 		int ret = 0;
 		Connection connection = null;
 		PreparedStatement stmt = null;
 		
-		String sql = "UPDATE script SET "+ COL_NAME + "=?, " + COL_DESCRIPTION + "=? WHERE id=?";
-		
-		try {
-			connection = new ConnectionFactory().getConnection();
-			stmt = connection.prepareStatement(sql);
-			stmt.setString(1, scptVO.getName());
-			stmt.setString(2, scptVO.getDescription());
-		    stmt.setLong(3, scptVO.getId());
-		    ret = stmt.executeUpdate();
-			stmt.close();
-		} catch (SQLException e) {
-			throw new RuntimeException(e);
-		} finally {
-			try {
-				stmt.close();
-				connection.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		return ret;
-	}
-	
-	public int delete(ScriptVO scptVO) {
-		int ret = 0;
-		Connection connection = null;
-		PreparedStatement stmt = null;
-		
-		String sql = "DELETE FROM script WHERE id = ?";
-		
+		String sql = "DELETE FROM Scriptxtest WHERE Scriptxtest.test_id = ?";
+
 		try {
 			connection = new ConnectionFactory().getConnection();
 			
 			stmt = connection.prepareStatement(sql);
-			stmt.setLong(1, scptVO.getId());
+			stmt.setLong(1, scriptVO.getId());
 			ret = stmt.executeUpdate();
 			stmt.close();
 		} catch (SQLException e) {
@@ -159,4 +129,42 @@ public class ScriptDAO {
 		return ret;
 	}
 
+	public Vector<String> selectTests(ScriptVO scriptVO) {
+		ResultSet resSet = null;
+		Connection connection = null;
+		PreparedStatement stmt = null;
+		Vector<String> vctTestName = null;
+		
+		String sql = "SELECT test.name FROM Scriptxtest, test WHERE Scriptxtest.test_id = test.id AND script_id = ";
+		sql += scriptVO.getId();
+		sql += " ORDER BY Scriptxtest.index";
+
+		try {
+			connection = new ConnectionFactory().getConnection();
+			stmt = connection.prepareStatement(sql);
+			
+			if(stmt.execute() == true) {
+				resSet = stmt.getResultSet();
+				if(resSet != null) {
+
+					vctTestName = new Vector<>();
+					while(resSet.next()) {
+						vctTestName.add(resSet.getString("name"));
+					}
+				}
+			}
+			
+			stmt.close();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			try {
+				stmt.close();
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return vctTestName;
+	}
 }

@@ -70,6 +70,7 @@ public class ExecuteTest implements Runnable{
 		System.out.println("Exec Test RUN...");
 		txtarea.setText("");
 		txtarea.append("### RODANDO TESTE " + test.getName() + " ###" + "\n");
+		txtarea.repaint();
 		
 		//Abri relatório
 		initializeReport();
@@ -95,6 +96,7 @@ public class ExecuteTest implements Runnable{
 			
 			System.out.println("AÇÃO = " + actVO.getName());
 			txtarea.append("  AÇÃO [ " + actVO.getName() + " ]" + "\n");
+			txtarea.repaint();
 			
 			//linha de teste no relatório
 			insertReportLine("AÇÃO: " + actVO.getName(), "OK");

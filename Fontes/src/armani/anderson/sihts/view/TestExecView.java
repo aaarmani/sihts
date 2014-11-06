@@ -62,7 +62,7 @@ public class TestExecView extends JPanel {
 	 */
 	public TestExecView() {
 		
-		JLabel lblNewLabel = new JLabel("Executa Teste");
+		JLabel lblNewLabel = new JLabel("Executar Teste");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setFont(new Font("Lucida Grande", Font.BOLD, 18));
 		
