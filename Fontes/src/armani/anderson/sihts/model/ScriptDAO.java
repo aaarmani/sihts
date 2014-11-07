@@ -18,7 +18,7 @@ public class ScriptDAO {
 		int ret = 0;
 		Connection connection = null;
 		PreparedStatement stmt = null;
-	    String sql = "INSERT INTO test(" + COL_NAME + ", " + COL_DESCRIPTION + ")"
+	    String sql = "INSERT INTO script (" + COL_NAME + ", " + COL_DESCRIPTION + ")"
 	    		   + " VALUES(?,?)";
 		
 		try {

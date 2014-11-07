@@ -141,6 +141,7 @@ public class TestCTRL implements ActionListener, ListSelectionListener {
 		
 		if ((objLst == this.testView.getLstTests()) && (jlstTest.getSelectedIndex() >= 0)) {
 			this.testView.getPnTestActive().removeAll();
+			//mapTestActionViews.clear();
 			
 			if(e.getValueIsAdjusting() == false) {
 				
