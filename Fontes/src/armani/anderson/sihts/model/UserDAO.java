@@ -90,14 +90,16 @@ public class UserDAO {
 			}
 			
 			if(userVO.getLogin() != "" && userVO.getPassword() != "") {
-				where += USR_COL_LOGIN + " = '" + userVO.getLogin() + "' " +  USR_COL_PASS + " = '" + userVO.getPassword() + "' ";
+				where += USR_COL_LOGIN + " = '" + userVO.getLogin() + "' AND " +  USR_COL_PASS + " = md5('" + userVO.getPassword() + "') ";
 			}
 			
 			sql += where;
-			System.out.println("SQL = " + sql);
+			//System.out.println("SQL = " + sql);
 		}
 		
 		sql += " ORDER BY name";
+		
+		System.out.println("SQL = " + sql);
 
 		try {
 			connection = new ConnectionFactory().getConnection();
@@ -116,7 +118,7 @@ public class UserDAO {
 						retUser.setPassword(resSet.getString(USR_COL_PASS));
 						retUser.setType(resSet.getString(USR_COL_TYPE));
 						retUser.setType_id(Integer.valueOf(resSet.getString(USR_COL_TYPE)));
-						retUser.setType_level(Integer.valueOf(resSet.getString(USR_COL_TYPE)));
+						retUser.setType_level(Integer.valueOf(resSet.getString(USR_COL_TYPE_LEVEL)));
 						
 						lstUserVO.add(retUser);
 					}

@@ -44,7 +44,7 @@ public class UserBO {
 		}*/
 		if(userVO != null) {
 			if ((userVO.getName().isEmpty()) &&
-					(userVO.getId() < 0)) {
+					(userVO.getId() < 0) && userVO.getLogin().isEmpty()) {
 				exception = true;
 				expMsg = "Faltam dados para realizar a seleção";
 			}

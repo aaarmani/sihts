@@ -20,7 +20,7 @@ public class ScriptxTestDAO {
 		int ret = 0;
 		Connection connection = null;
 		PreparedStatement stmt = null;
-	    String sql = "INSERT INTO testxaction(" + COL_INDEX + ", " + COL_TEST_ID + "," + COL_SCRIPT_ID + ")"
+	    String sql = "INSERT INTO scriptxtest(" + COL_INDEX + ", " + COL_TEST_ID + "," + COL_SCRIPT_ID + ")"
 	    		   + " VALUES(?,?,?)";
 		
 		try {
@@ -30,7 +30,6 @@ public class ScriptxTestDAO {
 		   stmt.setInt(1, testxActionVO.getIndex());
 		   stmt.setInt(2, testxActionVO.getTestId());
 		   stmt.setInt(3, testxActionVO.getScriptId());
-		   System.out.println("SQL =  " + sql);
 		   ret = stmt.executeUpdate();
 
 		   ResultSet keys = stmt.getGeneratedKeys();
@@ -59,9 +58,9 @@ public class ScriptxTestDAO {
 		PreparedStatement stmt = null;
 		List<TestVO> lstTestVO = null;
 		
-		String sql = "SELECT test.id, test.name, test.description FROM Scriptxtest, test WHERE scriptxtest.test_id = test.id AND script_id = ";
+		String sql = "SELECT test.id, test.name, test.description FROM scriptxtest, test WHERE scriptxtest.test_id = test.id AND script_id = ";
 		sql += scriptVO.getId();
-		sql += " ORDER BY Scriptxtest.index";
+		sql += " ORDER BY scriptxtest.index";
 		
 		try {
 			connection = new ConnectionFactory().getConnection();
@@ -106,7 +105,7 @@ public class ScriptxTestDAO {
 		Connection connection = null;
 		PreparedStatement stmt = null;
 		
-		String sql = "DELETE FROM Scriptxtest WHERE Scriptxtest.test_id = ?";
+		String sql = "DELETE FROM scriptxtest WHERE scriptxtest.script_id = ?";
 
 		try {
 			connection = new ConnectionFactory().getConnection();
@@ -135,9 +134,9 @@ public class ScriptxTestDAO {
 		PreparedStatement stmt = null;
 		Vector<String> vctTestName = null;
 		
-		String sql = "SELECT test.name FROM Scriptxtest, test WHERE Scriptxtest.test_id = test.id AND script_id = ";
+		String sql = "SELECT test.name FROM scriptxtest, test WHERE scriptxtest.test_id = test.id AND script_id = ";
 		sql += scriptVO.getId();
-		sql += " ORDER BY Scriptxtest.index";
+		sql += " ORDER BY scriptxtest.index";
 
 		try {
 			connection = new ConnectionFactory().getConnection();

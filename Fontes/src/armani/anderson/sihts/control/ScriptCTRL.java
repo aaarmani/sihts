@@ -9,6 +9,7 @@ import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -171,7 +172,29 @@ public class ScriptCTRL implements ActionListener, ListSelectionListener {
 	}
 
 	private void btnDeleteClick() {
+		System.out.println("Delete");
 		
+		if(currentScript == null) {
+			return;
+		}
+		
+		//deletar realmente??
+		if(JOptionPane.showConfirmDialog(null, "Deseja excluir realmente este Script?", "Exclusão de Script",0, JOptionPane.WARNING_MESSAGE) > 0) {
+			//não deve deletar o Teste
+			return;
+		}
+		
+		ScriptxtestBO scptxtstBO = new ScriptxtestBO();
+		scptxtstBO.delete(currentScript);
+		
+		ScriptBO scptBO = new ScriptBO();
+		scptBO.delete(currentScript);
+		
+		clearFields();
+		initializeListScript();
+		
+		btnDelete.setVisible(false);
+		btnRun.setVisible(false);
 	}
 
 	private void btnAddTestClick() {
@@ -187,7 +210,7 @@ public class ScriptCTRL implements ActionListener, ListSelectionListener {
 	}
 
 	private void btnRunClick() {
-		
+		System.out.println("Execute");
 	}
 	
 	//################## Métodos ##################

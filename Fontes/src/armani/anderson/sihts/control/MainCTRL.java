@@ -115,7 +115,7 @@ public class MainCTRL implements ActionListener, MouseListener{
 		configInitialize();
 		
 		if(initializeRoboticArm() == false) {
-			enableMenu(false);
+			//enableMenu(false, currentUser.getType_level());
 			
 			//inicializa o painel de configuração do sistema
 			setCurrentPanel(PN_CONFIG, currentUser);
@@ -139,6 +139,8 @@ public class MainCTRL implements ActionListener, MouseListener{
 		this.mainFrame.getLblIcon3().addMouseListener(this);
 		this.mainFrame.getLblIcon4().addMouseListener(this);
 		this.mainFrame.getLblIcon5().addMouseListener(this);
+		
+		setCurrentPanel(PN_LOGIN, currentUser);
 	}
 
 	/**
@@ -155,12 +157,45 @@ public class MainCTRL implements ActionListener, MouseListener{
 	 * <p> Método que habilita/desabilita menus
 	 * Habilita/Desabilita menus que utilizam o braço robótico
 	 */
-	private void enableMenu(boolean enable) {
+	public void enableMenu(boolean enable, int type) {
+		System.out.println("ENABLE = " + enable + "  Type = " + type);
 		if(enable == true) {
 			//habilita menus
+			this.mainFrame.getMenuBarra().setVisible(true);
+			this.mainFrame.getPnTop().setVisible(true);
+			
+			switch(type) {
+			case 0: //Admin
+				this.mainFrame.getMntmAdm().setVisible(true);
+				this.mainFrame.getMntmNewScpt().setVisible(true);
+				this.mainFrame.getMntmNewTst().setVisible(true);
+				this.mainFrame.getMntmPosition().setVisible(true);
+				this.mainFrame.getMntmReturn().setVisible(true);
+				this.mainFrame.getMntmAction().setVisible(true);
+				break;
+			case 1: //Projetista
+				this.mainFrame.getMntmAdm().setVisible(false);
+				this.mainFrame.getMntmNewScpt().setVisible(true);
+				this.mainFrame.getMntmNewTst().setVisible(true);
+				this.mainFrame.getMntmPosition().setVisible(true);
+				this.mainFrame.getMntmReturn().setVisible(true);
+				this.mainFrame.getMntmAction().setVisible(true);
+				break;
+			case 2: //Testador
+				this.mainFrame.getMntmAdm().setVisible(false);
+				this.mainFrame.getMntmNewScpt().setVisible(false);
+				this.mainFrame.getMntmNewTst().setVisible(false);
+				this.mainFrame.getMntmPosition().setVisible(false);
+				this.mainFrame.getMntmReturn().setVisible(false);
+				this.mainFrame.getMntmAction().setVisible(false);
+				break;
+			}
+			
 		}
 		else {
 			//desabilita menus
+			this.mainFrame.getMenuBarra().setVisible(false);
+			this.mainFrame.getPnTop().setVisible(false);
 		}
 	}
 
@@ -201,37 +236,49 @@ public class MainCTRL implements ActionListener, MouseListener{
 		mainFrame.getPnCenter().updateUI();
 		
 		if (strPnCur == PN_POSITION){
-			posCtrl = new PositionCTRL((PositionView) pnCur, roboticArm);	
+			if(posCtrl == null)
+				posCtrl = new PositionCTRL((PositionView) pnCur, roboticArm);	
 		}
 		else if (strPnCur == PN_ACTION) {
-			actCtrl = new ActionCTRL((ActionView) pnCur, roboticArm);
+			if(actCtrl == null)
+				actCtrl = new ActionCTRL((ActionView) pnCur, roboticArm);
 		}
 		else if (strPnCur == PN_RETURN) {
-			retCtrl = new ReturnCTRL((ReturnView) pnCur);
+			if(retCtrl == null)
+				retCtrl = new ReturnCTRL((ReturnView) pnCur);
 		}
 		else if (strPnCur == PN_CONFIG) {
-			confCtrl = new ConfigurationCTRL((ConfigurationView)pnCur);
+			if(confCtrl == null)
+				confCtrl = new ConfigurationCTRL((ConfigurationView)pnCur);
 		}
 		else if (strPnCur == PN_TEST) {
-			testCtrl = new TestCTRL((TestView) pnCur, roboticArm);
+			if(testCtrl == null)
+				testCtrl = new TestCTRL((TestView) pnCur, roboticArm);
 		}
 		else if (strPnCur == PN_TEST_EXEC) {
-			testExecCtrl = new TestExecCTRL((TestExecView) pnCur, roboticArm);
+			if(testExecCtrl == null)
+				testExecCtrl = new TestExecCTRL((TestExecView) pnCur, roboticArm);
 		}
 		else if (strPnCur == PN_SCRIPT) {
-			scriptCtrl = new ScriptCTRL((ScriptView) pnCur, roboticArm);
+			if(scriptCtrl == null)
+				scriptCtrl = new ScriptCTRL((ScriptView) pnCur, roboticArm);
 		}
 		else if (strPnCur == PN_SCRIPT) {
-			scriptExecCtrl = new ScriptExecCTRL((ScriptExecView) pnCur, roboticArm);
+			if(scriptExecCtrl == null)
+				scriptExecCtrl = new ScriptExecCTRL((ScriptExecView) pnCur, roboticArm);
 		}
 		else if (strPnCur == PN_ADM) {
-			adminCtrl = new AdminCTRL((AdminView) pnCur, user, this);
+			if(adminCtrl == null)
+				adminCtrl = new AdminCTRL((AdminView) pnCur, user, this);
 		}
 		else if (strPnCur == PN_USER) {
-			userCtrl = new UserCTRL((UserView) pnCur, user, this);
+			if(userCtrl == null)
+				userCtrl = new UserCTRL((UserView) pnCur, user, this);
 		}
 		else if (strPnCur == PN_LOGIN) {
-			loginCtrl = new LoginCTRL((LoginView) pnCur, user, this);
+			if(loginCtrl == null)
+				loginCtrl = new LoginCTRL((LoginView) pnCur, user, this);
+			enableMenu(false, 0);
 		}
 		
 		System.out.println("Set frame " + strPnCur);

@@ -47,7 +47,16 @@ public class MainView extends JFrame {
 	private JMenu mnUser;
 	private JMenuItem mntmLogout;
 	
-	
+	private JMenuBar menuBarra;
+
+	public JMenuBar getMenuBarra() {
+		return menuBarra;
+	}
+
+	public void setMenuBarra(JMenuBar menuBarra) {
+		this.menuBarra = menuBarra;
+	}
+
 	public JMenuItem getMntmNewTst() {
 		return mntmNewTst;
 	}
@@ -215,11 +224,11 @@ public class MainView extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setFrameSize();
 		
-		JMenuBar menuBar = new JMenuBar();
-		setJMenuBar(menuBar);
+		menuBarra = new JMenuBar();
+		setJMenuBar(menuBarra);
 		
 		JMenu mnArquivo = new JMenu("Arquivo");
-		menuBar.add(mnArquivo);
+		menuBarra.add(mnArquivo);
 		
 		mntmAdm = new JMenuItem("Administrador");
 		mnArquivo.add(mntmAdm);
@@ -231,7 +240,7 @@ public class MainView extends JFrame {
 		mnArquivo.add(mntmSair);
 		
 		JMenu mnCadastro = new JMenu("Cadastro");
-		menuBar.add(mnCadastro);
+		menuBarra.add(mnCadastro);
 		
 		mntmAction = new JMenuItem("Ação");
 		mnCadastro.add(mntmAction);
@@ -243,7 +252,7 @@ public class MainView extends JFrame {
 		mnCadastro.add(mntmReturn);
 //TEST		
 		JMenu mnTeste = new JMenu("Teste");
-		menuBar.add(mnTeste);
+		menuBarra.add(mnTeste);
 		
 		mntmNewTst = new JMenuItem("Novo");
 		mnTeste.add(mntmNewTst);
@@ -252,7 +261,7 @@ public class MainView extends JFrame {
 		mnTeste.add(mntmExecutarTst);
 //SCRIPT		
 		JMenu mnScript = new JMenu("Script");
-		menuBar.add(mnScript);
+		menuBarra.add(mnScript);
 		
 		mntmNewScpt = new JMenuItem("Novo");
 		mnScript.add(mntmNewScpt);
@@ -261,7 +270,7 @@ public class MainView extends JFrame {
 		mnScript.add(mntmExecutarScpt);
 		
 		mnUser = new JMenu("Usuário");
-		menuBar.add(mnUser);
+		menuBarra.add(mnUser);
 		
 		mntmUser = new JMenuItem("Editar");
 		mnUser.add(mntmUser);

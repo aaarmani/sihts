@@ -150,15 +150,15 @@ public class ExecuteTest implements Runnable{
 			txtarea.repaint();
 			
 			roboticArm.sendPosition(Al5b.ARTC_BASE, posVO.getPositionArtc1(), 500);
-			delay(300);
+			//delay(300);
 			roboticArm.sendPosition(Al5b.ARTC_OMBRO, posVO.getPositionArtc2(), 500);
-			delay(300);
+			//delay(300);
 			roboticArm.sendPosition(Al5b.ARTC_COTOVELO, posVO.getPositionArtc3(), 500);
-			delay(300);
+			//delay(300);
 			roboticArm.sendPosition(Al5b.ARTC_PULSO, posVO.getPositionArtc4(), 500);
-			delay(300);
+			//delay(300);
 			roboticArm.sendPosition(Al5b.ARTC_PINCA, posVO.getPositionArtc5(), 500);
-			delay(2000);
+			//delay(2000);
 
 		}
 	}

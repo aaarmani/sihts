@@ -141,7 +141,8 @@ public class TestCTRL implements ActionListener, ListSelectionListener {
 		
 		if ((objLst == this.testView.getLstTests()) && (jlstTest.getSelectedIndex() >= 0)) {
 			this.testView.getPnTestActive().removeAll();
-			//mapTestActionViews.clear();
+			mapTestActions.clear();
+			mapTestActionViews.clear();
 			
 			if(e.getValueIsAdjusting() == false) {
 				
@@ -258,6 +259,7 @@ public class TestCTRL implements ActionListener, ListSelectionListener {
 		if(!tstVO.getName().isEmpty()) {
 			TestBO tstBO = new TestBO();
 			if(tstBO.insert(tstVO) == true) {
+				
 				//insert testxaction
 				TestxActionBO txaBO = new TestxActionBO();
 				

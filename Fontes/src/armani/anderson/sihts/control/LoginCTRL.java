@@ -27,6 +27,8 @@ public class LoginCTRL implements ActionListener {
 		btnLogin =loginView.getBtnEntrar();
 		
 		btnLogin.addActionListener(this);
+		
+		mainCTRL.enableMenu(false, 0);
 	}
 
 	@Override
@@ -45,11 +47,21 @@ public class LoginCTRL implements ActionListener {
 		userVO.setPassword(txtPassword.getText());
 		
 		UserBO userBO = new UserBO();
-		UserVO userRet = userBO.select(userVO).get(0);
-		
-		if(userRet != null) {
-			mainCTRL.setCurrentPanel("LoginSettings", userRet);
-			return true;
+		try {
+			UserVO userRet = userBO.select(userVO).get(0);
+			
+			if(userRet != null) {
+				txtLogin.setText(null);
+				txtPassword.setText(null);
+				
+				mainCTRL.enableMenu(true, userRet.getType_level());
+				mainCTRL.setCurrentPanel("DefaultSettings", userRet);
+				return true;
+			}
+			JOptionPane.showMessageDialog(null, "Usuário ou senha inválido!", "Erro de Login", JOptionPane.ERROR_MESSAGE);
+		}catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Usuário ou senha inválido!", "Erro de Login", JOptionPane.ERROR_MESSAGE);
+			return false;
 		}
 		return false;
 	}

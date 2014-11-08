@@ -9,6 +9,13 @@ public class UserVO {
 	private int type_id;
 	private int type_level;
 	
+	public UserVO() {
+		this.name = "";
+		this.login = "";
+		this.password = "";
+		this.type = "";
+	}
+	
 	public int getId() {
 		return id;
 	}

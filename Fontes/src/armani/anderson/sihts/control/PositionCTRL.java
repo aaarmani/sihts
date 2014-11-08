@@ -12,12 +12,8 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import sun.misc.Cleaner;
-
-import com.sun.org.apache.bcel.internal.generic.LSTORE;
 
 import armani.anderson.sihts.model.PositionBO;
-import armani.anderson.sihts.model.PositionDAO;
 import armani.anderson.sihts.model.PositionVO;
 import armani.anderson.sihts.serial.Al5b;
 import armani.anderson.sihts.serial.RoboticArm;
