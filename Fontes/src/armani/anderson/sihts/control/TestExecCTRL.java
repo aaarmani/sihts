@@ -91,6 +91,7 @@ public class TestExecCTRL implements ActionListener {
 		tstVO = mapTest.get(cbTest.getSelectedItem());
 		
 		try {
+			this.testExecView.getTxtrTextarea().setText(null); //clean textarea
 			ExecuteTest exectTest = new ExecuteTest(roboticArm, tstVO, this.testExecView.getTxtrTextarea(), "ReportTest.PDF");
 			exectTest.run();
 		}catch(Exception e) {

@@ -35,7 +35,7 @@ public class LoginCTRL implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == btnLogin) {
 			if(loginClick() == false) {
-				JOptionPane.showMessageDialog(null, "Login ou senha inválido!");
+				JOptionPane.showMessageDialog(null, "Usuário ou senha inválido!", "Erro de Login", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 	}
@@ -57,8 +57,7 @@ public class LoginCTRL implements ActionListener {
 				mainCTRL.enableMenu(true, userRet.getType_level());
 				mainCTRL.setCurrentPanel("DefaultSettings", userRet);
 				return true;
-			}
-			JOptionPane.showMessageDialog(null, "Usuário ou senha inválido!", "Erro de Login", JOptionPane.ERROR_MESSAGE);
+			}	
 		}catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Usuário ou senha inválido!", "Erro de Login", JOptionPane.ERROR_MESSAGE);
 			return false;

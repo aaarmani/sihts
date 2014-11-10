@@ -36,18 +36,18 @@ public class ExecuteTest implements Runnable{
 		this.txtarea = txtarea;
 		this.roboticArm = roboticArm;
 		this.reportPath = reportPath;
-		
+
 		if(roboticArm == null) {
 			throw new IllegalArgumentException("Erro - Braço Robótico não inicializado!");
 		}
 		else if(test == null || txtarea == null) {
 			throw new IllegalArgumentException("Erro - Parâmetros nulos na thread Execução de Teste!");
 		}
-		
+
 		if(loadActions() <= 0) {
 			throw new IllegalArgumentException("Este Teste não possui Ações");
 		}
-		
+
 		if(!reportPath.isEmpty()) {
 			reportDoc = new Report();
 		}
@@ -68,7 +68,7 @@ public class ExecuteTest implements Runnable{
 		InitializeSerialReturn();
 		
 		System.out.println("Exec Test RUN...");
-		txtarea.setText("");
+		//txtarea.setText("");
 		txtarea.append("### RODANDO TESTE " + test.getName() + " ###" + "\n");
 		txtarea.repaint();
 		
@@ -115,6 +115,7 @@ public class ExecuteTest implements Runnable{
 		}
 		
 		closeReport();
+		serialReturn.close();
 	}
 
 	private void initializeReport() {

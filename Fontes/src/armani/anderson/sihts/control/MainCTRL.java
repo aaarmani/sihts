@@ -263,7 +263,7 @@ public class MainCTRL implements ActionListener, MouseListener{
 			if(scriptCtrl == null)
 				scriptCtrl = new ScriptCTRL((ScriptView) pnCur, roboticArm);
 		}
-		else if (strPnCur == PN_SCRIPT) {
+		else if (strPnCur == PN_SCRIPT_EXEC) {
 			if(scriptExecCtrl == null)
 				scriptExecCtrl = new ScriptExecCTRL((ScriptExecView) pnCur, roboticArm);
 		}
