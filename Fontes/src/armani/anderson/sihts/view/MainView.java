@@ -48,6 +48,8 @@ public class MainView extends JFrame {
 	private JMenuItem mntmLogout;
 	
 	private JMenuBar menuBarra;
+	private JMenu mnAbout;
+	private JMenuItem mntmVersao;
 
 	public JMenuBar getMenuBarra() {
 		return menuBarra;
@@ -217,6 +219,14 @@ public class MainView extends JFrame {
 		this.mntmLogout = mntmLogout;
 	}
 
+	public JMenuItem getMntmVersao() {
+		return mntmVersao;
+	}
+
+	public void setMntmVersao(JMenuItem mntmVersao) {
+		this.mntmVersao = mntmVersao;
+	}
+
 	/**
 	 * Create the frame.
 	 */
@@ -277,6 +287,12 @@ public class MainView extends JFrame {
 		
 		mntmLogout = new JMenuItem("Logout");
 		mnUser.add(mntmLogout);
+		
+		mnAbout = new JMenu("Sobre");
+		menuBarra.add(mnAbout);
+		
+		mntmVersao = new JMenuItem("Versão");
+		mnAbout.add(mntmVersao);
 		
 		
 		

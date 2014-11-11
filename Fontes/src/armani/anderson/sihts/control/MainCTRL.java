@@ -33,6 +33,7 @@ import armani.anderson.sihts.view.ScriptView;
 import armani.anderson.sihts.view.TestExecView;
 import armani.anderson.sihts.view.TestView;
 import armani.anderson.sihts.view.UserView;
+import armani.anderson.sihts.view.VersionView;
 /**
  * <p>Classe controlador para a tela principal do software, responsável pelo controle de Menus, Inicialização do Braço Robótico e 
  * Inicialização dos métodos callback dos CONTROLERS das páginas
@@ -53,6 +54,7 @@ public class MainCTRL implements ActionListener, MouseListener{
 	public final String PN_USER			= "UserSettings";
 	public final String PN_DEFAULT		= "DefaultSettings";
 	public final String PN_LOGIN		= "LoginSettings";
+	public final String PN_ABOUT		= "AboutSettings";
 	
 	String PROPERTIES_STR_SERIAL = "";
 	
@@ -97,6 +99,7 @@ public class MainCTRL implements ActionListener, MouseListener{
 		UserView pnUser = new UserView();
 		DefaultView pnDefault = new DefaultView();
 		LoginView pnLogin = new LoginView();
+		VersionView pnVersion = new VersionView();
 		
 		mapPanel.put(PN_POSITION, pnPosition);
 		mapPanel.put(PN_ACTION, pnAction);
@@ -110,6 +113,7 @@ public class MainCTRL implements ActionListener, MouseListener{
 		mapPanel.put(PN_USER, pnUser);
 		mapPanel.put(PN_DEFAULT, pnDefault);
 		mapPanel.put(PN_LOGIN, pnLogin);
+		mapPanel.put(PN_ABOUT, pnVersion);
 				
 		//read config.properties and sets configuration
 		configInitialize();
@@ -133,6 +137,7 @@ public class MainCTRL implements ActionListener, MouseListener{
 		this.mainFrame.getMntmUser().addActionListener(this);
 		this.mainFrame.getMntmAdm().addActionListener(this);
 		this.mainFrame.getMntmLogout().addActionListener(this);
+		this.mainFrame.getMntmVersao().addActionListener(this);
 		
 		this.mainFrame.getLblIcon1().addMouseListener(this);
 		this.mainFrame.getLblIcon2().addMouseListener(this);
@@ -329,6 +334,10 @@ public class MainCTRL implements ActionListener, MouseListener{
 		else if(objSource == this.mainFrame.getMntmSair()) {
 			System.exit(0);
 		}
+		else if(objSource == this.mainFrame.getMntmVersao()) {
+			setCurrentPanel(PN_ABOUT, currentUser);
+		}
+		
 		
 	}
 
