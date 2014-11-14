@@ -61,7 +61,7 @@ public class ExecuteScript implements Runnable{
 			TestVO testExec = lstTests.get(i);
 			
 			System.out.println("SCRIPT RUN TST = " + testExec.getName() + "  --- Size =  " + lstTests.size());
-			ExecuteTest execTest = new ExecuteTest(roboticArm, testExec, txtarea, reportPath);
+			ExecuteTest execTest = new ExecuteTest(roboticArm, testExec, txtarea, reportPath, true);
 			execTest.run();
 		}	
 	}

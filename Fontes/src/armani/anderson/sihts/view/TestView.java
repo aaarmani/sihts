@@ -159,6 +159,7 @@ public class TestView extends JPanel {
 		lblTeste_1.setFont(new Font("Lucida Grande", Font.BOLD, 18));
 		
 		btnActionAdd = new JButton(">>");
+		btnActionAdd.setToolTipText("Adicionar Ação");
 		
 		JLabel lblReturn = new JLabel("Retorno");
 		lblReturn.setHorizontalAlignment(SwingConstants.RIGHT);

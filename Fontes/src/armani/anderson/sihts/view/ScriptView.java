@@ -152,6 +152,7 @@ public class ScriptView extends JPanel {
 		lblTeste_1.setFont(new Font("Lucida Grande", Font.BOLD, 18));
 		
 		btnTestAdd = new JButton(">>");
+		btnTestAdd.setToolTipText("Adicionar Teste");
 		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(

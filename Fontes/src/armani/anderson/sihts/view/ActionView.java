@@ -154,6 +154,7 @@ public class ActionView extends JPanel {
 		btnPlay = new JButton("Simular");
 		
 		btnAddPosition = new JButton(">>");
+		btnAddPosition.setToolTipText("Adicionar Posição");
 		
 		JPanel pnPos = new JPanel();
 		

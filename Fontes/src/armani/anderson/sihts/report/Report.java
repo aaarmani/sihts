@@ -31,7 +31,7 @@ public class Report {
 		document = new Document();
 		
 		try {
-			PdfWriter.getInstance(document, new FileOutputStream(DEFAULT_PATH + name));
+			PdfWriter.getInstance(document, new FileOutputStream(DEFAULT_PATH + name, true));
 			document.open();
 		}
 		catch(DocumentException e) {

@@ -49,7 +49,7 @@ public class LoginView extends JPanel {
 		lblNewLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		JLabel lblLogin = new JLabel("login");
+		JLabel lblLogin = new JLabel("Login");
 		lblLogin.setHorizontalAlignment(SwingConstants.RIGHT);
 		
 		txtLogin = new JTextField();

@@ -315,22 +315,27 @@ public class MainView extends JFrame {
 
 		
 		lblIcon1 = new JLabel("");
+		lblIcon1.setToolTipText("Tela Inicial");
 		lblIcon1.setIcon(new ImageIcon("/Users/armani/Documents/Senac/TCC/TCC/GitHub/Fontes/images/icon/home.png"));
 		pnTop.add(lblIcon1);
 		
 		lblIcon2 = new JLabel("");
+		lblIcon2.setToolTipText("Configuração");
 		lblIcon2.setIcon(new ImageIcon("/Users/armani/Documents/Senac/TCC/TCC/GitHub/Fontes/images/icon/arm.png"));
 		pnTop.add(lblIcon2);
 		
 		lblIcon3 = new JLabel("");
+		lblIcon3.setToolTipText("Executar Teste");
 		lblIcon3.setIcon(new ImageIcon("/Users/armani/Documents/Senac/TCC/TCC/GitHub/Fontes/images/icon/report.png"));
 		pnTop.add(lblIcon3);
 		
 		lblIcon4 = new JLabel("");
+		lblIcon4.setToolTipText("Executar Script");
 		lblIcon4.setIcon(new ImageIcon("/Users/armani/Documents/Senac/TCC/TCC/GitHub/Fontes/images/icon/calendar.png"));
 		pnTop.add(lblIcon4);
 		
 		lblIcon5 = new JLabel("");
+		lblIcon5.setToolTipText("Configuração de Usuário");
 		lblIcon5.setIcon(new ImageIcon("/Users/armani/Documents/Senac/TCC/TCC/GitHub/Fontes/images/icon/settings.png"));
 		pnTop.add(lblIcon5);		
 		

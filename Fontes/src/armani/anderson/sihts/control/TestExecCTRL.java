@@ -92,7 +92,7 @@ public class TestExecCTRL implements ActionListener {
 		
 		try {
 			this.testExecView.getTxtrTextarea().setText(null); //clean textarea
-			ExecuteTest exectTest = new ExecuteTest(roboticArm, tstVO, this.testExecView.getTxtrTextarea(), "ReportTest.PDF");
+			ExecuteTest exectTest = new ExecuteTest(roboticArm, tstVO, this.testExecView.getTxtrTextarea(), "ReportTest.PDF", false);
 			exectTest.run();
 		}catch(Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro ao rodar Teste", JOptionPane.ERROR_MESSAGE);

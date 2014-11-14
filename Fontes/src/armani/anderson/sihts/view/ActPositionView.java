@@ -67,12 +67,15 @@ public class ActPositionView extends JPanel {
 		lblPositionName.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
 		
 		btnUp = new JButton("");
+		btnUp.setToolTipText("Subir");
 		btnUp.setIcon(new ImageIcon("/Users/armani/Documents/Senac/TCC/Imagens/arrow-up.png"));
 		
 		btnDown = new JButton("");
+		btnDown.setToolTipText("Descer");
 		btnDown.setIcon(new ImageIcon("/Users/armani/Documents/Senac/TCC/Imagens/arrow-down.png"));
 		
 		btnDelete = new JButton("");
+		btnDelete.setToolTipText("Excluir");
 		btnDelete.setIcon(new ImageIcon("/Users/armani/Documents/Senac/TCC/Imagens/1401169701_f-cross_256.png"));
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(

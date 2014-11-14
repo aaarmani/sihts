@@ -2,6 +2,7 @@ package armani.anderson.sihts.control;
 
 import gnu.io.PortInUseException;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.TooManyListenersException;
@@ -31,7 +32,7 @@ public class ExecuteTest implements Runnable{
 	SerialComm serialReturn = null;
 	String strReturn = "";
 	
-	public ExecuteTest(RoboticArm roboticArm, TestVO test, JTextArea txtarea, String reportPath) {
+	public ExecuteTest(RoboticArm roboticArm, TestVO test, JTextArea txtarea, String reportPath, boolean append) {
 		this.test = test;
 		this.txtarea = txtarea;
 		this.roboticArm = roboticArm;
@@ -47,9 +48,23 @@ public class ExecuteTest implements Runnable{
 		if(loadActions() <= 0) {
 			throw new IllegalArgumentException("Este Teste não possui Ações");
 		}
+		
+		if(reportPath.isEmpty()) {
+			throw new IllegalArgumentException("Caminho do arquivo não especificado");
+		}
 
-		if(!reportPath.isEmpty()) {
-			reportDoc = new Report();
+		if(append == false) {
+			deleteReport();
+		}
+		
+		reportDoc = new Report();
+	}
+
+	private void deleteReport() {
+		File report = new File(reportPath);
+		
+		if(report.exists()) {
+			report.delete();
 		}
 	}
 
