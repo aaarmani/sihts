@@ -98,8 +98,6 @@ public class UserDAO {
 		}
 		
 		sql += " ORDER BY name";
-		
-		System.out.println("SQL = " + sql);
 
 		try {
 			connection = new ConnectionFactory().getConnection();

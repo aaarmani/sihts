@@ -27,6 +27,10 @@ public class ReturnCTRL implements ActionListener, ListSelectionListener {
 	
 	private ReturnVO curRetVO = null;
 	
+	/**
+	 * Método contrutor do ReturnCTRL
+	 * @param returnView - Tela de retorno a ser controlada pelo controller
+	 */
 	public ReturnCTRL(ReturnView returnView) {
 		this.returnView = returnView;
 		
@@ -44,6 +48,9 @@ public class ReturnCTRL implements ActionListener, ListSelectionListener {
 	}
 
 	//############### Actions ###############
+	/**
+	 * Método que trata ação de click de botão
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
@@ -62,6 +69,9 @@ public class ReturnCTRL implements ActionListener, ListSelectionListener {
 		}
 	}
 
+	/**
+	 * Método de tratamento da ação de Salvar um Return. Salva ou Edita um Return.
+	 */
 	private void saveClick() {
 		ReturnVO retVo = new ReturnVO();
 		
@@ -81,10 +91,16 @@ public class ReturnCTRL implements ActionListener, ListSelectionListener {
 		}
 	}
 
+	/*
+	 * Método de tratamento de ação do botão CANCELAR
+	 */
 	private void cancelClick() {
 		clearFields();
 	}
-
+	
+	/*
+	 * Método de tratamento de ação do botão EXCLUIR. Executa a tentativa de exclusão de Return selecionado.
+	 */
 	private void deleteClick() {
 		ReturnBO retBO = new ReturnBO();
 		
@@ -94,6 +110,9 @@ public class ReturnCTRL implements ActionListener, ListSelectionListener {
 		}
 	}
 
+	/**
+	 * Método de tratamento de seleção de Return na lista de Returns
+	 */
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
 		if(e.getValueIsAdjusting() == false) {
@@ -112,6 +131,9 @@ public class ReturnCTRL implements ActionListener, ListSelectionListener {
 	}
 	
 	//############### Metodos ###############
+	/**
+	 * Método responsável por limpar a área de edição de Return
+	 */
 	private void clearFields() {
 		this.returnView.getTxtName().setText(null);
 		this.returnView.getTxtDescription().setText(null);
@@ -123,6 +145,9 @@ public class ReturnCTRL implements ActionListener, ListSelectionListener {
 		lstReturn.clearSelection();
 	}
 	
+	/**
+	 * Método que inicializa a lista de retornos com todos os já cadastrados no sistema.
+	 */
 	private void IinitializeReturnList() {
 		ReturnBO retBO = new ReturnBO();
 		vctReturn = new Vector<String>();

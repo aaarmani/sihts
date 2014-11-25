@@ -12,6 +12,7 @@ import javax.swing.border.EtchedBorder;
 import java.awt.FlowLayout;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 
 public class ConfigurationView extends JPanel {
 	private JTextField txtInterfaceName;
@@ -29,6 +30,7 @@ public class ConfigurationView extends JPanel {
 	private JTextField txtDBDataBase;
 	private JTextField txtDBPassword;
 	private JButton btnSave;
+	private JComboBox<String> cbSerial;
 	
 	public JButton getBtnSave() {
 		return btnSave;
@@ -166,6 +168,14 @@ public class ConfigurationView extends JPanel {
 		this.txtDBPort = txtDBPort;
 	}
 
+	public JComboBox<String> getCbSerial() {
+		return cbSerial;
+	}
+
+	public void setCbSerial(JComboBox<String> cbSerial) {
+		this.cbSerial = cbSerial;
+	}
+
 	private JTextField txtDBIp;
 	private JTextField txtDBPort;
 
@@ -192,6 +202,10 @@ public class ConfigurationView extends JPanel {
 		pnDebug.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Debug Com", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		
 		btnSave = new JButton("SALVAR");
+		
+		cbSerial = new JComboBox();
+		
+		JLabel lblSeriaisDisponveis = new JLabel("Seriais disponíveis");
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.TRAILING)
@@ -202,29 +216,39 @@ public class ConfigurationView extends JPanel {
 							.addGap(12)
 							.addComponent(pnDB, GroupLayout.PREFERRED_SIZE, 250, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 								.addGroup(groupLayout.createSequentialGroup()
-									.addComponent(pnCom, GroupLayout.PREFERRED_SIZE, 250, GroupLayout.PREFERRED_SIZE)
+									.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
+										.addComponent(cbSerial, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+										.addComponent(pnCom, GroupLayout.PREFERRED_SIZE, 250, Short.MAX_VALUE))
 									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(pnDebug, GroupLayout.PREFERRED_SIZE, 250, GroupLayout.PREFERRED_SIZE))
-								.addComponent(btnSave)))
+									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+										.addComponent(pnDebug, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 250, GroupLayout.PREFERRED_SIZE)
+										.addComponent(btnSave, Alignment.TRAILING)))
+								.addComponent(lblSeriaisDisponveis)))
 						.addComponent(lblConfiguraes, GroupLayout.DEFAULT_SIZE, 788, Short.MAX_VALUE))
 					.addContainerGap())
 		);
 		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
+			groupLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(18)
 					.addComponent(lblConfiguraes)
 					.addGap(18)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(pnDebug, GroupLayout.PREFERRED_SIZE, 307, GroupLayout.PREFERRED_SIZE)
-						.addComponent(pnCom, GroupLayout.PREFERRED_SIZE, 308, GroupLayout.PREFERRED_SIZE)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(pnCom, GroupLayout.PREFERRED_SIZE, 308, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+							.addComponent(lblSeriaisDisponveis)
+							.addGap(32))
 						.addComponent(pnDB, GroupLayout.PREFERRED_SIZE, 383, GroupLayout.PREFERRED_SIZE))
 					.addContainerGap(9, Short.MAX_VALUE))
-				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap(415, Short.MAX_VALUE)
-					.addComponent(btnSave)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btnSave)
+						.addComponent(cbSerial, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addContainerGap())
 		);
 		

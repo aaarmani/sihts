@@ -341,6 +341,9 @@ public class MainCTRL implements ActionListener, MouseListener{
 		
 	}
 
+	/**
+	 * Método que realiza o tratamento do click do mouse sobre ícones do menu de acesso rápido
+	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		Object obj = e.getSource();

@@ -22,6 +22,13 @@ public class ExecuteScript implements Runnable{
 	SerialComm serialReturn = null;
 	String strReturn = "";
 	
+	/**
+	 * Método construtor da classe de execução de Script
+	 * @param roboticArm - referência ao braço robótico já inicializado no software
+	 * @param scptVO - Script que será executado
+	 * @param txtarea -  Área de texto para retorno de status da execução dos Scripts
+	 * @param reportPath - Caminho do arquivo de relatório
+	 */
 	public ExecuteScript(RoboticArm roboticArm, ScriptVO scptVO, JTextArea txtarea, String reportPath) {
 		this.script = scptVO;
 		this.txtarea = txtarea;
@@ -45,6 +52,10 @@ public class ExecuteScript implements Runnable{
 		txtarea.setText(null);
 	}
 
+	/**
+	 * Método que carrega a lista de testes para execução
+	 * @return - quantidade de testes retornados
+	 */
 	private int loadTests() {
 		int Ret = 0;
 		ScriptxtestBO scptxtstBO = new ScriptxtestBO();
@@ -54,6 +65,9 @@ public class ExecuteScript implements Runnable{
 		return Ret;
 	}
 
+	/**
+	 * Thread de execução dos testes
+	 */
 	@Override
 	public void run() {
 		

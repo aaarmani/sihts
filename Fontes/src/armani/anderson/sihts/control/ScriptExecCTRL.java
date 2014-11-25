@@ -93,6 +93,7 @@ public class ScriptExecCTRL implements ActionListener {
 	private void executeClick() {
 		//limpa textarea
 		this.scriptExecView.getTxtrTextarea().setText("");
+		this.scriptExecView.getTxtrTextarea().repaint();
 		
 		ScriptVO scptVO = null;
 		

@@ -16,7 +16,7 @@ public class ActPositionCTRL implements ActionListener {
 	private Map<Integer, ActPositionView> mapActPosViews = null;
 	
 	/**
-	 * 
+	 * Método construtor da ActPositionCTRL responsável pela inicialização dos atributos e métodos de tratamento de eventos.
 	 * @param actPosView
 	 * @param pnActionPositions
 	 * @param mapActionPositions 
@@ -36,7 +36,7 @@ public class ActPositionCTRL implements ActionListener {
 	}
 
 	/**
-	 * 
+	 * Método que adiciona uma nova posição ao painel de posições da ação.
 	 */
 	private void addPositionInPanel() {
 		pnActPositions.add(actPosView);
@@ -44,7 +44,7 @@ public class ActPositionCTRL implements ActionListener {
 	}
 	
 	/**
-	 * 
+	 * Método responsável pelo refresh da área de posições, chamado sempre que há alteração nesta área.
 	 */
 	public void refreshPanel() {
 		pnActPositions.removeAll();
@@ -61,7 +61,7 @@ public class ActPositionCTRL implements ActionListener {
 	}
 
 	/**
-	 * 
+	 * Método de tratamento de eventos de clicks de botões
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -115,6 +115,10 @@ public class ActPositionCTRL implements ActionListener {
 		}	
 	}
 
+	/**
+	 * Método de exclusão de posição selecionada
+	 * @param index - índice da posição a ser excluida
+	 */
 	private void posDelete(int index) {
 		
 		if(mapActionPositions.size() <= 1) {

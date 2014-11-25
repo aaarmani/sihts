@@ -9,6 +9,8 @@ import java.util.TooManyListenersException;
 
 import javax.swing.JTextArea;
 
+import com.itextpdf.text.pdf.PdfCopy;
+
 import armani.anderson.sihts.model.ActionListBO;
 import armani.anderson.sihts.model.ActionVO;
 import armani.anderson.sihts.model.ConfigurationVO;
@@ -31,12 +33,22 @@ public class ExecuteTest implements Runnable{
 	Report reportDoc = null;
 	SerialComm serialReturn = null;
 	String strReturn = "";
+	boolean append = false;
 	
+	/**
+	 * Método construtor do ExecutaTest 
+	 * @param roboticArm - Referência ao braço mecânico utilizado pelo testador
+	 * @param test - Test a ser executado
+	 * @param txtarea - Painel que será atualizado com os dados do teste
+	 * @param reportPath - Caminho para o arquivo de relatório
+	 * @param append - Tipo de gravação no arquico de relatório, append sim ou não?
+	 */
 	public ExecuteTest(RoboticArm roboticArm, TestVO test, JTextArea txtarea, String reportPath, boolean append) {
 		this.test = test;
 		this.txtarea = txtarea;
 		this.roboticArm = roboticArm;
 		this.reportPath = reportPath;
+		this.append = append;
 
 		if(roboticArm == null) {
 			throw new IllegalArgumentException("Erro - Braço Robótico não inicializado!");
@@ -60,6 +72,9 @@ public class ExecuteTest implements Runnable{
 		reportDoc = new Report();
 	}
 
+	/**
+	 * Método que deleta um relatório existente
+	 */
 	private void deleteReport() {
 		File report = new File(reportPath);
 		
@@ -68,6 +83,10 @@ public class ExecuteTest implements Runnable{
 		}
 	}
 
+	/**
+	 * Método que carrega as ações que compõem o teste
+	 * @return - Quantidade de ações carregadas
+	 */
 	private int loadActions() {
 		int Ret = 0;
 		TestxActionBO tstactBO = new TestxActionBO();
@@ -77,6 +96,9 @@ public class ExecuteTest implements Runnable{
 		return Ret;
 	}
 
+	/**
+	 * Thread de execução do teste
+	 */
 	@Override
 	public void run() {
 		//Inicializa a serial
@@ -133,8 +155,11 @@ public class ExecuteTest implements Runnable{
 		serialReturn.close();
 	}
 
+	/**
+	 * Método de inicialização do relatório, printa o cabeçalho
+	 */
 	private void initializeReport() {
-		reportDoc.Open(reportPath);
+		reportDoc.Open(reportPath, append);
 		reportDoc.printTitle("Simulador de Iterações Humanas para Teste de Software");
 		reportDoc.printLine("\n");
 		reportDoc.printSubTitle("Relatório de execução de Teste");
@@ -147,16 +172,28 @@ public class ExecuteTest implements Runnable{
 		
 	}
 	
+	/**
+	 * Método que insere um linha no relatório
+	 * @param cell1 - conteúdo da célula 1 da tabela
+	 * @param cell2 - conteúdo da célula 2 da tabela
+	 */
 	private void insertReportLine(String cell1, String cell2) {
 		reportDoc.tableCell(cell1);
 		reportDoc.tableCell(cell2);
 	}
 	
+	/**
+	 * Método de fechamento de relatório, necessário para que o mesmo possa ser gravado corretamente.
+	 */
 	private void closeReport() {
 		reportDoc.closeTable();
 		reportDoc.close();
 	}
 
+	/**
+	 * Método que executa lista de posições
+	 * @param lstPosVO
+	 */
 	private void executePositions(List<PositionVO> lstPosVO) {
 		
 		for(int i = 0; i < lstPosVO.size(); i++) {
@@ -166,20 +203,21 @@ public class ExecuteTest implements Runnable{
 			txtarea.repaint();
 			
 			roboticArm.sendPosition(Al5b.ARTC_BASE, posVO.getPositionArtc1(), 500);
-			//delay(300);
+			delay(300);
 			roboticArm.sendPosition(Al5b.ARTC_OMBRO, posVO.getPositionArtc2(), 500);
-			//delay(300);
+			delay(300);
 			roboticArm.sendPosition(Al5b.ARTC_COTOVELO, posVO.getPositionArtc3(), 500);
-			//delay(300);
+			delay(300);
 			roboticArm.sendPosition(Al5b.ARTC_PULSO, posVO.getPositionArtc4(), 500);
-			//delay(300);
+			delay(300);
 			roboticArm.sendPosition(Al5b.ARTC_PINCA, posVO.getPositionArtc5(), 500);
-			//delay(2000);
-
+			delay(800);
 		}
 	}
 	
-	//SERIAL
+	/**
+	 * Método que inicializa a serial de retorno utilizada nos testes
+	 */
 	private void InitializeSerialReturn() {
 		serialReturn = new SerialComm();
 		ConfigurationVO configVO = new ConfigurationVO();
@@ -199,6 +237,10 @@ public class ExecuteTest implements Runnable{
 		System.out.println("Serial de Retorno Aberta com sucesso!");
 	}
 	
+	/**
+	 * Método que recebe o retorno da serial
+	 * @return String retornada pela serial
+	 */
 	private String serialGetString() {
 		String Ret = "";
 		byte[] bt = null;

@@ -2,8 +2,12 @@ package armani.anderson.sihts.control;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
+
+import javax.swing.JComboBox;
 
 import armani.anderson.sihts.model.ConfigurationVO;
+import armani.anderson.sihts.serial.SerialComm;
 import armani.anderson.sihts.view.ConfigurationView;
 
 /**
@@ -14,16 +18,22 @@ import armani.anderson.sihts.view.ConfigurationView;
 public class ConfigurationCTRL implements ActionListener {
 	ConfigurationView configView = null;
 	ConfigurationVO confVO = null;
+	JComboBox<String> cbSerial = null;
 	
-	
+	/**
+	 * Método contrutor do ConfigurationCTRL, responsável pela inicialização dos componentes e tratamento de ações da tela de configuração.
+	 * @param ConfigView - Tela de configurações com getters e setters dos objetos
+	 */
 	public ConfigurationCTRL(ConfigurationView ConfigView) {
 		this.configView = ConfigView;
 		
 		confVO = new ConfigurationVO();
 
 		this.configView.getBtnSave().addActionListener(this);
+		this.cbSerial = this.configView.getCbSerial();
 		
 		getConfig();
+		initializeCBSerial();
 	}
 
 	/**
@@ -94,5 +104,14 @@ public class ConfigurationCTRL implements ActionListener {
 		}
 	}
 
-	
+	/**
+	 * Método de Inicialização do ComboBox que contém as seriais disponíveis no PC
+	 */
+	private void initializeCBSerial() {
+		List<String> lstSeriais = SerialComm.getListSerial();
+		
+		for(int i = 0; i < lstSeriais.size(); i++) {
+			cbSerial.addItem(lstSeriais.get(i));
+		}
+	}
 }

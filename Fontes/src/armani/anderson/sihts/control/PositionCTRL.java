@@ -158,6 +158,9 @@ public class PositionCTRL implements ActionListener, ChangeListener, ListSelecti
 			roboticArm.sendPosition(intArtc, intPos, 1000);
 	}
 
+	/**
+	 * Método que trata o selecionar de um ítem do listview
+	 */
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
 		//List lstPos = e.getSource();
@@ -185,6 +188,10 @@ public class PositionCTRL implements ActionListener, ChangeListener, ListSelecti
 	
 //########################### Métodos Auxiliares ###########################
 	
+	/**
+	 * Seta os valores da posição selecionada no painel de edição de posição
+	 * @param posVO - Posição a ser editada
+	 */
 	private void setPanelForEdit(PositionVO posVO) {
 		isEdition = true;
 		idForEdition = posVO.getId();
@@ -215,6 +222,9 @@ public class PositionCTRL implements ActionListener, ChangeListener, ListSelecti
 		return posVo;
 	}
 	
+	/**
+	 * Inicializa o painel de posições com todas as posições cadastradas no sistema
+	 */
 	private void initializeListPositions() {
 		PositionBO posBO = new PositionBO();
 		vctPosition = new Vector<String>();
@@ -233,6 +243,9 @@ public class PositionCTRL implements ActionListener, ChangeListener, ListSelecti
 		
 	}
 	
+	/**
+	 * Limpa a área de edição de posição e seta sliders para posição central
+	 */
 	private void clearPositionPanel() {
 		this.pnCrudPosition.getLstPosition().clearSelection();			
 		this.pnCrudPosition.getBtnExcluir().setVisible(false);
