@@ -75,7 +75,7 @@ public class PositionCTRL implements ActionListener, ChangeListener, ListSelecti
 			if(isEdition == false) {
 				//INSERT
 				if(posBO.insert(posVO) == true) {
-					JOptionPane.showMessageDialog(null, "Posição inserida com sucesso!", "Insert", JOptionPane.ERROR_MESSAGE);	
+					JOptionPane.showMessageDialog(null, "Posição inserida com sucesso!", "Insert", JOptionPane.INFORMATION_MESSAGE);	
 				}
 				else {
 					JOptionPane.showMessageDialog(null, "Erro ao inserir posição", "Insert", JOptionPane.ERROR_MESSAGE);
@@ -85,7 +85,7 @@ public class PositionCTRL implements ActionListener, ChangeListener, ListSelecti
 				//UPDATE
 				posVO.setId(idForEdition);
 				if(posBO.update(posVO) == true) {
-					JOptionPane.showMessageDialog(null, "Posição atualizada com sucesso!", "Insert", JOptionPane.ERROR_MESSAGE);	
+					JOptionPane.showMessageDialog(null, "Posição atualizada com sucesso!", "Insert", JOptionPane.INFORMATION_MESSAGE);	
 				}
 				else {
 					JOptionPane.showMessageDialog(null, "Erro ao atualizar posição", "Insert", JOptionPane.ERROR_MESSAGE);

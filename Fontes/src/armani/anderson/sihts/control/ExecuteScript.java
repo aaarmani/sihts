@@ -1,5 +1,6 @@
 package armani.anderson.sihts.control;
 
+import java.io.File;
 import java.util.List;
 
 import javax.swing.JTextArea;
@@ -70,6 +71,11 @@ public class ExecuteScript implements Runnable{
 	 */
 	@Override
 	public void run() {
+		String path = System.getProperty("user.dir") + File.separatorChar + "report" + File.separatorChar + reportPath;
+		File file = new File(path);
+		if(file.exists() && file.isFile()) {
+			file.delete();
+		}
 		
 		for(int i = 0; i < lstTests.size(); i++) {
 			TestVO testExec = lstTests.get(i);

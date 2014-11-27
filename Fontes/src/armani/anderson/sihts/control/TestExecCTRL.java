@@ -52,7 +52,7 @@ public class TestExecCTRL implements ActionListener {
 		
 	}
 
-	private void InitializeListTest() {
+	public void InitializeListTest() {
 		TestVO tstVO = null;
 		TestBO testBO =  new TestBO();
 		List<TestVO> lstTst = new LinkedList<TestVO>();
@@ -60,6 +60,7 @@ public class TestExecCTRL implements ActionListener {
 		lstTst = testBO.select(null);
 		
 		if(lstTst.size() > 0) {
+			cbTest.removeAllItems();
 			for(int i = 0; i < lstTst.size(); i++) {
 				tstVO = lstTst.get(i);
 				

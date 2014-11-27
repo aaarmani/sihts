@@ -30,7 +30,7 @@ public class VersionView extends JPanel {
 		
 		txtVersoVBeta = new JTextField();
 		txtVersoVBeta.setEditable(false);
-		txtVersoVBeta.setText("Versão: V0.04-Beta    19/11/2014");
+		txtVersoVBeta.setText("Versão: V0.05-Beta    26/11/2014");
 		txtVersoVBeta.setColumns(10);
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(

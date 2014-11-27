@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Vector;
 
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -74,20 +75,23 @@ public class ReturnCTRL implements ActionListener, ListSelectionListener {
 	 */
 	private void saveClick() {
 		ReturnVO retVo = new ReturnVO();
-		
-		retVo.setName(this.returnView.getTxtName().getText());
-		retVo.setDescription(this.returnView.getTxtDescription().getText());
-		retVo.setTimeout(Integer.valueOf(this.returnView.getTxtTimeout().getText()));
-		retVo.setText(this.returnView.getTxtReturn().getText());
-		
-		if(retVo.getName().length() >= 0) {
-			ReturnBO retBO = new ReturnBO();
+		try {
+			retVo.setName(this.returnView.getTxtName().getText());
+			retVo.setDescription(this.returnView.getTxtDescription().getText());
+			retVo.setTimeout(Integer.valueOf(this.returnView.getTxtTimeout().getText()));
+			retVo.setText(this.returnView.getTxtReturn().getText());
 			
-			if( retBO.insert(retVo) == true)
-			{
-				clearFields();
-				IinitializeReturnList();
+			if(retVo.getName().length() >= 0) {
+				ReturnBO retBO = new ReturnBO();
+				
+				if( retBO.insert(retVo) == true)
+				{
+					clearFields();
+					IinitializeReturnList();
+				}
 			}
+		}catch(Exception e) {
+			JOptionPane.showMessageDialog(null, "Necessário preencher campos Nome e Timeout", "ERRO - Cadastro de retorno", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 

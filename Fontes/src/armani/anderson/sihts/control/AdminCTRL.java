@@ -40,7 +40,7 @@ public class AdminCTRL implements ActionListener {
 
 	private void userList() {
 		UserBO userBO = new UserBO();
-		lstUsers = userBO.select(currentUser);
+		lstUsers = userBO.select(null);
 		
 		cbxUsers.removeAllItems();
 		
@@ -84,7 +84,9 @@ public class AdminCTRL implements ActionListener {
 
 		while(it.hasNext()) {
 			UserVO usr = it.next();
-			if(name == usr.getName()) {
+			
+			System.out.println("SELECIONA = " + name + " -- " + usr.getName());
+			if(name.equalsIgnoreCase(usr.getName())) {
 				return usr;
 			}
 		}

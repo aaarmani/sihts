@@ -113,7 +113,7 @@ public class TestCTRL implements ActionListener, ListSelectionListener {
 		}
 	}
 
-	private void InitializeComboReturn() {
+	public void InitializeComboReturn() {
 		ReturnVO retVO = null;
 		ReturnBO retBO =  new ReturnBO();
 		List<ReturnVO> lstTst = new LinkedList<ReturnVO>();

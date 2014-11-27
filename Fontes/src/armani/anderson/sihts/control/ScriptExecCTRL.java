@@ -60,7 +60,7 @@ public class ScriptExecCTRL implements ActionListener {
 		btnReport.addActionListener(this);		
 	}
 
-	private void InitializeListScript() {
+	public void InitializeListScript() {
 		ScriptVO scptVO = null;
 		ScriptBO scptBO =  new ScriptBO();
 		List<ScriptVO> lstScpt;// = new LinkedList<ScriptVO>();
@@ -68,6 +68,7 @@ public class ScriptExecCTRL implements ActionListener {
 		lstScpt = scptBO.select(null);
 		
 		if(lstScpt.size() > 0) {
+			cbScript.removeAllItems();
 			for(int i = 0; i < lstScpt.size(); i++) {
 				scptVO = lstScpt.get(i);
 				

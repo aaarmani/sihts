@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import sun.misc.GC;
 import sun.security.action.GetLongAction;
 import armani.anderson.sihts.model.ConfigurationVO;
 import armani.anderson.sihts.model.UserVO;
@@ -259,10 +260,12 @@ public class MainCTRL implements ActionListener, MouseListener{
 		else if (strPnCur == PN_TEST) {
 			if(testCtrl == null)
 				testCtrl = new TestCTRL((TestView) pnCur, roboticArm);
+			testCtrl.InitializeComboReturn();
 		}
 		else if (strPnCur == PN_TEST_EXEC) {
 			if(testExecCtrl == null)
 				testExecCtrl = new TestExecCTRL((TestExecView) pnCur, roboticArm);
+			testExecCtrl.InitializeListTest();
 		}
 		else if (strPnCur == PN_SCRIPT) {
 			if(scriptCtrl == null)
@@ -271,19 +274,28 @@ public class MainCTRL implements ActionListener, MouseListener{
 		else if (strPnCur == PN_SCRIPT_EXEC) {
 			if(scriptExecCtrl == null)
 				scriptExecCtrl = new ScriptExecCTRL((ScriptExecView) pnCur, roboticArm);
+			
+			scriptExecCtrl.InitializeListScript();
 		}
 		else if (strPnCur == PN_ADM) {
 			if(adminCtrl == null)
 				adminCtrl = new AdminCTRL((AdminView) pnCur, user, this);
 		}
 		else if (strPnCur == PN_USER) {
-			if(userCtrl == null)
+			if(userCtrl != null) {
+				userCtrl = null;
+				//GC.requestLatency(0);
+			}
 				userCtrl = new UserCTRL((UserView) pnCur, user, this);
 		}
 		else if (strPnCur == PN_LOGIN) {
 			if(loginCtrl == null)
 				loginCtrl = new LoginCTRL((LoginView) pnCur, user, this);
 			enableMenu(false, 0);
+		}
+		else if(strPnCur == PN_DEFAULT) {
+			if(user != null)
+				currentUser = user;
 		}
 		
 		System.out.println("Set frame " + strPnCur);
@@ -332,12 +344,16 @@ public class MainCTRL implements ActionListener, MouseListener{
 			setCurrentPanel(PN_LOGIN, currentUser);
 		}
 		else if(objSource == this.mainFrame.getMntmSair()) {
+			try {
+				roboticArm.close();
+			}catch(Exception ex) {
+				
+			}
 			System.exit(0);
 		}
 		else if(objSource == this.mainFrame.getMntmVersao()) {
 			setCurrentPanel(PN_ABOUT, currentUser);
-		}
-		
+		}		
 		
 	}
 
